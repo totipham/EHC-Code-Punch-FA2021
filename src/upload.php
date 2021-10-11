@@ -6,7 +6,7 @@
         $target_dir = "uploads/assignment/";
     }
     $target_file = $target_dir . basename($_FILES["fileUpload"]["name"]);
-    $target_file = str_replace(' ', '', $target_file);
+    $target_file = str_replace(' ', '_', $target_file);
     $uploadOk = 1;
     $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     $uploadError = '';
