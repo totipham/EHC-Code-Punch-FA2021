@@ -19,7 +19,7 @@
     }
 
     // Check if file extension
-    if($fileType != "pdf") { /* TODO: Only accept pdf extension */
+    if($fileType != "pdf" || $fileType != "txt") { /* TODO: Only accept pdf, txt extension */
         $uploadError = $uploadError . "Only PDF file is allowed.";
         $uploadOk = 0;
     }
