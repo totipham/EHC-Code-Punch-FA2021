@@ -29,7 +29,7 @@ if (true) { /* FIXME: check role by $SESSION['role']*/
                         <button type="submit" class="btn btn-primary btn-block">Student's Assignment</button> 
                     </a>
                     <br>
-                    <a href="my_assignment.php">
+                    <a href="submitted.php">
                         <button type="submit" class="btn btn-primary btn-block">My Assignment</button> 
                     </a>
                 </div>
@@ -43,7 +43,7 @@ if (true) { /* FIXME: check role by $SESSION['role']*/
         <div class="col-md">
             <div class="upload-form">
                 <div class="form-group">
-                    <form action="view_assignment.php" method="POST" enctype= "multipart/form-data">
+                    <form action="submitted.php" method="POST" enctype= "multipart/form-data">
                         <h2 class="text-center">Assignment Management</h2>  
                         <br><br>
                         <button type="submit" class="btn btn-primary btn-block">View Assignment</button> 
