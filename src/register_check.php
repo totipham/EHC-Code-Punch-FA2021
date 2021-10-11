@@ -51,7 +51,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
-    <form action="index.php">
+    <form action="login.php">
                 <input type="submit" class="btn" value="Back to log in">
             </form>
 </body>
