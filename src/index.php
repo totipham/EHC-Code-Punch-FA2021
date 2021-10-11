@@ -11,8 +11,14 @@ echo <<<CODE
         <a href='student.php'>
             <button type="submit" class="btn btn-primary btn-block">Student List</button>
         </a><br>
+        <a href='profile.php'>
+            <button type="submit" class="btn btn-primary btn-block">Update Information</button>
+        </a><br>
         <a href='assignment.php'>
             <button type="submit" class="btn btn-primary btn-block">Assignment Management</button>
+        </a><br>
+        <a href='challenge.php'>
+            <button type="submit" class="btn btn-primary btn-block">Challenge</button>
         </a><br>
         <a href='logout.php'>
             <button type="submit" class="btn btn-primary btn-block">Logout</button>
