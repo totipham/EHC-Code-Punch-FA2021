@@ -10,7 +10,7 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
     $phone = $_POST["phone"];
 
     $role = $_POST["role"];
-    if ($_POST["role"] === "Teacher") {
+    if ($_POST["role"] === "teacher") {
         $role = 1;
     } else {
         $role = 0;
