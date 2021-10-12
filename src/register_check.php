@@ -48,16 +48,18 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
         '{$role}'
     )";
     mysqli_query($con,$sql);
-    echo "<h1>Login successfully</h1>";
 } else {
     header("location:register.php");
 }
 
 echo file_get_contents ('header.html');
 echo <<<CODE
-    <form action="login.php">
-        <input type="submit" class="btn" value="Back to log in">
-    </form>
+    <div class=login-form>
+        <form action="login.php">
+            <h2 class="text-center">Register Successfully</h2>
+            <button type="submit" class="btn btn-primary btn-block">Back to login</button>
+        </form>
+    </div>
     CODE;
 echo file_get_contents ('footer.html'); 
 ?>
