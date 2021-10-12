@@ -1,5 +1,7 @@
 <!-- PHP Upload File -->
 <?php
+    require_once 'connection.php';
+    /* FIXME: add session check valid */
     if ($_SESSION['role'] == 1) { /* FIXME: check role */
         $target_dir = "uploads/";
     } else {
@@ -19,8 +21,8 @@
     }
 
     // Check if file extension
-    if($fileType != "pdf" || $fileType != "txt") { /* TODO: Only accept pdf, txt extension */
-        $uploadError = $uploadError . "Only PDF file is allowed.";
+    if($fileType != "pdf" && $fileType != "txt") { /* TODO: Only accept pdf, txt extension */
+        $uploadError = $uploadError . "Only PDF and TXT file are allowed.";
         $uploadOk = 0;
     }
 
@@ -29,6 +31,36 @@
     } else {
         if (move_uploaded_file($_FILES["assUpload"]["tmp_name"], $target_file)) {
             $uploadResult = $uploadResult . "The file has been uploaded!";
+            /* TODO: Reg ass to mysql (teacher only) */
+            if($_SESSION['role'] == 1) {
+                    $assName = $_POST["assName"];
+                    $sql = "INSERT INTO assignment (
+                        assName,
+                        assFile
+                    )
+                    VALUE (
+                        '{$assName}',
+                        '{$target_file}'
+                    )";
+                    mysqli_query($con,$sql);
+                } else if ($_SESSION['role'] == 0) {
+                    //FIXME: I need something to do as student
+                    $assID=$_POST["assName"];
+                    $sql = "INSERT INTO answerass (
+                        assID,
+                        assAnswer,
+                        id
+                    )
+                    VALUE (
+                        '{$assID}',
+                        '{$target_file}',
+                        '{$_SESSION['id']}'
+                    )";
+                    mysqli_query($con,$sql);
+                } else {
+                    /* FIXME: Need something return if error reg to mysql */
+                }
+
         }else {
             $uploadError = $uploadError . "Sorry, there was an error uploading your file.";
     }
@@ -46,8 +78,8 @@
 		width: 600px;
     	margin: 50px auto;
 	}
-	.login-form form {
-    	margin-bottom: 15px;
+    .form {
+        margin-bottom: 15px;
         background: #f7f7f7;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
@@ -57,17 +89,24 @@
 </head>
 <body>
 <div class="login-form">
-    <form action='assignment.php'>   
+    <div class="form">
         <?php 
             if ($uploadOk == 1) {
-                echo '<h3>' . $uploadResult . '</h3>';           
-                echo '<a href=' . $target_file . ' style="">View Assignment</a>';
+                echo '<h3>' . $uploadResult . '</h3>';      
+                //FIXME: Fix this shit     
+                echo <<<CODE
+                <a href=$target_file>
+                    <button type="submit" class="btn btn-primary btn-block">View Assignment</button>
+                </a><br>
+                CODE;
             } else {
                 echo '<h3>' . $uploadError . '</h3>';
             }
         ?>
-		<button type="submit" class="btn btn-primary btn-block">Back to dashboard</button>              
-    </form>
+        <form action='index.php'>   
+            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
+        </form>
+        </div>
 </div>
 </body>
 </html>   
