@@ -21,6 +21,9 @@ echo <<<CODE
         <a href='challenge.php'>
             <button type="submit" class="btn btn-primary btn-block">Challenge</button>
         </a><br>
+        <a href='message.php'>
+            <button type="submit" class="btn btn-primary btn-block">Message</button>
+        </a><br>
         <a href='logout.php'>
             <button type="submit" class="btn btn-primary btn-block">Logout</button>
         </a>
