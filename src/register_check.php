@@ -1,5 +1,6 @@
 <?php
 include 'connection.php';
+
 if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] != '' && 
                     $_POST["email"] != '' && $_POST["fullname"] != '' && $_POST['phone'] != '' && $_POST['role'] != '') {
     $username = $_POST["username"];
@@ -9,7 +10,6 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
     $fullname = $_POST["fullname"];
     $phone = $_POST["phone"];
 
-    $role = $_POST["role"];
     if ($_POST["role"] === "teacher") {
         $role = 1;
     } else {
@@ -17,18 +17,18 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
     }
 
     if ( $password != $repassword){
-        echo "Mật khẩu không trùng khớp. Vui lòng nhập lại. <a href='javascript: history.go(-1)'>Trở lại</a>";
+        echo "<script>alert('Passwords are not matching!'); window.location = './register.php';</script>";
         exit;
     }
     $sql = "SELECT * FROM account WHERE username='$username'";
     $old = mysqli_query($con,$sql);
     $password = md5($password);
     if( mysqli_num_rows($old) > 0){
-        echo "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
+        echo "<script>alert('This username is existed!'); window.location = './register.php';</script>";
         exit;
     }
     if (mysqli_num_rows(mysqli_query($con, "SELECT email FROM account WHERE email='$email'")) > 0) {
-        echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
+        echo "<script>alert('This email is existed'); window.location = './register.php';</script>";
         exit;
     }
     $sql = "INSERT INTO account (
