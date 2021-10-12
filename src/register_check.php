@@ -48,7 +48,7 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
         '{$role}'
     )";
     mysqli_query($con,$sql);
-    echo "Đã đăng ký thành công";
+    echo "<h1>Login successfully</h1>";
 } else {
     header("location:register.php");
 }
