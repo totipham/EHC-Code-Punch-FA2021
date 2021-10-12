@@ -8,7 +8,7 @@ echo file_get_contents ('header.html');
 echo "<header><title>Profile</title></header>";
 ?>
 <div class="login-form">
-    <form action="profile.php" method="POST">
+    <form class="form" action="profile.php" method="POST">
         <h2 class="text-center">Update Profile</h2>
         <div class="form-group">
             <input type="text" class="form-control" name="username" value="<?=$_SESSION['name']?>" disabled>
