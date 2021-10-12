@@ -58,7 +58,10 @@ if ($_SESSION['role'] == 1) { /* Teacher's Assignment Management */
                     <div class="form-group">
                         <h2 class="text-center">Answer</h2>  
                         <div class="form-group">
-                            <input type="file" class="form-control-file" name="fileUpload" require="required">
+                            <input type="text" class="form-control-file" name="assName" placeholder="Assignment Name" require="required">
+                        </div>
+                        <div class="form-group">
+                            <input type="file" class="form-control-file" name="assUpload" require="required">
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Upload</button> 
                     </div>

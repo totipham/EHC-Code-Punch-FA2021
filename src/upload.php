@@ -5,7 +5,7 @@
     } else {
         $target_dir = "uploads/assignment/";
     }
-    $target_file = $target_dir . basename($_FILES["fileUpload"]["name"]);
+    $target_file = $target_dir . basename($_FILES["assUpload"]["name"]);
     $target_file = str_replace(' ', '_', $target_file);
     $uploadOk = 1;
     $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -13,7 +13,7 @@
     $uploadResult = '';
 
     // Check file size
-    if ($_FILES["fileUpload"]["size"] > 1000000) { /* TODO: Allow file <= 1MB */
+    if ($_FILES["assUpload"]["size"] > 1000000) { /* TODO: Allow file <= 1MB */
         $uploadError = $uploadError . "Your file is too large.";
         $uploadOk = 0;
     }
@@ -27,7 +27,7 @@
     if ($uploadOk == 0) {
         $uploadResult = "Sorry, your file was not uploaded.";
     } else {
-        if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["assUpload"]["tmp_name"], $target_file)) {
             $uploadResult = $uploadResult . "The file has been uploaded!";
         }else {
             $uploadError = $uploadError . "Sorry, there was an error uploading your file.";
