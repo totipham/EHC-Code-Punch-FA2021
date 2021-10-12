@@ -5,6 +5,7 @@ if (isset($_SESSION['loggedin'])) {
 	exit;
 }
 echo file_get_contents ('header.html');
+echo "<header><title>Register</title></header>";
 echo <<<CODE
     <div class="login-form">
         <form action="register_check.php" method="POST">

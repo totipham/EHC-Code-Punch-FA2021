@@ -5,6 +5,7 @@ if (!isset($_SESSION['loggedin'])) {
 	exit;
 }
 echo file_get_contents('header.html');
+echo "<header><title>Assignment</title></header>";
 if ($_SESSION['role'] == 1) { /* FIXME: check role by $SESSION['role']*/
     echo <<<CODE
     <div class="row"> 

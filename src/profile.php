@@ -5,6 +5,7 @@ if (!isset($_SESSION['loggedin'])) {
 	exit;
 }
 echo file_get_contents ('header.html');
+echo "<header><title>Profile</title></header>";
 ?>
 <div class="login-form">
     <form action="update.php" method="POST">
