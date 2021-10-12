@@ -7,7 +7,7 @@ if (isset($_SESSION['loggedin'])) {
 echo file_get_contents ('header.html');
 echo <<<CODE
     <div class="login-form">
-        <form action="register_check.php" method="post">
+        <form action="register_check.php" method="POST">
             <h2 class="text-center">Register</h2>     
             <div class="form-group">
                 <input type="text" class="form-control" name="fullname" placeholder="Fullname" required="required">
