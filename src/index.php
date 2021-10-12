@@ -5,6 +5,7 @@ if (!isset($_SESSION['loggedin'])) {
 	exit;
 }
 echo file_get_contents ('header.html');
+echo "<header><title>Dashboard</title></header>";
 echo <<<CODE
     <div class="login-form">
         <h2 class="text-center">Dashboard</h2>
