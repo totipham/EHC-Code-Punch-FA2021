@@ -5,6 +5,7 @@ if (isset($_SESSION['loggedin']) == true) {
 	exit;
 }
 echo file_get_contents ('header.html');
+echo "<header><title>Login</title></header>";
 echo <<<CODE
     <div class="login-form">
         <form action="authentication.php" method="post">
