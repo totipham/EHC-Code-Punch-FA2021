@@ -16,10 +16,10 @@ if ($stmt = $con -> prepare ('SELECT id, password, role FROM account WHERE usern
             $_SESSION['role'] = $role;
             header("Location: index.php");
         } else {
-            echo 'Incorrect username and/or password!';
+            echo "<script>alert('Incorrect username and/or password!'); window.location = './login.php';</script>";
         }
     } else {
-        echo 'Incorrect username and/or password!';
+        echo "<script>alert('Incorrect username and/or password!'); window.location = './login.php';</script>";
     }
     $stmt -> close();
 }
