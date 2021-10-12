@@ -70,6 +70,7 @@ if ($_SESSION['role'] == 1) { /* FIXME: check role by $SESSION['role']*/
     CODE;
 } else { /* TODO: Student's Assigment Management */
     //TODO: Put some code in here
+    echo "<script>alert('You are not allowed to access this page!'); window.location = './index.php';</script>";
 }
 ?> 
 <?php
