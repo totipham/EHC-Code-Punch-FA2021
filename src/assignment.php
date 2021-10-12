@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin'])) {
 }
 echo file_get_contents('header.html');
 echo "<header><title>Assignment</title></header>";
-if ($_SESSION['role'] == 1) { /* FIXME: check role by $SESSION['role']*/
+if ($_SESSION['role'] == 1) { /* Teacher's Assignment Management */
     echo <<<CODE
     <div class="row"> 
         <div class="col-md">
@@ -73,7 +73,7 @@ if ($_SESSION['role'] == 1) { /* FIXME: check role by $SESSION['role']*/
 <div class="container">
   <div class="vertical-center">
         <form action="index.php"> <!-- FIXME: Need a page to header -->
-            <button type="submit" class="btn btn-primary btn-block">Back to dashboard</button>              
+            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>
