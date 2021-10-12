@@ -8,7 +8,7 @@ echo file_get_contents ('header.html');
 echo "<header><title>Login</title></header>";
 echo <<<CODE
     <div class="login-form">
-        <form action="authentication.php" method="post">
+        <form class="form" action="authentication.php" method="post">
             <h2 class="text-center">Log in</h2>       
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="Username" required="required">
