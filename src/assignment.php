@@ -5,7 +5,7 @@ if (!isset($_SESSION['loggedin'])) {
 	exit;
 }
 echo file_get_contents('header.html');
-if (true) { /* FIXME: check role by $SESSION['role']*/
+if ($_SESSION['role'] == 1) { /* FIXME: check role by $SESSION['role']*/
     echo <<<CODE
     <div class="row"> 
         <div class="col-md">
