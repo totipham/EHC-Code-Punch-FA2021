@@ -14,6 +14,7 @@ if ($_SESSION['role'] == 1): ?>
             <form class="form" action="upload.php" method="POST" enctype= "multipart/form-data">
                 <div class="form-group">
                     <h2 class="text-center">Upload Assignment</h2>  
+                    <input type="text" name="uploadAssignment" value="1" hidden>
                     <div class="form-group">
                         <input type="text" class="form-control-file" name="assName" placeholder="Assignment Name" required="required">
                     </div>

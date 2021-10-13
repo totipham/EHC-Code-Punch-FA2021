@@ -33,33 +33,36 @@ if ($uploadOk == 0) {
         $uploadResult = $uploadResult . "The file has been uploaded!";
         /* TODO: Reg ass to mysql (teacher only) */
         if($_SESSION['role'] == 1) {
+            if (isset($_POST["uploadAssignment"])) {
                 $assName = $_POST["assName"];
-                $sql = "INSERT INTO assignment (
-                    assName,
-                    assFile
-                )
-                VALUE (
-                    '{$assName}',
-                    '{$target_file}'
-                )";
-                mysqli_query($con,$sql);
-            } else if ($_SESSION['role'] == 0) {
-                //FIXME: I need something to do as student
-                $assID=$_POST["assName"];
-                $sql = "INSERT INTO answerass (
-                    assID,
-                    assAnswer,
-                    id
-                )
-                VALUE (
-                    '{$assID}',
-                    '{$target_file}',
-                    '{$_SESSION['id']}'
-                )";
-                mysqli_query($con,$sql);
-            } else {
-                /* FIXME: Need something return if error reg to mysql */
+                $sql = $con -> prepare ("INSERT INTO assignment (assName, assFile) VALUES (?, ?)");
+                $sql -> bind_param ('ss', $assName, $target_file);
+                $sql -> execute();
+                $sql -> close();
+            } else if (isset($_POST["uploadGame"])) {
+                $hint = $_POST["hint"];
+                $sql = $con -> prepare ("INSERT INTO game (gameFile, hint) VALUES (?, ?)");
+                $sql -> bind_param ('ss', $target_file, $hint);
+                $sql -> execute();
+                $sql -> close();
             }
+        } else if ($_SESSION['role'] == 0) {
+            //FIXME: I need something to do as student
+            $assID=$_POST["assName"];
+            $sql = "INSERT INTO answerass (
+                assID,
+                assAnswer,
+                id
+            )
+            VALUE (
+                '{$assID}',
+                '{$target_file}',
+                '{$_SESSION['id']}'
+            )";
+            mysqli_query($con,$sql);
+        } else {
+            /* FIXME: Need something return if error reg to mysql */
+        }
 
     }else {
         $uploadError = $uploadError . "Sorry, there was an error uploading your file.";
@@ -68,7 +71,7 @@ if ($uploadOk == 0) {
 
 echo file_get_contents('header.html');
 ?>
-
+<header><title>Upload</title></header>
 <div class="login-form">
     <div class="form">
         
