@@ -16,7 +16,7 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
         $role = 0;
     }
 
-    if ( $password != $repassword){
+    if ($password != $repassword){
         echo "<script>alert('Passwords are not matching!'); window.location = './register.php';</script>";
         exit;
     }
