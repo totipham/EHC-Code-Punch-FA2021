@@ -5,8 +5,8 @@ if (!isset($_SESSION['loggedin'])) {
 	exit;
 }
 echo file_get_contents ('header.html');
-echo "<header><title>Profile</title></header>";
 ?>
+<header><title>Profile</title></header>
 <div class="login-form">
     <form class="form" action="profile.php" method="POST">
         <h2 class="text-center">Update Profile</h2>
@@ -28,12 +28,7 @@ echo "<header><title>Profile</title></header>";
         <button type="submit" class="btn btn-primary btn-block" id="updateButton">Update Information</button>              
     </form>
     <a href="index.php">
-    <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>
+        <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>
     </a>
 </div>
-<?php
-/* include 'connection.php';
-
-echo "<script>alert('Update profile successfully!'); window.location = './register.php';</script>"; */
-echo file_get_contents ('footer.html'); 
-?>
+<?php echo file_get_contents ('footer.html'); ?>

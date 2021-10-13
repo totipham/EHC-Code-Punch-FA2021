@@ -38,8 +38,7 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
         email,
         phone,
         role
-    )
-    VALUE (
+    ) VALUE (
         '{$username}',
         '{$password}',
         '{$fullname}',
@@ -53,13 +52,12 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
 }
 
 echo file_get_contents ('header.html');
-echo <<<CODE
-    <div class=login-form>
-        <form action="login.php">
-            <h2 class="text-center">Register Successfully</h2>
-            <button type="submit" class="btn btn-primary btn-block">Back to login</button>
-        </form>
-    </div>
-    CODE;
-echo file_get_contents ('footer.html'); 
 ?>
+
+<div class=login-form>
+    <form action="login.php">
+        <h2 class="text-center">Register Successfully</h2>
+        <button type="submit" class="btn btn-primary btn-block">Back to login</button>
+    </form>
+</div>
+<?php echo file_get_contents ('footer.html'); ?>
