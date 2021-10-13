@@ -1,5 +1,5 @@
 <?php
-require_once 'controller/student.php';
+require_once 'student.php';
 ?>
 <html lang="en" style="background-color: aquamarine;">
 <?php include('./template/header.php') ?>
