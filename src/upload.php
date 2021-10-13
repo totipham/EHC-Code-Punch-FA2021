@@ -71,23 +71,24 @@ echo file_get_contents('header.html');
 
 <div class="login-form">
     <div class="form">
+        
         <?php 
-            if ($uploadOk == 1) {
-                echo '<h3>' . $uploadResult . '</h3>';      
-                //FIXME: Fix this shit     
-                echo <<<CODE
-                <a href=$target_file>
-                    <button type="submit" class="btn btn-primary btn-block">View Assignment</button>
-                </a><br>
-                CODE;
-            } else {
-                echo '<h3>' . $uploadError . '</h3>';
-            }
+        if ($uploadOk == 1):
+            echo '<h3>' . $uploadResult . '</h3>';
         ?>
+        <a href=$target_file>
+            <button type="submit" class="btn btn-primary btn-block">View Assignment</button>
+        </a><br>
+        <?php
+        else: 
+            echo '<h3>' . $uploadError . '</h3>';
+        endif;
+        ?>
+
         <form action='index.php'>   
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
-        </div>
+    </div>
 </div>
 
 <?php echo file_get_contents('header.html'); ?>  
