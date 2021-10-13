@@ -44,7 +44,6 @@ if ($_SESSION['role'] == 1) { /* Teacher's Assignment Management */
     </div>
     CODE;
 } else { /* TODO: Student's Assigment Management */
-    /* FIXME: $_POST["assName"], where id = {} -> assFile */
     $query = "SELECT assID, assName FROM assignment";
     $result = mysqli_query($con, $query);
     echo <<<CODE

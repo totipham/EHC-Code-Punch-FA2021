@@ -1,6 +1,8 @@
 <?php
 require_once 'connection.php';
-
+if (!isset($_POST['username'], $_POST['password']) ) {
+    echo "<script>alert('Please fill both the username and password fields!'); window.location = './login.php';</script>";
+}
 if ($stmt = $con -> prepare ('SELECT id, password, role FROM account WHERE username=?')) {
     $stmt -> bind_param ('s', $_POST['username']);
     $stmt -> execute();
