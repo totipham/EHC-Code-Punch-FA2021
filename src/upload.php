@@ -41,7 +41,7 @@ if ($uploadOk == 0) {
                 $sql -> close();
             } else if (isset($_POST["uploadGame"])) {
                 $hint = $_POST["hint"];
-                $sql = $con -> prepare ("INSERT INTO game (gameFile, hint) VALUES (?, ?)");
+                $sql = $con -> prepare ("UPDATE game SET gameFile=?, hint=? WHERE challID=1");
                 $sql -> bind_param ('ss', $target_file, $hint);
                 $sql -> execute();
                 $sql -> close();

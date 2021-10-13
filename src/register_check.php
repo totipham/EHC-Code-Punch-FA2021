@@ -1,8 +1,8 @@
 <?php
 include 'connection.php';
 
-if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] != '' && 
-                    $_POST["email"] != '' && $_POST["fullname"] != '' && $_POST['phone'] != '' && $_POST['role'] != '') {
+if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["repassword"])&& 
+                                            isset($_POST["email"])&& isset($_POST["fullname"])&& isset($_POST['phone'])&& isset($_POST['role'])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
     $repassword = $_POST["repassword"];
@@ -31,21 +31,7 @@ if($_POST["username"] != '' && $_POST["password"] != '' && $_POST["repassword"] 
         echo "<script>alert('This email is existed'); window.location = './register.php';</script>";
         exit;
     }
-    $sql = "INSERT INTO account (
-        username,
-        password,
-        fullname,
-        email,
-        phone,
-        role
-    ) VALUE (
-        '{$username}',
-        '{$password}',
-        '{$fullname}',
-        '{$email}',
-        '{$phone}',
-        '{$role}'
-    )";
+    $sql = "INSERT INTO account (username, password, fullname, email, phone, role) VALUES ('{$username}', '{$password}', '{$fullname}', '{$email}', '{$phone}', '{$role}')";
     mysqli_query($con,$sql);
 } else {
     header("location:register.php");
