@@ -1,14 +1,14 @@
 <?php
-require 'connect.php';
+require 'connection.php';
 $conn = dbConnect::ConnectToDB();
-$stuID = $_GET['studentID'];
+$stuID = $_GET['ID'];
 
-$sql = "DELETE FROM student WHERE studentID='$stuID';";
+$sql = "DELETE FROM account WHERE id='$stuID';";
 if(!mysqli_query($conn, $sql)){
     die('Failed: '.mysqli_error($conn));
 }
 echo "Done";
-header("Refresh:4, location:../studentInfo.php")
+header("Refresh:4, location: studentInfo.php")
 ?>
 <br/>
-<a href="../studentInfo.php">Back</a>
+<a href="studentInfo.php">Back</a>
