@@ -1,12 +1,20 @@
+
 <?php
 require_once 'student.php';
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: login.php');
+	exit;
+}
+echo file_get_contents ('header.html');
+echo "<header><title>Dashboard</title></header>";
 ?>
-<html lang="en" style="background-color: aquamarine;">
-<?php include('./template/header.php') ?>
+<html >
+
 
 <body>
     <title>Student Info</title>
-    <h3>List of student</h3>
+    <h2 style="color: blue;">List of account</h2>
     <table border=1 >
         <div class="container">
 
@@ -19,6 +27,7 @@ require_once 'student.php';
                                     <th>Full name</th>
                                     <th>Student ID</th>
                                     <th>Phone number</th>
+                                    <th>Email</th>
                                     <th>Role</th>
                                     <th></th>
                                 </tr>
@@ -26,20 +35,22 @@ require_once 'student.php';
                             <tbody>
                                 <?php
                                 $students = Student::getInfo();
+                                
                                 foreach ($students as $stu) {
                                 ?>
 
                                     <tr>
-                                        <td><?php echo $stu->getName() ?></td>
+                                        <td><?php echo $stu->getFullName() ?></td>
                                         <td><?php echo $stu->getID() ?></td>
                                         <td><?php echo $stu->getPhone() ?></td>
+                                        <td><?php echo $stu->getMail() ?></td>
                                         <td><?php if ($stu->getRole() == 0) {
                                                 echo "Student";
                                             } else {
                                                 echo "Teacher";
                                             }
                                             ?></td>
-                                        <td><a href="controller/info.php?studentID=<?php echo $stu->getID() ?>">Detail</a></td>
+                                        <td><a href="info.php?ID=<?php echo $stu->getID() ?>">Detail</a></td>
                                     </tr>
                                 <?php
                                 }
@@ -52,6 +63,7 @@ require_once 'student.php';
 
     </table>
     <a href='./'>Back</a>
+    
 </body>
 
 </html>
