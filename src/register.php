@@ -6,7 +6,7 @@ if (isset($_SESSION['loggedin'])) {
 }
 echo file_get_contents ('header.html');
 echo "<header><title>Register</title></header>";
-echo <<<CODE
+?>
     <div class="login-form">
         <form action="register_check.php" method="POST">
             <h2 class="text-center">Register</h2>     
@@ -14,10 +14,13 @@ echo <<<CODE
                 <input type="text" class="form-control" name="fullname" placeholder="Fullname" required="required">
             </div>
             <div class="form-group">
-                <input type="email" class="form-control" name="email" placeholder="Email">
+                <input type="text" class="form-control" name="ID" placeholder="User ID" required="required">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="phone" placeholder="Phone Number">
+                <input type="email" class="form-control" name="email" pattern="^w+\@w+\.w+$" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="phone" pattern="[0-9]{10}" placeholder="Phone Number">
             </div>
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="Username" required="required">
@@ -38,7 +41,7 @@ echo <<<CODE
         </form>
         <button onclick="location.href='login.php'" type="submit" class="btn btn-primary btn-block">Login</button>
     </div>
-    CODE;
-
+  
+<?php
 echo file_get_contents ('footer.html'); 
 ?>
