@@ -126,19 +126,7 @@ if (
     }else{
         echo "Done";
     }
-    // $user = new Student($username, $id, $fullname, $phone, $email, $password, $role);
-    // $Insql = "INSERT INTO account(username,id, phone,email,password, role, fullname) VALUE (?,?,?,?,?,?,?);";
-
-    //     $stsm = $conn->prepare($Insql);
-    //     $stsm->bind_param("", $name, $ID, $phone, $mail, $password, $role, $fullName);
-
-    //     $res = $stsm->execute();
-    //     dbConnect::Disconnect($con);
-    // if($res){
-    //     echo "<h2>Register Successfully</h2>";
-    // }else{
-    //     die('Failed: '.mysqli_error($con));
-    // }
+    
 
 } else {
     header("location:register.php");
