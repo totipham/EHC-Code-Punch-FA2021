@@ -53,8 +53,18 @@ $info = mysqli_fetch_assoc($result);
             if (!mysqli_query($conn, $sql)) {
                 die('Failed: ' . mysqli_error($conn));
             }
-            $stuID = $_POST['id'];
-            $_SESSION['id'] = $_POST['id'];
+            if ($_SESSION['role'] == 1) {
+                if (strcmp($_SESSION['id'], $stuID) == 0) {
+                    $_SESSION['id'] = $_POST['id'];
+                    $stuID = $_POST['id'];
+                } else {
+                    $stuID = $_POST['id'];
+                }
+            } else {
+                $stuID = $_POST['id'];
+                $_SESSION['id'] = $_POST['id'];
+            }
+
 
             echo "Done";
         }
