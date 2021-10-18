@@ -1,62 +1,36 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['name'])) {
-    header("Location: index.php");
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit;
 }
+echo file_get_contents('header.html');
+echo "<header><title>Dashboard</title></header>";
+?>
+<div class="login-form">
+    <h2 class="text-center" style="color: red;">Welcome </h2>
+    <h2 class="text-center" style="color: red;"><?php echo $_SESSION['fullname']; ?></h2>
+    <a href='studentInfo.php'>
+        <button type="submit" class="btn btn-primary btn-block">Student List</button>
+    </a><br>
+    <a href='profile.php'>
+        <button type="submit" class="btn btn-primary btn-block">Update Information</button>
+    </a><br>
+    <a href='assignment.php'>
+        <button type="submit" class="btn btn-primary btn-block">Assignment Management</button>
+    </a><br>
+    <a href='challenge.php'>
+        <button type="submit" class="btn btn-primary btn-block">Challenge</button>
+    </a><br>
+    <a href='message.php'>
+        <button type="submit" class="btn btn-primary btn-block">Message</button>
+    </a><br>
+    <a href='logout.php'>
+        <button type="submit" class="btn btn-primary btn-block">Logout</button>
+    </a>
+</div>
+
+<?php
+echo file_get_contents('footer.html');
 
 ?>
-
-
-<html>
-<?php include('./template/header.php') ?>
-
-<br />
-
-<body>
-    <div class="inner">
-        <header>
-            <span style="color:red;" id="tagline"><?php echo "<h1><b>Welcome " . $_SESSION['name'] . "</h1></b>"; ?></span>
-        </header>
-    </div>
-
-    <div class="inner">
-        <div id="content-wrapper">
-            <aside class="sidebar">
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="studentInfo.php">View student list</a>
-                        </li>
-                        <li>
-                            <a class="active" href="controller/info.php?studentID=<?php echo $_SESSION['ID']; ?>">View info</a>
-                        </li>
-                        <li>
-                            <a href="assignmentManager.php">Check Assignment</a>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
-
-
-            <!-- <form class="" action="studentInfo.php" method="POST">
-                <button type="submit" name="button">View student list</button>
-            </form>
-
-            <form class="" action="controller/info.php?studentID=<?php echo $_SESSION['ID']; ?>" method="post">
-                <button type="submit" name="button">View info</button>
-            </form>
-
-            <form class="" action="assignmentManager.php" method="POST">
-                <button type="submit" name="button">Check Assignment</button>
-            </form> -->
-
-            <form class="" action="logout.php" method="POST">
-                <button type="submit" name="button">Log out</button>
-            </form>
-        </div>
-    </div>
-</body>
-<?php include('./template/footer.php') ?>
-
-</html>
