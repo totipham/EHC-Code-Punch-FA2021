@@ -31,5 +31,24 @@ echo <<<CODE
     CODE;
 
 echo file_get_contents ('footer.html'); 
+// Edited
+<?php
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: login.php');
+	exit;
+}
+if (isset($_SESSION['loggedin']) && $_SESSION['role'] == 1) {
+	header('Location: teacherPanel.php');
+	exit;
+}
+if (isset($_SESSION['loggedin']) && $_SESSION['role'] == 0) {
+	header('Location: studentPanel.php');
+	exit;
+}
+echo file_get_contents ('header.html');
+ 
+echo file_get_contents ('footer.html'); 
 
+?>
 ?>
