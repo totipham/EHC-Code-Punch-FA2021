@@ -51,8 +51,11 @@ $info = mysqli_fetch_assoc($result);
             $sql = "UPDATE account SET username = '$_POST[username]', fullname='$_POST[fullname]', id = '$_POST[id]', phone=$_POST[phone] , email='$_POST[email]' WHERE id = '$stuID';";
 
             if (!mysqli_query($conn, $sql)) {
-                die('Failed: ' . mysqli_error($conn));
+                die('Failed');
             }
+            //check if teacher is editting a student or themself
+            // if teacher edit themself -> change both seesion id and param id
+            // if teacher edit a student -> only change param id
             if ($_SESSION['role'] == 1) {
                 if (strcmp($_SESSION['id'], $stuID) == 0) {
                     $_SESSION['id'] = $_POST['id'];
@@ -60,7 +63,7 @@ $info = mysqli_fetch_assoc($result);
                 } else {
                     $stuID = $_POST['id'];
                 }
-            } else {
+            } else { // if student edit themself -> change both
                 $stuID = $_POST['id'];
                 $_SESSION['id'] = $_POST['id'];
             }
