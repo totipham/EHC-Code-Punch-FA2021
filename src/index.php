@@ -31,24 +31,29 @@ echo <<<CODE
     CODE;
 
 echo file_get_contents ('footer.html'); 
+?>
+
 // Edited
+
 <?php
 session_start();
 if (!isset($_SESSION['loggedin'])) {
 	header('Location: login.php');
 	exit;
 }
+// check if role = teacher -> go to teacher dashboard
 if (isset($_SESSION['loggedin']) && $_SESSION['role'] == 1) {
 	header('Location: teacherPanel.php');
 	exit;
 }
+// check if role is student -> go to student dasboard
 if (isset($_SESSION['loggedin']) && $_SESSION['role'] == 0) {
 	header('Location: studentPanel.php');
 	exit;
 }
-echo file_get_contents ('header.html');
+
  
 echo file_get_contents ('footer.html'); 
 
 ?>
-?>
+
