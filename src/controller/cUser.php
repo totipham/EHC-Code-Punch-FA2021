@@ -153,6 +153,19 @@ class User {
         return $rows;
     }
 
+    public static function getInfoFromID($id) {
+        $conn = dbConnect::ConnectToDB();
+        $sql = "SELECT * FROM account WHERE id=$id";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_object($result);
+            $user = new GlobalUser($row->fullname, $row->username, $row->id, $row->phone, $row->email, $row->password, $row->role);
+        }
+        dbConnect::Disconnect($conn);
+        return $user;
+    }
+
     public static function editInfo($userID, $fullname, $phone, $email, $password) {
         $conn = dbConnect::ConnectToDB();
 
@@ -173,9 +186,10 @@ class User {
 
         $stmt = $conn->prepare('DELETE FROM account WHERE id=? ');
         $stmt->bind_param('i', $userID);
-        $stmt->execute();
+        $res = $stmt->execute();
 
         dbConnect::Disconnect($conn);
+        return $res;
     }
 }
 ?>

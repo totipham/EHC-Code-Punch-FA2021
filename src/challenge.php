@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once 'cGame.php';
+require_once 'controller/cGame.php';
 if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
     exit;
 }
 
-echo file_get_contents('../views/header.html');
+echo file_get_contents('views/header.html');
 ?>
 
 <header><title>Challenge</title></header>
@@ -15,12 +15,12 @@ echo file_get_contents('../views/header.html');
     <div class="row"> 
         <div class="col-md">
             <div class="upload-form">
-                <form action="upload.php" method="POST" enctype= "multipart/form-data">
+                <form action="controller/upload.php" method="POST" enctype= "multipart/form-data">
                     <input type="text" name="uploadGame" value="1" hidden>
                     <div class="form-group">
                         <h2 class="text-center">Upload Challenge</h2>  
                         <div class="form-group">
-                            <input type="file" class="form-control-file" name="assUpload" require="required">
+                            <input type="file" class="form-control-file" name="assUpload" required>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -33,7 +33,7 @@ echo file_get_contents('../views/header.html');
                         <button type="submit" class="btn btn-primary btn-block">Upload</button> 
                     </div>
                 </form>
-                <a href="../">
+                <a href="./">
                     <button type="submit" class="btn btn-primary btn-block">Back to dashboard</button>              
                 </a>
             </div>
@@ -97,7 +97,7 @@ else:
                 <button type="submit" class="btn btn-primary btn-block">Submit</button> 
             </div>
         </form>
-        <a href="../">
+        <a href="./">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </a>
     </div>
@@ -118,8 +118,8 @@ if (isset($answer)) {
     }
 
     $regResultRes = Game::regResult($result, $_SESSION['id']);
-    echo "<script>window.location = './challenge.php';</script>";
+    echo "<script>window.location = 'challenge.php';</script>";
 }
-echo file_get_contents ("../views/footer.html");
+echo file_get_contents ("views/footer.html");
 endif;
 ?>

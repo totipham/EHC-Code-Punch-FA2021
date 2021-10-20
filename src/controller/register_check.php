@@ -3,15 +3,15 @@
 require_once 'cUser.php';
 
 session_start();
-if (isset($_SESSION['loggedin'])) {
-    header('Location: index.php');
-	exit;
-}
+
 
 if (isset ($_SESSION['role'])) {
     if (($_SESSION['role'] == 1) && ($_GET['student'] == 1)) {
         $role = "student";
     }
+} else if (isset($_SESSION['loggedin'])) {
+    header('Location: index.php');
+	exit;
 }
 
 $role = $role ?? $_POST['role'];
@@ -37,10 +37,10 @@ if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) 
 
     $user = new User($fullname, $username, $id, $phone, $email, $password, $role);
     if ($user->addToDB() == 1) {
-        echo "<script>alert('Register successfully!'); window.location = './login.php';</script>";
+        echo "<script>alert('Register successfully!'); window.location = '../login.php';</script>";
         exit;
     } else {
-        echo "<script>alert('Register not successfully!'); window.location = './login.php';</script>";
+        echo "<script>alert('Register not successfully!'); window.location = '../login.php';</script>";
         exit;
     }
 

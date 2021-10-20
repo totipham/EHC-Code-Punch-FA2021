@@ -4,8 +4,8 @@ if (!isset($_SESSION['loggedin'])) {
 	header('Location: login.php');
 	exit;
 }
-require_once 'cUser.php';
-echo file_get_contents('../views/header.html')
+require_once 'controller/cUser.php';
+echo file_get_contents('views/header.html')
 ?>
 <html lang="en">
 
@@ -41,8 +41,8 @@ echo file_get_contents('../views/header.html')
                     <td><?php echo $stu->getMail() ?></td>
                     <?php if ($_SESSION["role"] == 1): ?>
                         <td><a href="profile.php?studentID=<?php echo $stu->getID() ?>">Edit</a></td>
-                        <td><a href="remove.php?studentID=<?php echo $stu->getID() ?>">Remove</a></td>
-                        <td><a href="add.php">Add</a></td>
+                        <td><a href="controller/remove.php?studentID=<?php echo $stu->getID() ?>">Remove</a></td>
+                        <td><a href="controller/add.php">Add</a></td>
                     <?php endif; ?>  
                     
                 </tr>
@@ -53,7 +53,7 @@ echo file_get_contents('../views/header.html')
             
         </tbody>
     </table>
-    <a href="../">
+    <a href="./">
         <tr>
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>
         </tr>

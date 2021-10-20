@@ -2,7 +2,7 @@
 require("../vendor/autoload.php");
 session_start();
 if (!isset($_SESSION['loggedin'])) {
-	header('Location: controller/login.php');
+	header('Location: login.php');
 	exit;
 }
 echo file_get_contents ('views/header.html');
@@ -10,19 +10,19 @@ echo "<header><title>Dashboard</title></header>";
 ?>
 <div class="login-form">
     <h2 class="text-center">Dashboard</h2>
-    <a href='controller/studentInfo.php'>
+    <a href='studentInfo.php'>
         <button type="submit" class="btn btn-primary btn-block">Student List</button>
     </a><br>
-    <a href='controller/profile.php'>
+    <a href='profile.php'>
         <button type="submit" class="btn btn-primary btn-block">Update Information</button>
     </a><br>
-    <a href='controller/assignment.php'>
+    <a href='assignment.php'>
         <button type="submit" class="btn btn-primary btn-block">Assignment Management</button>
     </a><br>
-    <a href='controller/challenge.php'>
+    <a href='challenge.php'>
         <button type="submit" class="btn btn-primary btn-block">Challenge</button>
     </a><br>
-    <a href='controller/message.php'>
+    <a href='message.php'>
         <button type="submit" class="btn btn-primary btn-block">Message</button>
     </a><br>
     <a href='controller/logout.php'>

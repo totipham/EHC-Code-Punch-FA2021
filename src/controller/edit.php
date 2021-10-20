@@ -2,7 +2,7 @@
 require_once 'connection.php';
 require_once 'cUser.php';
 if (!isset($_SESSION['loggedin'])) {
-	header('Location: login.php');
+	header('Location: ../login.php');
 	exit;
 }
 
@@ -18,7 +18,7 @@ $result = mysqli_query($con, $query);
 $row = mysqli_fetch_object($result);
 
 if ($row->username != $_SESSION['name'] && $row->role != 0) {
-    echo "<script>alert('You are not allowed to do this!'); window.location = './';</script>";
+    echo "<script>alert('You are not allowed to do this!'); window.location = '../';</script>";
     exit;
 }
 
@@ -38,7 +38,7 @@ $password = $_POST["password"];
 $repassword = $_POST["repassword"];
 
 if ($password != $repassword){
-    echo "<script>alert('Passwords are not matching!'); window.location = './profile.php';</script>";
+    echo "<script>alert('Passwords are not matching!'); window.location = '../profile.php';</script>";
     exit;
 }
 
@@ -51,8 +51,8 @@ $sql -> execute();
 $sql -> close(); */
 
 if ($editInfo = User::editInfo($id, $fullname, $phone, $email, $password) == 1) {
-    echo "<script>alert('Update information successfully!'); window.location = './profile.php';</script>";
+    echo "<script>alert('Update information successfully!'); window.location = '../profile.php';</script>";
 } else {
-    echo "<script>alert('Update information not successfully!'); window.location = './profile.php';</script>";
+    echo "<script>alert('Update information not successfully!'); window.location = '../profile.php';</script>";
 }
 ?>

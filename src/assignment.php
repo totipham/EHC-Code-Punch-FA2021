@@ -1,17 +1,20 @@
 <?php
-require_once 'connection.php';
+/* require_once 'controller/connection.php'; */
+session_start();
+require_once 'controller/cAssignment.php';
 if (!isset($_SESSION['loggedin'])) {
 	header('Location: login.php');
 	exit;
 }
-echo file_get_contents('../views/header.html');
-echo "<header><title>Assignment</title></header>";
-if ($_SESSION['role'] == 1): ?>
+echo file_get_contents('views/header.html');
+?>
+<header><title>Assignment</title></header>
+<?php if ($_SESSION['role'] == 1): ?>
  <!-- TODO: Teacher's Assignment Management -->
 <div class="row"> 
     <div class="col-md">
         <div class="upload-form">
-            <form class="form" action="upload.php" method="POST" enctype= "multipart/form-data">
+            <form class="form" action="controller/upload.php" method="POST" enctype= "multipart/form-data">
                 <div class="form-group">
                     <h2 class="text-center">Upload Assignment</h2>  
                     <input type="text" name="uploadAssignment" value="1" hidden>
@@ -45,17 +48,20 @@ if ($_SESSION['role'] == 1): ?>
 </div>
 <?php
 else:  /* TODO: Student's Assigment Management */
-    $query = "SELECT assID, assName FROM assignment";
-    $result = mysqli_query($con, $query);
+    /* $query = "SELECT assID, assName FROM assignment";
+    $result = mysqli_query($con, $query); */
+    $assGiven = Assignment::getAssignment();
 ?>
 <div class="upload-form">
     <div class="form">
-        <form action="upload.php" method="POST" enctype= "multipart/form-data">
+        <form action="controller/upload.php" method="POST" enctype= "multipart/form-data">
             <div class="form-group">
                 <h2 class="text-center">Answer</h2>
                 <div class="form-group">
                     <select class="form-control" name="assName" required>
-                        <?php while($row1 = mysqli_fetch_array($result)) echo "<option value='$row1[0]'>$row1[1]</option>"; ?>
+                        <?php foreach ($assGiven as $ass): ?>
+                            <option value='<?php echo $ass->getAssID(); ?>'><?php echo $ass->getAssName(); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
@@ -73,10 +79,10 @@ else:  /* TODO: Student's Assigment Management */
 
 <div class="container">
   <div class="vertical-center">
-        <form action="../">
+        <form action="./">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>
 
-<?php echo file_get_contents ("../views/footer.html"); ?>
+<?php echo file_get_contents ("views/footer.html"); ?>

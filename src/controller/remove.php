@@ -12,15 +12,17 @@ if ($_SESSION["role"] != 1) {
     exit;
 }
 
-$removeUser = User::removeUser($_GET["studentID"]);
+if ($removeUser = User::removeUser($_GET["studentID"]) == 1) {
+    echo "<script>alert('Remove student successfully'); window.location = '../studentInfo.php';</script>";
+}
 
-echo file_get_contents ('../views/header.html');
+/* echo file_get_contents ('../views/header.html'); */
 ?>
 
-<div class=login-form>
+<!-- <div class=login-form>
     <form action="../">
         <h2 class="text-center">Remove Successfully</h2>
         <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>
     </form>
-</div>
-<?php echo file_get_contents ('../views/footer.html'); ?>
+</div> -->
+<!-- <?php echo file_get_contents ('../views/footer.html'); ?> -->

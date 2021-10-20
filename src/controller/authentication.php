@@ -15,12 +15,12 @@ if (isset($_SESSION['loggedin'])) {
 $username = $_POST['username'];
 $password = $_POST['password'];
 if (!isset($username, $password)) {
-    echo "<script>alert('Please fill both the username and password fields!'); window.location = 'login.php';</script>";
+    echo "<script>alert('Please fill both the username and password fields!'); window.location = '../login.php';</script>";
 }
 if ($userLogin = User::checkInfo($username, $password) == 1) {
     header("Location: ../index.php");
 } else {
-    echo "<script>alert('Incorrect username and/or password!'); window.location = 'login.php';</script>";
+    echo "<script>alert('Incorrect username and/or password!'); window.location = '../login.php';</script>";
 }
 
 /* echo $userLogin = User::checkInfo($_POST['username'], $_POST['password']);

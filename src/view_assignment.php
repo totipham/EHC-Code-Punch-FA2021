@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'cAssignment.php';
+require_once 'controller/cAssignment.php';
 
 /* $query_fetch = "SELECT assName, assFile FROM assignment"; */
 /* $query_remove = $con -> prepare("DELETE FROM assignment WHERE assID=?"); */
@@ -11,7 +11,7 @@ if (!isset($_SESSION['loggedin']) == true) {
 	header('Location: login.php');
 	exit;
 }
-echo file_get_contents ('../views/header.html');
+echo file_get_contents ('views/header.html');
 ?>
 <header><title>View Assignment</title></header>
 <div class="table-form">
@@ -35,7 +35,7 @@ echo file_get_contents ('../views/header.html');
             <tr>
                 <th scope='row'><?php echo $count+=1; ?></th>
                 <td><?php echo $ass->getAssName() ?></td>
-                <td><a href=../<?php echo $ass->getAssFile();?> >View Assignment</a></td>
+                <td><a href=<?php echo $ass->getAssFile();?> >View Assignment</a></td>
                 <!-- if ($_SESSION['role'] == 1) {
                     echo '<td><form action="delete.php" method="POST">';
                     echo '<input type="hidden" name="assDelete" value=""/>';
@@ -48,9 +48,9 @@ echo file_get_contents ('../views/header.html');
 </div>
 <div class="container">
   <div class="vertical-center">
-        <form action="../">
+        <form action="./">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>
-<?php echo file_get_contents ('../views/footer.html'); ?>
+<?php echo file_get_contents ('views/footer.html'); ?>
