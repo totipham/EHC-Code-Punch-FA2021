@@ -1,17 +1,17 @@
 <?php
-require_once 'connection.php';
+session_start();
+require_once 'cGame.php';
 if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
     exit;
 }
 
-echo file_get_contents('header.html');
-echo "<header><title>Challenge</title></header>";
+echo file_get_contents('../views/header.html');
+?>
 
-if ($_SESSION['role'] == 1): /* FIXME: check role by $SESSION['role']*/
-    $count = 0;
-    $query_fetch1 = "SELECT id, result FROM gameans";
-    $result = mysqli_query($con, $query_fetch1); ?>
+<header><title>Challenge</title></header>
+
+<?php if ($_SESSION['role'] == 1):?>
     <div class="row"> 
         <div class="col-md">
             <div class="upload-form">
@@ -33,7 +33,7 @@ if ($_SESSION['role'] == 1): /* FIXME: check role by $SESSION['role']*/
                         <button type="submit" class="btn btn-primary btn-block">Upload</button> 
                     </div>
                 </form>
-                <a href="index.php">
+                <a href="../">
                     <button type="submit" class="btn btn-primary btn-block">Back to dashboard</button>              
                 </a>
             </div>
@@ -49,34 +49,24 @@ if ($_SESSION['role'] == 1): /* FIXME: check role by $SESSION['role']*/
                                 <th scope="col">#</th>
                                 <th scope="col">Student</th>
                                 <th scope="col">Result</th>
-                                <!-- /* if ($_SESSION['role'] == 1) {
-                                    echo '<th scope="col">Option</th>';
-                                } */ -->
                                 </tr>
                             </thead>
                             <tbody>
                             <?php 
-                            $query_fetch2 = $con -> prepare("SELECT fullname FROM account WHERE id =?");
-                            while($row = mysqli_fetch_array($result)): 
-                                $query_fetch2 -> bind_param ('i', $row[0]);
-                                $query_fetch2 -> execute();
-                                $query_fetch2 -> store_result();
-                                $query_fetch2->bind_result($student);
-                                $query_fetch2->fetch(); ?>
-                                <!-- /* row[0] assID, row[1] assAnswer, row[2] id */ -->
+                            $count = 0;
+                            $gameResList = Game::getGameResult();
+                            foreach ($gameResList as $gameRes):
+                                /* if ($gameRes->getResult() == 1): */
+                            ?>
                                 <tr>
-                                    <th scope="row">
-                                        <?php echo $count+=1; ?>
-                                    </th>
-                                    <td>
-                                        <?php echo $student; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo ($row[1] == 1) ? "true" : "false"; ?>
-                                    </td>
+                                    <th scope="row"><?php echo $count+=1; ?></th>
+                                    <td><?php echo $gameRes->getFullname(); ?></td>
+                                    <td><?php echo $gameRes->getResult(); ?></td>
                                 </tr>
-                            <?php endwhile; 
-                            $query_fetch2 -> close(); ?>
+                            <?php 
+                                /* endif; */
+                            endforeach; 
+                            ?>
                             </tbody>
                         </table>
                     </div>
@@ -84,10 +74,10 @@ if ($_SESSION['role'] == 1): /* FIXME: check role by $SESSION['role']*/
             </div>
         </div>
 <?php /* TODO: Student's Assigment Management */
-    else:
-        $query_fetch3 = "SELECT hint, gameFile FROM game WHERE challID=1";
-        $result = mysqli_query($con, $query_fetch3);
-        $row_ans = mysqli_fetch_array($result); //$row_ans[0]
+else:
+    $gameList = Game::getGame();
+    $hint = $gameList->getHint();
+    $flag = $gameList->getGameFile();
 ?> 
     <div class="upload-form">
         <form action="challenge.php" method="POST">
@@ -98,7 +88,7 @@ if ($_SESSION['role'] == 1): /* FIXME: check role by $SESSION['role']*/
                         <div class="input-group-prepend">
                             <span class="input-group-text">Hint</span>
                         </div>
-                        <textarea class="form-control" name="hint" placeholder="<?= $row_ans[0] ?? "Empty"; ?>" disabled></textarea>
+                        <textarea class="form-control" name="hint" placeholder="<?=$hint ?? "Empty"; ?>" disabled></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -107,26 +97,29 @@ if ($_SESSION['role'] == 1): /* FIXME: check role by $SESSION['role']*/
                 <button type="submit" class="btn btn-primary btn-block">Submit</button> 
             </div>
         </form>
-        <a href="index.php">
+        <a href="../">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </a>
     </div>
-<?php /* TODO: Check answer */
-endif;
+
+<?php 
+/* TODO: Check answer */
 if (isset($_POST["gameAns"])) {
     $answer = $_POST["gameAns"];
 }
 
 if (isset($answer)) {
-    if ("uploads/" . $answer === $row_ans[1]) {
-        $result = 1;        
+    if ("uploads/" . $answer === $flag) {
+        $result = 1;
+        echo "<script>alert('Correct!');</script>";
     } else {
         $result = 0;
+        echo "<script>alert('Incorrect!');</script>";
     }
-    $sql = $con -> prepare ("UPDATE gameans SET result=? WHERE id=?");
-    $sql -> bind_param ('ii', $result, $_SESSION['id']);
-    $sql -> execute();
-    $sql -> close();
+
+    $regResultRes = Game::regResult($result, $_SESSION['id']);
+    echo "<script>window.location = './challenge.php';</script>";
 }
-echo file_get_contents ("footer.html");
+echo file_get_contents ("../views/footer.html");
+endif;
 ?>

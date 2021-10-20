@@ -1,12 +1,18 @@
 <!-- PHP Upload File -->
 <?php
-require_once 'connection.php';
-/* FIXME: add session check valid */
-if ($_SESSION['role'] == 1) { /* FIXME: check role */
-    $target_dir = "uploads/";
-} else {
-    $target_dir = "uploads/assignment/";
+session_start();
+require_once 'cUpload.php';
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit;
 }
+
+if ($_SESSION['role'] == 1) {
+    $target_dir = "../uploads/";
+} else {
+    $target_dir = "../uploads/assignment/";
+}
+
 $target_file = $target_dir . basename($_FILES["assUpload"]["name"]);
 $target_file = str_replace(' ', '_', $target_file);
 $uploadOk = 1;
@@ -35,21 +41,23 @@ if ($uploadOk == 0) {
         if($_SESSION['role'] == 1) {
             if (isset($_POST["uploadAssignment"])) {
                 $assName = $_POST["assName"];
-                $sql = $con -> prepare ("INSERT INTO assignment (assName, assFile) VALUES (?, ?)");
+                /* $sql = $con -> prepare ("INSERT INTO assignment (assName, assFile) VALUES (?, ?)");
                 $sql -> bind_param ('ss', $assName, $target_file);
                 $sql -> execute();
-                $sql -> close();
+                $sql -> close(); */
+                $uploadAss = Upload::uploadAssignment($assName, $target_file);
+
             } else if (isset($_POST["uploadGame"])) {
                 $hint = $_POST["hint"];
-                $sql = $con -> prepare ("UPDATE game SET gameFile=?, hint=? WHERE challID=1");
+                /* $sql = $con -> prepare ("UPDATE game SET gameFile=?, hint=? WHERE challID=1");
                 $sql -> bind_param ('ss', $target_file, $hint);
                 $sql -> execute();
-                $sql -> close();
+                $sql -> close(); */
+                $uploadGame = Upload::uploadGame($target_file, $hint);
             }
         } else if ($_SESSION['role'] == 0) {
-            //FIXME: I need something to do as student
             $assID=$_POST["assName"];
-            $sql = "INSERT INTO answerass (
+            /* $sql = "INSERT INTO answerass (
                 assID,
                 assAnswer,
                 id
@@ -59,7 +67,8 @@ if ($uploadOk == 0) {
                 '{$target_file}',
                 '{$_SESSION['id']}'
             )";
-            mysqli_query($con,$sql);
+            mysqli_query($con,$sql); */
+            $uploadAnsAss = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
         } else {
             /* FIXME: Need something return if error reg to mysql */
         }
@@ -69,7 +78,7 @@ if ($uploadOk == 0) {
     }
 }
 
-echo file_get_contents('header.html');
+echo file_get_contents('../views/header.html');
 ?>
 <header><title>Upload</title></header>
 <div class="login-form">
@@ -79,7 +88,7 @@ echo file_get_contents('header.html');
         if ($uploadOk == 1):
             echo '<h3>' . $uploadResult . '</h3>';
         ?>
-        <a href=$target_file>
+        <a href= <?php echo $target_file ?>>
             <button type="submit" class="btn btn-primary btn-block">View Assignment</button>
         </a><br>
         <?php
@@ -88,10 +97,10 @@ echo file_get_contents('header.html');
         endif;
         ?>
 
-        <form action='index.php'>   
+        <form action='../'>   
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
     </div>
 </div>
 
-<?php echo file_get_contents('header.html'); ?>  
+<?php echo file_get_contents('../views/header.html'); ?>  

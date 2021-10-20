@@ -4,7 +4,7 @@ if (!isset($_SESSION['loggedin'])) {
 	header('Location: login.php');
 	exit;
 }
-echo file_get_contents('header.html');
+echo file_get_contents('../views/header.html');
 echo "<header><title>Assignment</title></header>";
 if ($_SESSION['role'] == 1): ?>
  <!-- TODO: Teacher's Assignment Management -->
@@ -73,10 +73,10 @@ else:  /* TODO: Student's Assigment Management */
 
 <div class="container">
   <div class="vertical-center">
-        <form action="index.php">
+        <form action="../">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>
 
-<?php echo file_get_contents ("footer.html"); ?>
+<?php echo file_get_contents ("../views/footer.html"); ?>

@@ -1,16 +1,17 @@
 <?php
-require_once 'connection.php';
+session_start();
+require_once 'cAssignment.php';
 
-$query_fetch = "SELECT assName, assFile FROM assignment";
+/* $query_fetch = "SELECT assName, assFile FROM assignment"; */
 /* $query_remove = $con -> prepare("DELETE FROM assignment WHERE assID=?"); */
-$result = mysqli_query($con, $query_fetch);
-$count = 0;
+/* $result = mysqli_query($con, $query_fetch); */
+
 
 if (!isset($_SESSION['loggedin']) == true) {
 	header('Location: login.php');
 	exit;
 }
-echo file_get_contents ('header.html');
+echo file_get_contents ('../views/header.html');
 ?>
 <header><title>View Assignment</title></header>
 <div class="table-form">
@@ -26,26 +27,30 @@ echo file_get_contents ('header.html');
             </tr>
         </thead>
         <tbody>
-        <?php while($row = mysqli_fetch_array($result)): ?>
+        <?php 
+            $count = 0;
+            $assGiven = Assignment::getAssignment();
+            foreach ($assGiven as $ass):
+        ?>
             <tr>
                 <th scope='row'><?php echo $count+=1; ?></th>
-                <td><?php echo $row[0]; ?></td>
-                <td><?php echo "<a href='$row[1]'>";?>View Assignment</a></td>
+                <td><?php echo $ass->getAssName() ?></td>
+                <td><a href=../<?php echo $ass->getAssFile();?> >View Assignment</a></td>
                 <!-- if ($_SESSION['role'] == 1) {
                     echo '<td><form action="delete.php" method="POST">';
                     echo '<input type="hidden" name="assDelete" value=""/>';
                     echo "<button type='submit' name='assID' value=$row[0]>Delete</button></form></td>";
                 }  -->
             </tr>
-<?php endwhile; ?>
+<?php endforeach; ?>
         </tbody>
-        </table>
+    </table>
 </div>
 <div class="container">
   <div class="vertical-center">
-        <form action="index.php">
+        <form action="../">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>
-<?php echo file_get_contents ('footer.html'); ?>
+<?php echo file_get_contents ('../views/footer.html'); ?>

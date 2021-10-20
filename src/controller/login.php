@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (isset($_SESSION['loggedin']) == true) {
-	header('Location: index.php');
+	header('Location: ..\index.php');
 	exit;
 }
-echo file_get_contents ('header.html');
+echo file_get_contents ('../views/header.html');
 ?>
 <header><title>Login</title></header>
 <div class="login-form">
@@ -21,4 +21,4 @@ echo file_get_contents ('header.html');
     <button onclick="location.href='register.php'" type="submit" class="btn btn-primary btn-block">Register</button>
 </div>
 
-<?php echo file_get_contents ('footer.html'); ?>
+<?php echo file_get_contents ('../views/footer.html'); ?>
