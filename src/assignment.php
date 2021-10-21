@@ -1,86 +1,88 @@
 <?php
+/* require_once 'controller/connection.php'; */
 session_start();
+require_once 'controller/cAssignment.php';
 if (!isset($_SESSION['loggedin'])) {
 	header('Location: login.php');
 	exit;
 }
-echo file_get_contents('header.html');
-echo "<header><title>Assignment</title></header>";
-if ($_SESSION['role'] == 1) { /* Teacher's Assignment Management */
-    echo <<<CODE
-    <div class="row"> 
-        <div class="col-md">
-            <div class="upload-form">
-                <form action="upload.php" method="POST" enctype= "multipart/form-data">
+echo file_get_contents('views/header.html');
+?>
+<header><title>Assignment</title></header>
+<?php if ($_SESSION['role'] == 1): ?>
+ <!-- TODO: Teacher's Assignment Management -->
+<div class="row"> 
+    <div class="col-md">
+        <div class="upload-form">
+            <form class="form" action="controller/upload.php" method="POST" enctype= "multipart/form-data">
+                <div class="form-group">
+                    <h2 class="text-center">Upload Assignment</h2>  
+                    <input type="text" name="uploadAssignment" value="1" hidden>
                     <div class="form-group">
-                        <h2 class="text-center">Upload Assignment</h2>  
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" name="fileUpload" require="required">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Upload</button> 
+                        <input type="text" class="form-control-file" name="assName" placeholder="Assignment Name" required="required">
                     </div>
-                </form>
-            </div>
+                    <div class="form-group">
+                        <input type="file" class="form-control-file" name="assUpload" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Upload</button> 
+                </div>
+            </form>
         </div>
-        <div class="col-md">
-            <div class="upload-form">
+    </div>
+    <div class="col-md">
+        <div class="upload-form">
+            <div class="form">
                 <div class="form-group"><br>
-                    <h2 class="text-center">Assignment Management</h2>  <br>
-                    <a href="view_assignment.php">
+                    <h2 class="text-center">Assignment Management</h2><br>
+                    <a href="submitted.php">
                         <button type="submit" class="btn btn-primary btn-block">Student's Assignment</button> 
                     </a>
                     <br>
-                    <a href="submitted.php">
+                    <a href="view_assignment.php">
                         <button type="submit" class="btn btn-primary btn-block">My Assignment</button> 
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    CODE;
-} else { /* TODO: Student's Assigment Management */
-    echo <<<CODE
-    <div class="row">
-        <div class="col-md">
-            <div class="upload-form">
+</div>
+<?php
+else:  /* TODO: Student's Assigment Management */
+    /* $query = "SELECT assID, assName FROM assignment";
+    $result = mysqli_query($con, $query); */
+    $assGiven = Assignment::getAssignment();
+?>
+<div class="upload-form">
+    <div class="form">
+        <form action="controller/upload.php" method="POST" enctype= "multipart/form-data">
+            <div class="form-group">
+                <h2 class="text-center">Answer</h2>
                 <div class="form-group">
-                    <form action="submitted.php" method="POST" enctype= "multipart/form-data">
-                        <h2 class="text-center">Assignment Management</h2>  
-                        <br><br>
-                        <button type="submit" class="btn btn-primary btn-block">View Assignment</button> 
-                    </form>
+                    <select class="form-control" name="assName" required>
+                        <?php foreach ($assGiven as $ass): ?>
+                            <option value='<?php echo $ass->getAssID(); ?>'><?php echo $ass->getAssName(); ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
+                <div class="form-group">
+                    <input type="file" class="form-control-file" name="assUpload" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Upload</button> 
             </div>
-        </div>
-        <div class="col-md">
-            <div class="upload-form">
-                <form action="upload.php" method="POST" enctype= "multipart/form-data">
-                    <div class="form-group">
-                        <h2 class="text-center">Answer</h2>  
-                        <div class="form-group">
-                            <input type="text" class="form-control-file" name="assName" placeholder="Assignment Name" require="required">
-                        </div>
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" name="assUpload" require="required">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Upload</button> 
-                    </div>
-                </form>
-            </div>
-        </div>
+        </form>
+        <a href="view_assignment.php">
+        <button type="submit" class="btn btn-primary btn-block">View Assignment</button>
+        </a>
     </div>
-    CODE;
-}
-?>  
+</div>
+<?php endif; ?>
 
 <div class="container">
   <div class="vertical-center">
-        <form action="index.php"> <!-- FIXME: Need a page to header -->
+        <form action="./">
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>
 
-<?php
-    echo file_get_contents ("footer.html");
-?>
+<?php echo file_get_contents ("views/footer.html"); ?>
