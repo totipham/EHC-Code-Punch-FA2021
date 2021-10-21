@@ -1,14 +1,15 @@
 <?php
-require_once 'connect.php';
+require_once 'connection.php';
 session_start();
 $conn = dbConnect::ConnectToDB();
-$stuID = $_GET['studentID'];
-$sql = "SELECT * FROM student WHERE studentID='$stuID';";
+$stuID = $_GET['ID'];
+$sql = "SELECT * FROM account WHERE id='$stuID';";
 $result = mysqli_query($conn, $sql);
 if (!$result) {
     die('Failed' . mysqli_error($conn));
 }
 $info = mysqli_fetch_assoc($result);
+// echo file_get_contents ('header.html');
 ?>
 <html>
 <style>
@@ -32,36 +33,42 @@ $info = mysqli_fetch_assoc($result);
 
     <tr>
         <form action="" method="POST">
-            <input type="text" name="stName" placeholder="Enter new name" / require><br>
-            <input type="text" name="stID" placeholder="Enter new ID" / require><br>
-            <input type="text" pattern="[0-9]{10}" name="stPhone" placeholder="Enter new phone number" /><br>
-            <input type="text" pattern="^w+\@w+\.w+$" name="stEmail" placeholder="Enter new email" /><br>
+            <input type="text" name="fullname" placeholder="Enter new full name" / require><br>
+            <input type="text" name="username" placeholder="Enter new user name" / require><br>
+            <input type="text" name="id" placeholder="Enter new ID" / require><br>
+            <input type="text" pattern="[0-9]{10}" name="phone" placeholder="Enter new phone number" /><br>
+            <input type="text" pattern="^w+\@w+\.w+$" name="email" placeholder="Enter new email" /><br>
+
+            
             <input type="submit" style="background-color:darkseagreen;" name="update" value="Submit" />
         </form>
 
 
         <?php
-        // Student::editInfo($stuID);
+
         if (isset($_POST['update'])) {
-            // echo $name = $_POST['stName'];
-            // echo  $ID = $_POST['stID'];
-            // echo  $phone = $_POST['stPhone'];
-            // echo $email = $_POST['stEmail'];
 
-            // $student = new Student($name, $ID, $infor['assignment'], $info['score'], $phone, $email, $info['password'], $info['isAdmin']);
-            // $student->editInfo($stuID);
-          
-
-
-
-
-            $sql = "UPDATE student SET name='$_POST[stName]', studentID = '$_POST[stID]', phone=$_POST[stPhone] , email='$_POST[stEmail]' WHERE studentID = '$stuID';";
+            $sql = "UPDATE account SET username = '$_POST[username]', fullname='$_POST[fullname]', id = '$_POST[id]', phone=$_POST[phone] , email='$_POST[email]' WHERE id = '$stuID';";
 
             if (!mysqli_query($conn, $sql)) {
-                die('Failed: ' . mysqli_error($conn));
+                die('Failed');
             }
-            $stuID = $_POST['stID'];
-            // $_SESSION['ID'] = $stuID;
+            //check if teacher is editting a student or themself
+            // if teacher edit themself -> change both seesion id and param id
+            // if teacher edit a student -> only change param id
+            if ($_SESSION['role'] == 1) {
+                if (strcmp($_SESSION['id'], $stuID) == 0) {
+                    $_SESSION['id'] = $_POST['id'];
+                    $stuID = $_POST['id'];
+                } else {
+                    $stuID = $_POST['id'];
+                }
+            } else { // if student edit themself -> change both
+                $stuID = $_POST['id'];
+                $_SESSION['id'] = $_POST['id'];
+            }
+
+
             echo "Done";
         }
 
@@ -69,7 +76,7 @@ $info = mysqli_fetch_assoc($result);
 
     </tr>
     <br />
-    <a href='./info.php?studentID=<?php echo $stuID ?>'>Back</a>
+    <a href='info.php?ID=<?php echo $stuID ?>'>Back</a>
 </body>
 
 </html>

@@ -3,10 +3,11 @@
 require_once 'connect.php';
 
 class Message {
+    private $messID;/*  */
     private $fromID;
     private $toID;
     private $content;
-    
+
     public function __construct($messID, $fromID, $toID, $content) {
         $this->messID = $messID;
         $this->fromID = $fromID;
