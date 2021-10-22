@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once 'cAssignment.php';
+require_once 'controller/cAssignment.php';
 
 if (!isset($_SESSION['loggedin']) == true) {
 	header('Location: login.php');
 	exit;
 }
-echo file_get_contents ('../views/header.html');
+echo file_get_contents ('views/header.html');
 ?>
 
 <header><title>View Assignment</title></header>
@@ -46,5 +46,5 @@ echo file_get_contents ('../views/header.html');
   </div>
 </div>
 <?php
-echo file_get_contents ('../views/footer.html'); 
+echo file_get_contents ('views/footer.html'); 
 ?>

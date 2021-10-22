@@ -1,5 +1,5 @@
 <?php
-require_once 'connection.php';
+session_start();
 require_once 'cUser.php';
 if (!isset($_SESSION['loggedin'])) {
 	header('Location: ../login.php');
@@ -13,21 +13,31 @@ if ($_SESSION["role"] == 1) {
     $id = $_SESSION["id"];
 }
 
-$query = "SELECT * FROM account WHERE id=$id";
+/* $query = "SELECT * FROM account WHERE id=$id";
 $result = mysqli_query($con, $query);
-$row = mysqli_fetch_object($result);
+$row = mysqli_fetch_object($result); */
 
-if ($row->username != $_SESSION['name'] && $row->role != 0) {
+$getDefaultInformation = User::getInfoFromID($id);
+$role = $getDefaultInformation->getRole();
+$fullname = $getDefaultInformation->getName();
+$username = $getDefaultInformation->getUsername();
+$email = $getDefaultInformation->getMail();
+$phone = $getDefaultInformation->getPhone();
+$password = $getDefaultInformation->getPassword();
+
+
+
+if ($username != $_SESSION['name'] && $role != 0) {
     echo "<script>alert('You are not allowed to do this!'); window.location = '../';</script>";
     exit;
 }
 
 if ($_SESSION["role"] == 1) {
-    $fullname = $_POST["fullname"] ?? $row->fullname;
-    $username = $_POST["username"] ?? $row->username;
+    $fullname = $_POST["fullname"] ?? $fullname;
+    $username = $_POST["username"] ?? $username;
 } else {
-    $fullname = $row->fullname;
-    $username = $row->username;
+    $fullname = $fullname;
+    $username = $username;
 }
 /* Done check */
 
@@ -42,7 +52,7 @@ if ($password != $repassword){
     exit;
 }
 
-$password = isset($_POST["password"]) ? md5($_POST["password"]) : $row->password;
+$password = isset($_POST["password"]) ? md5($_POST["password"]) : $password;
 
 /* Update information */
 /* $sql = $con -> prepare("UPDATE account SET fullname=?, phone=? , email=?, password=? WHERE id=?");
@@ -51,8 +61,8 @@ $sql -> execute();
 $sql -> close(); */
 
 if ($editInfo = User::editInfo($id, $fullname, $phone, $email, $password) == 1) {
-    echo "<script>alert('Update information successfully!'); window.location = '../profile.php';</script>";
+    echo "<script>alert('Update information successfully!'); window.location = '../profile.php?studentID=$id';</script>";
 } else {
-    echo "<script>alert('Update information not successfully!'); window.location = '../profile.php';</script>";
+    echo "<script>alert('Update information not successfully!'); window.location = '../profile.php?studentID=$id';</script>";
 }
 ?>

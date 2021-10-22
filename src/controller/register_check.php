@@ -10,7 +10,7 @@ if (isset ($_SESSION['role'])) {
         $role = "student";
     }
 } else if (isset($_SESSION['loggedin'])) {
-    header('Location: index.php');
+    header('Location: ../index.php');
 	exit;
 }
 
@@ -31,7 +31,7 @@ if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) 
     }
 
     if ($password != $repassword){
-        echo "<script>alert('Passwords are not matching!'); window.location = './register.php';</script>";
+        echo "<script>alert('Passwords are not matching!'); window.location = '../register.php';</script>";
         exit;
     }
 
