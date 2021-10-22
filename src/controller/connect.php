@@ -7,7 +7,7 @@ class dbConnect {
         $passwordDB='';
         $nameDB='users';
         return mysqli_connect($server, $usernameDB, $passwordDB, $nameDB); */
-        return new PDO('sqlite:'.__DIR__.'\models\database.db');
+        return new PDO('sqlite:'.__DIR__.'/models/database.db');
     }
 
     public static function Disconnect($con) {
