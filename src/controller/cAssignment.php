@@ -41,11 +41,16 @@ class Assignment {
     public static function fetchFullname($id) {
         $conn = dbConnect::ConnectToDB();
         $fullname_fetch = $conn -> prepare("SELECT fullname FROM account WHERE id=?");
-        $fullname_fetch -> bind_param ('i', $id);
+        /* $fullname_fetch -> bind_param ('i', $id);
         $fullname_fetch -> execute();
         $fullname_fetch -> store_result();
         $fullname_fetch->bind_result($fullname);
-        $fullname_fetch->fetch();
+        $fullname_fetch->fetch(); */
+        $fullname_fetch->execute(array(
+            $id
+        ));
+        $fullname = ($fullname_fetch->fetchObject())->fullname;
+
         return $fullname;
         dbConnect::Disconnect($conn);
     }
@@ -53,11 +58,10 @@ class Assignment {
     public static function fetchAssName($assID) {
         $conn = dbConnect::ConnectToDB();
         $assName_fetch = $conn -> prepare("SELECT assName FROM assignment WHERE assID=?");
-        $assName_fetch -> bind_param ('i', $assID);
-        $assName_fetch -> execute();
-        $assName_fetch -> store_result();
-        $assName_fetch->bind_result($assName);
-        $assName_fetch->fetch();
+        $assName_fetch->execute(array(
+            $assID
+        ));
+        $assName = ($assName_fetch->fetchObject())->assName;
         return $assName;
         dbConnect::Disconnect($conn);
     }
@@ -68,10 +72,10 @@ class Assignment {
         $rows = array();
 
         $sql = "SELECT * FROM answerass";
-        $result = mysqli_query($conn, $sql);
+        $result = $conn->query($sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_object($result)) {
+        if ($result->columnCount() > 0) {
+            while ($row = $result->fetchObject()) {
                 $assName = GlobalAssignment::fetchAssName($row->assID);
                 $fullname = GlobalAssignment::fetchFullname($row->id);
                 $assAns = new GlobalAssignment(null, $assName, $row->assAnswer, null, $fullname);
@@ -88,10 +92,10 @@ class Assignment {
         $rows = array();
 
         $sql = "SELECT * FROM assignment";
-        $result = mysqli_query($conn, $sql);
+        $stmt = $conn->query($sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_object($result)) {
+        if ($stmt->columnCount() > 0) {
+            while ($row = $stmt->fetchObject()) {
                 $assGiven = new GlobalAssignment($row->assID, $row->assName, null, $row->assFile, null);
                 $rows[] = $assGiven;
             }

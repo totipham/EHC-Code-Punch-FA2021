@@ -53,15 +53,14 @@ class Message {
         $toID = $this->getToID();
         $content = $this->getContent(); */
 
-        $sql = "INSERT INTO message (toID, fromID, content) VALUES ('$toID', '$fromID', '$content')";
         $res = "";
-        if ($conn->query($sql)) {
+        if ($conn->query("INSERT INTO message (toID, fromID, content) VALUES ('$toID', '$fromID', '$content')")) {
             $res = "";
         } else {
             $res = "Error. Please try again!";
         }
 
-        dbConnect::Disconnect($conn);
+        $conn = null;
         return $res;
     }
 
@@ -69,16 +68,16 @@ class Message {
         $rows = array();
 
         $conn = dbConnect::ConnectToDB();
-        $result = mysqli_query($conn, "SELECT * FROM message WHERE (fromID='" . $fromID . "' 
+        $result = $conn->query("SELECT * FROM message WHERE (fromID='" . $fromID . "' 
         AND toID = '" . $toID . "') OR (fromID='" . $toID . "' AND toID = '" . $fromID . "')");
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_object($result)) {
+        if ($result->columnCount() > 0) {
+            while ($row = $result->fetchObject()) {
                 $message = new GlobalMessage($row->messID, $row->fromID, $row->toID, $row->content);
                 $rows[] = $message;
             }
         }
-        dbConnect::Disconnect($conn);
+        $conn = null;
         return $rows;
     }
 }
