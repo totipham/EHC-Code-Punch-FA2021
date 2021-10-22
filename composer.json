@@ -11,7 +11,9 @@
             "email": "phamtruongminhduc@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-pdo_sqlite": "*"
+    },
     "require-dev": {
       "heroku/heroku-buildpack-php": "*"
     }

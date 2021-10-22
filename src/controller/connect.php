@@ -7,7 +7,6 @@ class dbConnect {
         $passwordDB='';
         $nameDB='users';
         return mysqli_connect($server, $usernameDB, $passwordDB, $nameDB); */
-        $cur_dir = getcwd();
         return new PDO('sqlite:../models/database.db');
     }
 
