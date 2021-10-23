@@ -19,7 +19,7 @@ class User {
         $this->username = $aUsername;
         $this->phone = $aPhone;
         $this->mail = $aMail;
-        $this->password = md5($aPassword);
+        $this->password = $aPassword;
         $this->role = $aRole;
     }
 
@@ -117,7 +117,7 @@ class User {
         $res = $stmt->execute(array(
             $username,
             $password,
-            $fullname,
+            md5($fullname),
             $email,
             $phone,
             $role

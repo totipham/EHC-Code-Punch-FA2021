@@ -1,9 +1,17 @@
 <?php
-session_start();
-if (!isset($_SESSION['loggedin'])) {
-    header('Location: login.php');
-	exit;
+require_once 'checkPermission.php';
+
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: ../login.php');
 }
+
+if ($checkPermission->isTeacher() != 1) {
+    echo "<script>alert('You are not allowed to access this page!'); window.location = '../index.php';</script>";
+    exit;
+}
+
 echo file_get_contents ('../views/header.html');
 ?>
 <header><title>Add student</title></header>

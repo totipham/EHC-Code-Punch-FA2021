@@ -1,18 +1,16 @@
 <?php
-/* require_once 'connection.php'; */
+require_once 'checkPermission.php';
 require_once 'cUser.php';
 
-session_start();
-
-
-if (isset ($_SESSION['role'])) {
-    if (($_SESSION['role'] == 1) && ($_GET['student'] == 1)) {
-        $role = "student";
-    }
-} else if (isset($_SESSION['loggedin'])) {
+$checkPermission = new checkPermission();
+if($checkPermission->isLogin() == 1) {
     header('Location: ../index.php');
-	exit;
 }
+
+if (($checkPermission->isTeacher() == 1) && ($_GET['student'] == 1)) {
+    $role = "student";
+}
+
 
 $role = $role ?? $_POST['role'];
 $username = $_POST["username"];

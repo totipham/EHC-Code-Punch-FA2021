@@ -1,15 +1,18 @@
 <?php
 /* require_once 'controller/connection.php'; */
-session_start();
+require_once 'controller/checkPermission.php';
 require_once 'controller/cAssignment.php';
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: login.php');
-	exit;
+
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: login.php');
 }
+
 echo file_get_contents('views/header.html');
 ?>
 <header><title>Assignment</title></header>
-<?php if ($_SESSION['role'] == 1): ?>
+<?php if ($checkPermission->isTeacher() == 1): ?>
  <!-- TODO: Teacher's Assignment Management -->
 <div class="row"> 
     <div class="col-md">
@@ -47,9 +50,7 @@ echo file_get_contents('views/header.html');
     </div>
 </div>
 <?php
-else:  /* TODO: Student's Assigment Management */
-    /* $query = "SELECT assID, assName FROM assignment";
-    $result = mysqli_query($con, $query); */
+else:
     $assGiven = Assignment::getAssignment();
 ?>
 <div class="upload-form">

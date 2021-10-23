@@ -1,13 +1,13 @@
 <?php
-session_start();
 require_once 'controller/cUser.php';
-/* require_once 'controller/connection.php'; */
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: login.php');
-	exit;
+require_once 'controller/checkPermission.php';
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: login.php');
 }
 
-if ($_SESSION["role"] == 1) {
+if ($checkPermission->isTeacher() == 1) {
     $id = $_GET["studentID"] ?? $_SESSION["id"];
 } else {
     $id = $_SESSION["id"];
@@ -22,6 +22,7 @@ $fullname = $userInfo->getName();
 $email = $userInfo->getMail();
 $phone = $userInfo->getPhone();
 $role = $userInfo->getRole();
+
 if ($username != $_SESSION['name'] && $role != 0) {
     echo "<script>alert('You are not allowed to do this!'); window.location = './';</script>";
     exit;
@@ -34,7 +35,7 @@ echo file_get_contents ('views/header.html');
     <form class="form" action="controller/edit.php?studentID=<?php echo $id; ?>" method="POST">
         <h2 class="text-center"><?php echo $username . " 's Profile"; ?></h2>
         <p style="text-align: center;">Edit these fields to update information!</p>
-        <?php if ($_SESSION["role"] == 1): ?>
+        <?php if ($checkPermission->isTeacher() == 1): ?>
             <div class="form-group">
                 <input type="text" class="form-control" name="username" value="<?=$username?>">
             </div>

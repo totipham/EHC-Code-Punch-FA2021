@@ -1,13 +1,15 @@
 <?php
-require("../vendor/autoload.php");
-session_start();
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: login.php');
-	exit;
+require ("../vendor/autoload.php");
+require_once 'controller/checkPermission.php';
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: login.php');
 }
+
 echo file_get_contents ('views/header.html');
-echo "<header><title>Dashboard</title></header>";
 ?>
+<header><title>Dashboard</title></header>
 <div class="login-form">
     <h2 class="text-center">Dashboard</h2>
     <a href='studentInfo.php'>

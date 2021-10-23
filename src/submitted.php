@@ -1,11 +1,12 @@
 <?php
-session_start();
 require_once 'controller/cAssignment.php';
+require_once 'controller/checkPermission.php';
+$checkPermission = new checkPermission();
 
-if (!isset($_SESSION['loggedin']) == true) {
-	header('Location: login.php');
-	exit;
+if($checkPermission->isLogin() != 1) {
+    header('Location: login.php');
 }
+
 echo file_get_contents ('views/header.html');
 ?>
 

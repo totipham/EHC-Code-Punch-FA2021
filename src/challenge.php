@@ -1,9 +1,10 @@
 <?php
-session_start();
 require_once 'controller/cGame.php';
-if (!isset($_SESSION['loggedin'])) {
+require_once 'controller/checkPermission.php';
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
     header('Location: login.php');
-    exit;
 }
 
 echo file_get_contents('views/header.html');
@@ -11,7 +12,7 @@ echo file_get_contents('views/header.html');
 
 <header><title>Challenge</title></header>
 
-<?php if ($_SESSION['role'] == 1):?>
+<?php if ($checkPermission->isTeacher() == 1):?>
     <div class="row"> 
         <div class="col-md">
             <div class="upload-form">

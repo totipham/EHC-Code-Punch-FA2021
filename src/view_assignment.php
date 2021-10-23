@@ -21,9 +21,9 @@ echo file_get_contents ('views/header.html');
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">File</th>
-            <!-- if ($_SESSION['role'] == 1) {
+            <?php if ($_SESSION['role'] == 1) {
                 echo '<th scope="col">Option</th>';
-            }  -->
+            } ?>
             </tr>
         </thead>
         <tbody>
@@ -36,11 +36,9 @@ echo file_get_contents ('views/header.html');
                 <th scope='row'><?php echo $count+=1; ?></th>
                 <td><?php echo $ass->getAssName() ?></td>
                 <td><a href=<?php echo $ass->getAssFile();?> >View Assignment</a></td>
-                <!-- if ($_SESSION['role'] == 1) {
-                    echo '<td><form action="delete.php" method="POST">';
-                    echo '<input type="hidden" name="assDelete" value=""/>';
-                    echo "<button type='submit' name='assID' value=$row[0]>Delete</button></form></td>";
-                }  -->
+                <?php if ($_SESSION['role'] == 1): ?>
+                    <td><a href="controller/remove.php?assID=<?php echo $ass->getAssID(); ?>">Remove</a></td>
+                <?php endif; ?>
             </tr>
 <?php endforeach; ?>
         </tbody>

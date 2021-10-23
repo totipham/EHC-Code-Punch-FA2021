@@ -1,8 +1,9 @@
 <?php
-session_start();
-if (isset($_SESSION['loggedin'])) {
-	header('Location: index.php');
-	exit;
+require_once 'controller/checkPermission.php';
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() == 1) {
+    header('Location: index.php');
 }
 echo file_get_contents ('views/header.html');
 ?>

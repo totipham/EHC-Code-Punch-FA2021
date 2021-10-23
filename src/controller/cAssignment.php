@@ -103,5 +103,17 @@ class Assignment {
         dbConnect::Disconnect($conn);
         return $rows;
     }
+
+    public static function removeAss($assID) {
+        $conn = dbConnect::ConnectToDB();
+
+        $stmt = $conn->prepare('DELETE FROM assignment WHERE assID=?');
+        $res = $stmt->execute(array(
+            $assID
+        ));
+
+        $conn = null;
+        return $res;
+    }
 }
 ?>

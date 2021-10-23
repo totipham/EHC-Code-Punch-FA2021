@@ -33,7 +33,7 @@ class Upload {
         } else {
             return 0;
         }
-        dbConnect::Disconnect($conn);
+        $conn = null;
     }
 
     public static function assAnswer($assID, $target_file, $id) {

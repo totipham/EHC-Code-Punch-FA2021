@@ -1,10 +1,11 @@
 <?php
-session_start();
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: login.php');
-	exit;
-}
 require_once 'controller/cUser.php';
+require_once 'controller/checkPermission.php';
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: login.php');
+}
 echo file_get_contents('views/header.html')
 ?>
 <html lang="en">
@@ -20,7 +21,7 @@ echo file_get_contents('views/header.html')
                 <th scope="col">Name</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Email</th>
-                <?php if ($_SESSION['role'] == 1): ?>
+                <?php if ($checkPermission->isTeacher() == 1): ?>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 <?php endif; ?> 
@@ -39,7 +40,7 @@ echo file_get_contents('views/header.html')
                     <td><?php echo $stu->getName() ?></td>
                     <td><?php echo $stu->getPhone() ?></td>
                     <td><?php echo $stu->getMail() ?></td>
-                    <?php if ($_SESSION["role"] == 1): ?>
+                    <?php if ($checkPermission->isTeacher() == 1): ?>
                         <td><a href="profile.php?studentID=<?php echo $stu->getID() ?>">Edit</a></td>
                         <td><a href="controller/remove.php?studentID=<?php echo $stu->getID() ?>">Remove</a></td>
                         <td><a href="controller/add.php">Add</a></td>

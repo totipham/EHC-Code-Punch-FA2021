@@ -1,13 +1,15 @@
 <?php
-session_start();
+require_once 'checkPermission.php';
 require_once 'cUser.php';
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: ../login.php');
-	exit;
+
+$checkPermission = new checkPermission();
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: ../login.php');
 }
 
 /* Check role, only role = 1 could edit and just update student information */
-if ($_SESSION["role"] == 1) {
+if ($checkPermission->isTeacher() == 1) {
     $id = $_GET["studentID"] ?? $_SESSION["id"];
 } else {
     $id = $_SESSION["id"];
@@ -26,15 +28,16 @@ $phone = $getDefaultInformation->getPhone();
 $password = $getDefaultInformation->getPassword();
 
 
-
+/* TODO:Only teacher can edit their information as role = teacher */
 if ($username != $_SESSION['name'] && $role != 0) {
     echo "<script>alert('You are not allowed to do this!'); window.location = '../';</script>";
     exit;
 }
 
-if ($_SESSION["role"] == 1) {
-    $fullname = $_POST["fullname"] ?? $fullname;
-    $username = $_POST["username"] ?? $username;
+/* FIXME: Damn, these code under is so fucking dirty */
+if ($checkPermission->isTeacher() == 1) {
+    $fullname = ($_POST["fullname"] && !empty($_POST["fullname"])) ? $_POST["fullname"]:$fullname;
+    $username = ($_POST["username"] && !empty($_POST["username"])) ? $_POST["username"]:$username;
 } else {
     $fullname = $fullname;
     $username = $username;
@@ -42,17 +45,17 @@ if ($_SESSION["role"] == 1) {
 /* Done check */
 
 /* Set existed information if field is empty */
-$email = $_POST["email"] ?? $row->email;
-$phone = $_POST["phone"] ?? $row->phone;
-$password = $_POST["password"];
-$repassword = $_POST["repassword"];
+$email = ($_POST["email"] && !empty($_POST["email"])) ? $_POST["email"]:$email;
+$phone = ($_POST["phone"] && !empty($_POST["phone"])) ? $_POST["phone"]:$phone;
 
-if ($password != $repassword){
-    echo "<script>alert('Passwords are not matching!'); window.location = '../profile.php';</script>";
-    exit;
+if (isset($_POST["password"]) && !empty($_POST["password"])) {
+    if ($_POST["password"] != $_POST["repassword"]){
+        echo "<script>alert('Passwords are not matching!'); window.location = '../profile.php';</script>";
+        exit;
+    } else {
+        $password = md5($_POST["password"]);
+    }
 }
-
-$password = isset($_POST["password"]) ? md5($_POST["password"]) : $password;
 
 /* Update information */
 /* $sql = $con -> prepare("UPDATE account SET fullname=?, phone=? , email=?, password=? WHERE id=?");

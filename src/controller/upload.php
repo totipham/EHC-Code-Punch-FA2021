@@ -1,13 +1,13 @@
 <!-- PHP Upload File -->
 <?php
-session_start();
+require_once 'checkPermission.php';
 require_once 'cUpload.php';
-if (!isset($_SESSION['loggedin'])) {
-    header('Location: login.php');
-    exit;
+
+if($checkPermission->isLogin() != 1) {
+    header('Location: ../login.php');
 }
 
-if ($_SESSION['role'] == 1) {
+if ($checkPermission->isTeacher() == 1) {
     $target_dir = "../uploads/";
 } else {
     $target_dir = "../uploads/assignment/";
@@ -37,42 +37,18 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["assUpload"]["tmp_name"], $target_file)) {
         $uploadResult = $uploadResult . "The file has been uploaded!";
-        /* TODO: Reg ass to mysql (teacher only) */
-        if($_SESSION['role'] == 1) {
+        if($checkPermission->isTeacher() == 1) {
             if (isset($_POST["uploadAssignment"])) {
                 $assName = $_POST["assName"];
-                /* $sql = $con -> prepare ("INSERT INTO assignment (assName, assFile) VALUES (?, ?)");
-                $sql -> bind_param ('ss', $assName, $target_file);
-                $sql -> execute();
-                $sql -> close(); */
                 $uploadAss = Upload::uploadAssignment($assName, $target_file);
 
             } else if (isset($_POST["uploadGame"])) {
                 $hint = $_POST["hint"];
-                /* $sql = $con -> prepare ("UPDATE game SET gameFile=?, hint=? WHERE challID=1");
-                $sql -> bind_param ('ss', $target_file, $hint);
-                $sql -> execute();
-                $sql -> close(); */
                 $uploadGame = Upload::uploadGame($target_file, $hint);
             }
-        } else if ($_SESSION['role'] == 0) {
-            $assID=$_POST["assName"];
-            /* $sql = "INSERT INTO answerass (
-                assID,
-                assAnswer,
-                id
-            )
-            VALUE (
-                '{$assID}',
-                '{$target_file}',
-                '{$_SESSION['id']}'
-            )";
-            mysqli_query($con,$sql); */
-            $uploadAnsAss = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
-        } else {
-            /* FIXME: Need something return if error reg to mysql */
+        } else if ($checkPermission->isTeacher() != 1) {
+            $assID=$_POST["assName"];$uploadAnsAss = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
         }
-
     }else {
         $uploadError = $uploadError . "Sorry, there was an error uploading your file.";
     }
@@ -83,7 +59,6 @@ echo file_get_contents('../views/header.html');
 <header><title>Upload</title></header>
 <div class="login-form">
     <div class="form">
-        
         <?php 
         if ($uploadOk == 1):
             echo '<h3>' . $uploadResult . '</h3>';
