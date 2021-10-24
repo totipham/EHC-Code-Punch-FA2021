@@ -55,7 +55,7 @@ if (isset($_GET['successful'])) {
 <div class="container">
   <div class="vertical-center">
         <form action="assignment.php">
-            <button type="submit" class="btn btn-primary btn-block">Back to Assignment</button>              
+            <button type="submit" class="btn btn-success btn-block">Back to Assignment</button>              
         </form>
   </div>
 <?php echo file_get_contents ('views/footer.php'); ?>

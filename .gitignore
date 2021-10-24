@@ -1,2 +1,5 @@
 vendor/
 src/uploads/
+src/register.php
+src/views/style.css
+src/views/footer2.html

@@ -44,6 +44,11 @@
 		color: #0fae9e;
 		border-color: #0fae9e;
 	}
+	.btn-outline-success:hover, .btn-outline-success:focus, .btn-outline-success:active, .btn-outline-success.active, .open>.dropdown-toggle.btn-outline-success {
+		color: #fff;
+		background-color: #217a4b;
+		border-color: #217a4b;
+	}
 	.btn-primary {
 		background-color: #0fae9e;
     	border-color: #0fae9e;

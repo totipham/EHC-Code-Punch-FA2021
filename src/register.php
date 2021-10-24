@@ -3,14 +3,14 @@ require_once 'controller/checkPermission.php';
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() == 1) {
-    header('Location: index.php');
+    header('Location: index');
 }
-echo file_get_contents ('views/header.html');
+echo file_get_contents ('views/header.php');
 ?>
 
 <header><title>Register</title></header>
 <div class="login-form">
-    <form class="form" action="controller/register_check.php" method="POST">
+    <form class="form" action="controller/addcheck.php" method="POST">
         <h2 class="text-center">Register</h2>     
         <div class="form-group">
             <input type="text" class="form-control" name="fullname" placeholder="Fullname" required="required">
@@ -41,4 +41,4 @@ echo file_get_contents ('views/header.html');
     <button onclick="location.href='login.php'" type="submit" class="btn btn-primary btn-block">Login</button>
 </div>
 
-<?php echo file_get_contents ('views/footer.html'); ?>
+<?php echo file_get_contents ('views/footer.php'); ?>
