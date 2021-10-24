@@ -41,9 +41,9 @@ echo file_get_contents ('views/header.php');
 </div>
 <div class="container">
   <div class="vertical-center">
-        <form action="assignment.php">
+        <a href="assignment">
             <button type="submit" class="btn btn-success btn-block">Back to Assignment</button>              
-        </form>
+        </a>
   </div>
 </div>
 <?php

@@ -115,7 +115,7 @@ else:
             </div>
         </form>
         <a href="./">
-            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
+            <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>              
         </a>
     </div>
 </div>
