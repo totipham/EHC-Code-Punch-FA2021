@@ -12,7 +12,7 @@ class checkPermission {
     }
 
     public function isTeacher() {
-        if ($_SESSION["role"] == 1) {
+        if (isset($_SESSION["role"]) && $_SESSION["role"] == 1) {
             return 1;
         }
         return 0;

@@ -35,16 +35,11 @@ class Game {
     public static function fetchFullname($id) {
         $conn = dbConnect::ConnectToDB();
         $fullname_fetch = $conn -> prepare("SELECT fullname FROM account WHERE id=?");
-        /* $fullname_fetch -> bind_param ('i', $id);
-        $fullname_fetch -> execute(); */
-        $res = $fullname_fetch->execute(array(
+        $fullname_fetch->execute(array(
             $id
         ));
-        if ($fullname_fetch->columnCount() > 0) {
-            /* $stmt->bind_result($id, $password, $role); */
-            $row = $fullname_fetch->fetchObject();
-        }
-        return $row->fullname;
+        $fullname = ($fullname_fetch->fetchObject())->fullname;
+        return $fullname;
         $conn = null;
     }
 

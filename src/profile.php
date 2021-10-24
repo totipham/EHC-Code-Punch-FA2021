@@ -1,6 +1,7 @@
 <?php
 require_once 'controller/cUser.php';
 require_once 'controller/checkPermission.php';
+require_once 'controller/cPopup.php';
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() != 1) {
@@ -28,10 +29,22 @@ if ($username != $_SESSION['name'] && $role != 0) {
     exit;
 }
 
-echo file_get_contents ('views/header.html');
+echo file_get_contents ('views/header.php');
+if (isset($_GET['successful'])):
+    if ($_GET['successful'] == 1) {
+        $popUp = Popup::oneButton("Profile", "Update information successfully!");
+    } elseif ($_GET['successful'] == 2) {
+        $popUp = Popup::oneButton("Profile", "You are not allowed to do this!");
+    } elseif ($_GET['successful'] == 0) {
+        $popUp = Popup::oneButton("Profile", "Update information not successfully!");
+    } elseif ($_GET['successful'] == 3){
+        $popUp = Popup::oneButton("Profile", "Passwords are not matching!");
+    }
+endif;
 ?>
+
 <header><title>Profile</title></header>
-<div class="login-form">
+<div style="width: 340px;margin: 30px auto;">
     <form class="form" action="controller/edit.php?studentID=<?php echo $id; ?>" method="POST">
         <h2 class="text-center"><?php echo $username . " 's Profile"; ?></h2>
         <p style="text-align: center;">Edit these fields to update information!</p>
@@ -58,8 +71,8 @@ echo file_get_contents ('views/header.html');
         </div>
         <button type="submit" class="btn btn-primary btn-block" id="updateButton">Update Information</button>              
     </form>
-    <a href="./">
-        <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>
+    <a href=<?=(isset($_GET['studentID'])) ? "./student":"./"?>>
+        <button type="submit" class="btn btn-primary btn-block"><?=(isset($_GET['studentID'])) ? "Back to Student":"Back to Dashboard"?></button>
     </a>
 </div>
-<?php echo file_get_contents ('views/footer.html'); ?>
+<?php echo file_get_contents ('views/footer.php'); ?>

@@ -2,10 +2,11 @@
 require_once 'checkPermission.php';
 require_once 'cUser.php';
 
+
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() != 1) {
-    header('Location: ../login.php');
+    header('Location: ../login');
 }
 
 /* Check role, only role = 1 could edit and just update student information */
@@ -30,7 +31,8 @@ $password = $getDefaultInformation->getPassword();
 
 /* TODO:Only teacher can edit their information as role = teacher */
 if ($username != $_SESSION['name'] && $role != 0) {
-    echo "<script>alert('You are not allowed to do this!'); window.location = '../';</script>";
+    /* echo "<script>alert('You are not allowed to do this!'); window.location = '../';</script>"; */
+    header('Location: ../profile?successful=2');
     exit;
 }
 
@@ -50,7 +52,8 @@ $phone = ($_POST["phone"] && !empty($_POST["phone"])) ? $_POST["phone"]:$phone;
 
 if (isset($_POST["password"]) && !empty($_POST["password"])) {
     if ($_POST["password"] != $_POST["repassword"]){
-        echo "<script>alert('Passwords are not matching!'); window.location = '../profile.php';</script>";
+        /* echo "<script>alert('Passwords are not matching!'); window.location = '../profile.php';</script>"; */
+        header('Location: ../profile?successful=3');
         exit;
     } else {
         $password = md5($_POST["password"]);
@@ -64,8 +67,10 @@ $sql -> execute();
 $sql -> close(); */
 
 if ($editInfo = User::editInfo($id, $fullname, $phone, $email, $password) == 1) {
-    echo "<script>alert('Update information successfully!'); window.location = '../profile.php?studentID=$id';</script>";
+    /* echo "<script>alert('Update information successfully!'); window.location = '../profile.php?studentID=$id';</script>"; */
+    header('Location: ../profile?studentID='.$id.'&successful=1');
 } else {
-    echo "<script>alert('Update information not successfully!'); window.location = '../profile.php?studentID=$id';</script>";
+    /* echo "<script>alert('Update information not successfully!'); window.location = '../profile.php?studentID=$id';</script>"; */
+    header('Location: ../profile?studentID='.$id.'&successful=0');
 }
 ?>

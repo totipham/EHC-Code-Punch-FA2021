@@ -2,15 +2,21 @@
 <?php
 require_once 'checkPermission.php';
 require_once 'cUpload.php';
-
+$checkPermission = new checkPermission();
 if($checkPermission->isLogin() != 1) {
-    header('Location: ../login.php');
+    header('Location: ../login');
 }
 
 if ($checkPermission->isTeacher() == 1) {
     $target_dir = "../uploads/";
 } else {
     $target_dir = "../uploads/assignment/";
+}
+
+if (isset($_GET['game']) && $_GET['game'] == 1) {
+    $type = 'challenge';
+} else {
+    $type = 'assignment';
 }
 
 $target_file = $target_dir . basename($_FILES["assUpload"]["name"]);
@@ -33,10 +39,11 @@ if($fileType != "pdf" && $fileType != "txt") { /* TODO: Only accept pdf, txt ext
 }
 
 if ($uploadOk == 0) {
-    $uploadResult = "Sorry, your file was not uploaded.";
+    header('Location: ../'.$type.'?successful=2');
+    exit;
 } else {
     if (move_uploaded_file($_FILES["assUpload"]["tmp_name"], $target_file)) {
-        $uploadResult = $uploadResult . "The file has been uploaded!";
+        
         if($checkPermission->isTeacher() == 1) {
             if (isset($_POST["uploadAssignment"])) {
                 $assName = $_POST["assName"];
@@ -49,33 +56,15 @@ if ($uploadOk == 0) {
         } else if ($checkPermission->isTeacher() != 1) {
             $assID=$_POST["assName"];$uploadAnsAss = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
         }
+        $uploadResult = $uploadResult . "The file has been uploaded!";
+        //echo "<script>alert('".$uploadResult."'); window.location = '../assignment.php?successful=1';</script>";
+        header('Location: ../'.$type.'?successful=1');
+        exit;
     }else {
-        $uploadError = $uploadError . "Sorry, there was an error uploading your file.";
+        /* $uploadError = $uploadError . "Sorry, there was an error uploading your file."; */
+        //echo "<script>alert('".$uploadResult."'); window.location = '../assignment.php?successful=2';</script>";
+        header('Location: ../'.$type.'?successful=2');
+        exit;
     }
 }
-
-echo file_get_contents('../views/header.html');
 ?>
-<header><title>Upload</title></header>
-<div class="login-form">
-    <div class="form">
-        <?php 
-        if ($uploadOk == 1):
-            echo '<h3>' . $uploadResult . '</h3>';
-        ?>
-        <a href= <?php echo $target_file ?>>
-            <button type="submit" class="btn btn-primary btn-block">View Assignment</button>
-        </a><br>
-        <?php
-        else: 
-            echo '<h3>' . $uploadError . '</h3>';
-        endif;
-        ?>
-
-        <form action='../'>   
-            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
-        </form>
-    </div>
-</div>
-
-<?php echo file_get_contents('../views/header.html'); ?>  

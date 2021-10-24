@@ -4,7 +4,7 @@ require_once 'cUser.php';
 
 $checkPermission = new checkPermission();
 if($checkPermission->isLogin() == 1) {
-    header('Location: ../index.php');
+    header('Location: ../');
 }
 
 if (($checkPermission->isTeacher() == 1) && ($_GET['student'] == 1)) {
@@ -29,16 +29,16 @@ if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) 
     }
 
     if ($password != $repassword){
-        echo "<script>alert('Passwords are not matching!'); window.location = '../register.php';</script>";
+        header('Location: ../student?addstatus=2');
         exit;
     }
 
     $user = new User($fullname, $username, $id, $phone, $email, $password, $role);
     if ($user->addToDB() == 1) {
-        echo "<script>alert('Register successfully!'); window.location = '../login.php';</script>";
+        header('Location: ../student?addstatus=1');
         exit;
     } else {
-        echo "<script>alert('Register not successfully!'); window.location = '../login.php';</script>";
+        header('Location: ../student?addstatus=0');
         exit;
     }
 

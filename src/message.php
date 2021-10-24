@@ -3,13 +3,13 @@ require_once 'controller/checkPermission.php';
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() != 1) {
-    header('Location: login.php');
+    header('Location: login');
 }
 require_once 'controller/cUser.php';
-echo file_get_contents('views/header.html')
+echo file_get_contents('views/header.php')
 ?>
-<html lang="en">
-
+<php lang="en">
+<header><title>Message</title></header>
 <body>
     
     <div class="table-form">
@@ -17,10 +17,10 @@ echo file_get_contents('views/header.html')
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Role</th>
-                <th scope="col"></th>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Role</th>
+                <th scope="col" class="text-center"></th>
             </tr>
         </thead>
         <tbody>
@@ -32,10 +32,10 @@ echo file_get_contents('views/header.html')
             ?>
 
                 <tr>
-                    <td><?php echo ++$count ?></td>
-                    <td><?php echo $user->getName() ?></td>
-                    <td><?php echo $user->getRole() ?></td>
-                    <td><a href="messagebox.php?toID=<?php echo $user->getID() ?>">Message</a></td>
+                    <td class="text-center"><?=++$count ?></td>
+                    <td class="text-center"><?=$user->getName() ?></td>
+                    <td class="text-center"><?=($user->getRole() == 1) ? "Teacher":"Student" ?></td>
+                    <td class="text-center"><a href="messagebox?toID=<?php echo $user->getID() ?>"><button class="btn btn-outline-primary">Message</button></a></td>
                     
                 </tr>
             <?php
@@ -51,5 +51,4 @@ echo file_get_contents('views/header.html')
         </tr>
     </a>
 </div>                
-</body>
-</html>
+<?php echo file_get_contents ('views/footer.php'); ?>

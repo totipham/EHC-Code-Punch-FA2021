@@ -116,8 +116,8 @@ class User {
         /* $stmt->bind_param("ssssii", $username, $password, $fullname, $email, $phone, $role); */
         $res = $stmt->execute(array(
             $username,
-            $password,
-            md5($fullname),
+            md5($password),
+            $fullname,
             $email,
             $phone,
             $role
@@ -129,14 +129,15 @@ class User {
 
     public static function checkInfo($username, $password) {
         $conn = dbConnect::ConnectToDB();
-        if ($stmt = $conn -> prepare ('SELECT id, password, role FROM account WHERE username=?')) {
+        if ($stmt = $conn -> prepare ('SELECT COUNT(*), id, password, role FROM account WHERE username=?')) {
             $res = $stmt->execute(array(
                 $username
             ));
+            $row = $stmt->fetch();
             /* $stmt -> store_result(); */
-            if ($stmt->columnCount() > 0) {
+            if ($row > 0) {
                 /* $stmt->bind_result($id, $password, $role); */
-                $row = $stmt->fetch();
+                /* $row = $stmt->fetch(); */
                 if (md5($password) === $row['password']) {
                     /* session_start(); */
                     session_regenerate_id();
@@ -223,13 +224,24 @@ class User {
     public static function removeUser($userID) {
         $conn = dbConnect::ConnectToDB();
 
-        $stmt = $conn->prepare('DELETE FROM account WHERE id=?');
-        $res = $stmt->execute(array(
+        $stmt1 = $conn->prepare('DELETE FROM account WHERE id=?');
+        $res1 = $stmt1->execute(array(
             $userID
         ));
-
+        $stmt2 = $conn->prepare('DELETE FROM gameans WHERE id=?');
+        $res2 = $stmt2->execute(array(
+            $userID
+        ));
+        $stmt3 = $conn->prepare('DELETE FROM answerass WHERE id=?');
+        $res3 = $stmt3->execute(array(
+            $userID
+        ));
+        $stmt4 = $conn->prepare('DELETE FROM message WHERE toID=? OR fromID=?');
+        $res4 = $stmt4->execute(array(
+            $userID
+        ));
         $conn = null;
-        return $res;
+        return ($res1 ||$res2 ||$res3 ||$res4);
     }
 }
 ?>

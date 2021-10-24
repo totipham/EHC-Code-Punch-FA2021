@@ -8,18 +8,18 @@ require_once 'cUser.php';
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() == 1) {
-    header('Location: ../index.php');
+    header('Location: ../');
 }
 
 $username = $_POST['username'];
 $password = $_POST['password'];
 
 if (!isset($username, $password)) {
-    echo "<script>alert('Please fill both the username and password fields!'); window.location = '../login.php';</script>";
+    header('Location: ../login?status=2');
 }
 if ($userLogin = User::checkInfo($username, $password) == 1) {
-    header("Location: ../index.php");
+    header("Location: ../");
 } else {
-    echo "<script>alert('Incorrect username and/or password!'); window.location = '../login.php';</script>";
+    header('Location: ../login?status=0');
 }
 ?>

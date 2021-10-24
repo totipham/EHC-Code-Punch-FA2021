@@ -7,7 +7,7 @@ if($checkPermission->isLogin() != 1) {
     header('Location: login.php');
 }
 
-echo file_get_contents ('views/header.html');
+echo file_get_contents ('views/header.php');
 ?>
 
 <header><title>View Assignment</title></header>
@@ -29,10 +29,10 @@ echo file_get_contents ('views/header.html');
 ?>
         <tr>
             <th scope="row"><?php echo $count+=1; ?></th>
-            <td><?php echo $assAns->getAssName(); ?></td>
-            <td><?php echo $assAns->getFullname(); ?></td>
+            <td><?php echo htmlspecialchars($assAns->getAssName(), ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php echo htmlspecialchars($assAns->getFullname(), ENT_QUOTES, 'UTF-8'); ?></td>
             <td>
-                <a href="<?php echo '../' . $assAns->getAssAnswer(); ?>">View Assignment</a>
+                <a href="<?php echo  $assAns->getAssAnswer(); ?>" target="_blank" rel="noopener noreferrer">View Assignment</a>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -41,11 +41,11 @@ echo file_get_contents ('views/header.html');
 </div>
 <div class="container">
   <div class="vertical-center">
-        <form action="index.php">
-            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
+        <form action="assignment.php">
+            <button type="submit" class="btn btn-primary btn-block">Back to Assignment</button>              
         </form>
   </div>
 </div>
 <?php
-echo file_get_contents ('views/footer.html'); 
+echo file_get_contents ('views/footer.php'); 
 ?>

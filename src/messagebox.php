@@ -8,13 +8,14 @@ if($checkPermission->isLogin() != 1) {
     header('Location: login.php');
 }
 
-echo file_get_contents ('views/header.html');
+echo file_get_contents ('views/header.php');
 ?>
 
 <header><title>Chat</title></header>
-<div class="upload-form">
-    <div class="form">
+<div style="width: 600px;margin: 40px auto;">
+    <div class="container">
         <input type="text" value='<?php echo $_SESSION['id']; ?>' id="fromID" hidden/>
+        <br>
         <div class="">
             <?php
                 if (isset($_GET['toID'])):
@@ -35,7 +36,7 @@ echo file_get_contents ('views/header.html');
                     $_SESSION['toID'] = $uName['id']; ?>
                     <input type="text" value=<?php echo $_SESSION['toID']; ?> id="toID" hidden/>
                     <h2 class="text-center"><?php echo $uName['fullname']; ?></h2> */
-                    header("Location: index.php");
+                    header("Location: index");
                 endif; ?>
         </div> 
         <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;">
@@ -72,7 +73,7 @@ echo file_get_contents ('views/header.html');
             <button id="send" class="btn btn-primary" style="height:70px;">Send</button>
         </div>
     </div>
-    <button onclick="location.href='message.php'" type="submit" class="btn btn-primary btn-block">Back to Message</button>
+    <button onclick="location.href='message'" type="submit" class="btn btn-primary btn-block">Back to Message</button>
 </div>
 </body>
 
@@ -97,6 +98,7 @@ $(document).ready(function() {
                 $("#message").val("");
             }
         });
+        messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
     });
 
     setInterval(function(){
@@ -115,4 +117,4 @@ $(document).ready(function() {
     }, 700);
 });
 </script>
-</html>
+<?php echo file_get_contents ('views/footer.php'); ?>

@@ -4,20 +4,20 @@ require_once 'checkPermission.php';
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() != 1) {
-    header('Location: ../login.php');
+    header('Location: ../');
 }
 
 if ($checkPermission->isTeacher() != 1) {
-    echo "<script>alert('You are not allowed to access this page!'); window.location = '../index.php';</script>";
+    echo "<script>alert('You are not allowed to access this page!'); window.location = '../';</script>";
     exit;
 }
 
-echo file_get_contents ('../views/header.html');
+echo file_get_contents ('../views/cHeader.php');
 ?>
 <header><title>Add student</title></header>
 
 <div class="login-form">
-    <form class="form" action="register_check.php?student=1" method="POST">
+    <form class="form" action="addcheck.php?student=1" method="POST">
         <h2 class="text-center">Add student</h2>     
         <div class="form-group">
             <input type="text" class="form-control" name="fullname" placeholder="Fullname" required="required">
@@ -39,6 +39,7 @@ echo file_get_contents ('../views/header.html');
         </div>
         <button type="submit" class="btn btn-primary btn-block">Add</button>              
     </form>
+    <button onclick="location.href='../student'" type="submit" class="btn btn-primary btn-block">Back to Student</button>
 </div>
 
-<?php echo file_get_contents ('../views/footer.html'); ?>
+<?php echo file_get_contents ('../views/footer.php'); ?>

@@ -1,22 +1,38 @@
 <?php
 require_once 'controller/cGame.php';
 require_once 'controller/checkPermission.php';
+require_once 'controller/cPopup.php';
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() != 1) {
-    header('Location: login.php');
+    header('Location: login');
 }
 
-echo file_get_contents('views/header.html');
+echo file_get_contents('views/header.php');
+if (isset($_GET['successful'])):
+    if ($_GET['successful'] == 1) {
+        $popUp = Popup::oneButton("Upload", "The file has been uploaded!");
+    } elseif ($_GET['successful'] == 2) {
+        $popUp = Popup::oneButton("Upload", "There was an error uploading this file!");
+    }
+endif;
+if (isset($_GET['correct'])):
+    if ($_GET['correct'] == 1) {
+        $popUp = Popup::oneButton("Result", "Correct!");
+    } elseif ($_GET['correct'] == 0) {
+        $popUp = Popup::oneButton("Result", "Incorrect!");
+    }
+endif;
 ?>
 
 <header><title>Challenge</title></header>
 
 <?php if ($checkPermission->isTeacher() == 1):?>
+<div class="container" style="margin: 50px auto;">
     <div class="row"> 
         <div class="col-md">
-            <div class="upload-form">
-                <form action="controller/upload.php" method="POST" enctype= "multipart/form-data">
+            <div class="">
+                <form action="controller/upload.php?game=1" method="POST" enctype= "multipart/form-data">
                     <input type="text" name="uploadGame" value="1" hidden>
                     <div class="form-group">
                         <h2 class="text-center">Upload Challenge</h2>  
@@ -40,7 +56,7 @@ echo file_get_contents('views/header.html');
             </div>
         </div>
         <div class="col-md">
-            <div class="upload-form">
+            <div class="">
                 <div class="form-group"><br>
                     <h2 class="text-center">Student Result</h2>
                     <div class="table-form">
@@ -102,7 +118,7 @@ else:
             <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
         </a>
     </div>
-
+</div>
 <?php 
 /* TODO: Check answer */
 if (isset($_POST["gameAns"])) {
@@ -112,15 +128,14 @@ if (isset($_POST["gameAns"])) {
 if (isset($answer)) {
     if ("uploads/" . $answer === $flag) {
         $result = 1;
-        echo "<script>alert('Correct!');</script>";
+       /*  echo "<script>alert('Correct!');</script>"; */
     } else {
         $result = 0;
-        echo "<script>alert('Incorrect!');</script>";
+        /* echo "<script>alert('Incorrect!');</script>"; */
     }
-
     $regResultRes = Game::regResult($result, $_SESSION['id']);
-    echo "<script>window.location = 'challenge.php';</script>";
+    header('Location: challenge?correct='.$result);
 }
-echo file_get_contents ("views/footer.html");
 endif;
+echo file_get_contents ("views/footer.php");
 ?>

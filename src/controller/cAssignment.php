@@ -41,11 +41,6 @@ class Assignment {
     public static function fetchFullname($id) {
         $conn = dbConnect::ConnectToDB();
         $fullname_fetch = $conn -> prepare("SELECT fullname FROM account WHERE id=?");
-        /* $fullname_fetch -> bind_param ('i', $id);
-        $fullname_fetch -> execute();
-        $fullname_fetch -> store_result();
-        $fullname_fetch->bind_result($fullname);
-        $fullname_fetch->fetch(); */
         $fullname_fetch->execute(array(
             $id
         ));
@@ -108,12 +103,17 @@ class Assignment {
         $conn = dbConnect::ConnectToDB();
 
         $stmt = $conn->prepare('DELETE FROM assignment WHERE assID=?');
-        $res = $stmt->execute(array(
+        $res1 = $stmt->execute(array(
+            $assID
+        ));
+
+        $stmt = $conn->prepare('DELETE FROM answerass WHERE assID=?');
+        $res2 = $stmt->execute(array(
             $assID
         ));
 
         $conn = null;
-        return $res;
+        return ($res1 || $res2);
     }
 }
 ?>
