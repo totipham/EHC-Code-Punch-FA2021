@@ -39,5 +39,3 @@ foreach ($messages as $mess):
 endforeach;
 
 echo $res;
-
-?>

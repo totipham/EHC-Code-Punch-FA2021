@@ -19,4 +19,3 @@ $message = $_POST["message"];
 
 $res = "";
 echo $res .= Message::insertToDB($fromID, $toID, $message);
-?>

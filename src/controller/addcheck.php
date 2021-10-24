@@ -62,4 +62,3 @@ if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) 
 } else {
    
 }
-?>

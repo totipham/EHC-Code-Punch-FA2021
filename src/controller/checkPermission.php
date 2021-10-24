@@ -18,4 +18,3 @@ class checkPermission {
         return 0;
     }
 }
-?>

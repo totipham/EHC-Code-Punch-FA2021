@@ -116,4 +116,3 @@ class Assignment {
         return ($res1 || $res2);
     }
 }
-?>
