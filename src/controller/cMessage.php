@@ -26,7 +26,7 @@ class Message {
         $this->messID = $messID;
     }
     
-    function setFromID() {
+    function setFromID($fromID) {
         $this->fromID = $fromID;
     }
 
@@ -81,4 +81,3 @@ class Message {
         return $rows;
     }
 }
-?>

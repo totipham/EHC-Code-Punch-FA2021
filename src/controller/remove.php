@@ -32,4 +32,3 @@ if (isset($_GET["studentID"])) {
     header('Location: ../index');
     exit;
 }
-?>

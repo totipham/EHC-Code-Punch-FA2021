@@ -52,4 +52,3 @@ class Upload {
         $conn = null;
     }
 }
-?>

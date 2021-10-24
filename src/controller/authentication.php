@@ -22,4 +22,3 @@ if ($userLogin = User::checkInfo($username, $password) == 1) {
 } else {
     header('Location: ../login?status=0');
 }
-?>

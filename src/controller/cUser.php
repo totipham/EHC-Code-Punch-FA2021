@@ -35,7 +35,7 @@ class User {
         $this->name = $aName;
     }
     
-    function setUsername() {
+    function setUsername($aUsername) {
         $this->username = $aUsername;
     }
 

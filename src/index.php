@@ -1,17 +1,19 @@
 <?php
-require ("../vendor/autoload.php");
+require("../vendor/autoload.php");
 require_once 'controller/checkPermission.php';
 $checkPermission = new checkPermission();
 
-if($checkPermission->isLogin() != 1) {
+if ($checkPermission->isLogin() != 1) {
     header('Location: login');
 }
 
-echo file_get_contents ('views/header.php');
+echo file_get_contents('views/header.php');
 ?>
-<header><title>Dashboard</title></header>
+<header>
+    <title>Dashboard</title>
+</header>
 <div class="login-form">
-    <h2 class="text-center">Welcome back, <?=$_SESSION['name']?></h2><br>
+    <h2 class="text-center">Welcome back, <?= $_SESSION['name'] ?></h2><br>
     <a href='student'>
         <button type="submit" class="btn btn-success btn-block">Student List</button>
     </a><br>
@@ -32,4 +34,4 @@ echo file_get_contents ('views/header.php');
     </a> -->
 </div>
 
-<?php echo file_get_contents ('views/footer.php'); ?>
+<?php echo file_get_contents('views/footer.php'); ?>

@@ -4,7 +4,7 @@ require_once 'controller/checkPermission.php';
 require_once 'controller/cPopup.php';
 $checkPermission = new checkPermission();
 
-if($checkPermission->isLogin() != 1) {
+if ($checkPermission->isLogin() != 1) {
     header('Location: login.php');
 }
 
@@ -29,39 +29,41 @@ if ($username != $_SESSION['name'] && $role != 0) {
     exit;
 }
 
-echo file_get_contents ('views/header.php');
-if (isset($_GET['successful'])):
+echo file_get_contents('views/header.php');
+if (isset($_GET['successful'])) :
     if ($_GET['successful'] == 1) {
         $popUp = Popup::oneButton("Profile", "Update information successfully!");
     } elseif ($_GET['successful'] == 2) {
         $popUp = Popup::oneButton("Profile", "You are not allowed to do this!");
     } elseif ($_GET['successful'] == 0) {
         $popUp = Popup::oneButton("Profile", "Update information not successfully!");
-    } elseif ($_GET['successful'] == 3){
+    } elseif ($_GET['successful'] == 3) {
         $popUp = Popup::oneButton("Profile", "Passwords are not matching!");
     }
 endif;
 ?>
 
-<header><title>Profile</title></header>
+<header>
+    <title>Profile</title>
+</header>
 <div style="width: 340px;margin: 30px auto;">
     <form class="form" action="controller/edit.php?studentID=<?php echo $id; ?>" method="POST">
         <h2 class="text-center"><?php echo $username . " 's Profile"; ?></h2>
         <p style="text-align: center;">Edit these fields to update information!</p>
-        <?php if ($checkPermission->isTeacher() == 1): ?>
+        <?php if ($checkPermission->isTeacher() == 1) : ?>
             <div class="form-group">
-                <input type="text" class="form-control" name="username" value="<?=$username?>">
+                <input type="text" class="form-control" name="username" value="<?= $username ?>">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="fullname" value="<?=$fullname?>">
+                <input type="text" class="form-control" name="fullname" value="<?= $fullname ?>">
             </div>
-            <input type="text" class="form-control" name="studentID" value="<?=$id?>" hidden>
+            <input type="text" class="form-control" name="studentID" value="<?= $id ?>" hidden>
         <?php endif; ?>
         <div class="form-group">
-            <input type="email" class="form-control" name="email" value="<?=$email?>" placeholder="Email">
+            <input type="email" class="form-control" name="email" value="<?= $email ?>" placeholder="Email">
         </div>
         <div class="form-group">
-            <input type="text" pattern="[0-9]{3,10}" class="form-control" name="phone" value="<?=$phone?>" placeholder="Phone Number">
+            <input type="text" pattern="[0-9]{3,10}" class="form-control" name="phone" value="<?= $phone ?>" placeholder="Phone Number">
         </div>
         <div class="form-group">
             <input type="password" pattern="^w+\@w+\.w+$" class="form-control" name="password" placeholder="Password">
@@ -69,10 +71,10 @@ endif;
         <div class="form-group">
             <input type="password" class="form-control" name="repassword" placeholder="Enter Password Again">
         </div>
-        <button type="submit" class="btn btn-success btn-block" id="updateButton">Update Information</button>              
+        <button type="submit" class="btn btn-success btn-block" id="updateButton">Update Information</button>
     </form>
-    <a href=<?=(isset($_GET['studentID'])) ? "./student":"./"?>>
-        <button type="submit" class="btn btn-success btn-block"><?=(isset($_GET['studentID'])) ? "Back to Student":"Back to Dashboard"?></button>
+    <a href=<?= (isset($_GET['studentID'])) ? "./student" : "./" ?>>
+        <button type="submit" class="btn btn-success btn-block"><?= (isset($_GET['studentID'])) ? "Back to Student" : "Back to Dashboard" ?></button>
     </a>
 </div>
-<?php echo file_get_contents ('views/footer.php'); ?>
+<?php echo file_get_contents('views/footer.php'); ?>
