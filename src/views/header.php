@@ -40,7 +40,24 @@
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
 	}
-   
+	.btn-primary {
+		background-color: #0fae9e;
+    	border-color: #0fae9e;
+	}
+	.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+		color: #fff;
+		background-color: #217a4b;
+		border-color: #217a4b;
+	}
+	.btn-success:active:focus {
+		color: #ffffff; 
+		background-color: #217a4b; 
+		border-color: #217a4b;
+	}
+	.btn-outline-primary {
+		color: #217a4b;
+		border-color: #217a4b;
+	}
 </style>
 </head>
 <body>
