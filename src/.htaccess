@@ -7,3 +7,10 @@ RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
 Options All -Indexes
+
+<Files .htaccess>
+	Order allow,deny
+	Deny from all
+</Files>
+
+DirectoryIndex index.php
