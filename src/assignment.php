@@ -98,9 +98,9 @@ else:
 
 <div class="container">
   <div class="vertical-center">
-        <form action="./">
-            <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>              
-        </form>
+        <a href="./">
+            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
+        </a>
   </div>
 </div>
 
