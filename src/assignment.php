@@ -33,7 +33,7 @@ if ($checkPermission->isTeacher() == 1): ?>
                                 <h2 class="text-center">Upload Assignment</h2>  
                                 <input type="text" name="uploadAssignment" value="1" hidden>
                                 <div class="form-group">
-                                    <input type="text" class="form-control-file" name="assName" placeholder="Assignment Name" required="required">
+                                    <input type="text" class="form-control" name="assName" placeholder="Assignment Name" required="required">
                                 </div>
                                 <div class="form-group">
                                     <input type="file" class="form-control-file" name="assUpload" required>
