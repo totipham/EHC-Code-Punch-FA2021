@@ -47,11 +47,11 @@ endif;
                                 <textarea class="form-control" name="hint"></textarea>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Upload</button> 
+                        <button type="submit" class="btn btn-success btn-block">Upload</button> 
                     </div>
                 </form>
                 <a href="./">
-                    <button type="submit" class="btn btn-primary btn-block">Back to dashboard</button>              
+                    <button type="submit" class="btn btn-success btn-block">Back to dashboard</button>              
                 </a>
             </div>
         </div>

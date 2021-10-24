@@ -13,16 +13,16 @@ echo file_get_contents ('views/header.php');
 <div class="login-form">
     <h2 class="text-center">Welcome back, <?=$_SESSION['name']?></h2><br>
     <a href='student'>
-        <button type="submit" class="btn btn-primary btn-block">Student List</button>
+        <button type="submit" class="btn btn-success btn-block">Student List</button>
     </a><br>
     <!-- <a href='profile'>
         <button type="submit" class="btn btn-primary btn-block">Update Information</button>
     </a><br> -->
     <a href='assignment'>
-        <button type="submit" class="btn btn-primary btn-block">Assignment Management</button>
+        <button type="submit" class="btn btn-success btn-block">Assignment Management</button>
     </a><br>
     <a href='challenge'>
-        <button type="submit" class="btn btn-primary btn-block">Challenge</button>
+        <button type="submit" class="btn btn-success btn-block">Challenge</button>
     </a><br>
     <!-- <a href='message'>
         <button type="submit" class="btn btn-primary btn-block">Message</button>

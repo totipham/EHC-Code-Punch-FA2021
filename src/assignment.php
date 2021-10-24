@@ -38,7 +38,7 @@ if ($checkPermission->isTeacher() == 1): ?>
                                 <div class="form-group">
                                     <input type="file" class="form-control-file" name="assUpload" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block">Upload</button> 
+                                <button type="submit" class="btn btn-success btn-block">Upload</button> 
                             </div>
                         </form>
                     </div>
@@ -52,11 +52,11 @@ if ($checkPermission->isTeacher() == 1): ?>
                         <div class="form-group"><br>
                             <h2 class="text-center">Assignment Management</h2><br>
                             <a href="submitted">
-                                <button type="submit" class="btn btn-primary btn-block">Student's Assignment</button> 
+                                <button type="submit" class="btn btn-success btn-block">Student's Assignment</button> 
                             </a>
                             <br>
                             <a href="view_assignment">
-                                <button type="submit" class="btn btn-primary btn-block">Given Assignment</button> 
+                                <button type="submit" class="btn btn-success btn-block">Given Assignment</button> 
                             </a>
                         </div>
                     </div>
@@ -85,11 +85,11 @@ else:
                     <div class="form-group">
                         <input type="file" class="form-control-file" name="assUpload" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Upload</button> 
+                    <button type="submit" class="btn btn-success btn-block">Upload</button> 
                 </div>
             </form>
             <a href="view_assignment">
-            <button type="submit" class="btn btn-primary btn-block">Given Assignment</button>
+            <button type="submit" class="btn btn-success btn-block">Given Assignment</button>
             </a>
         </div>
     </div>
@@ -99,7 +99,7 @@ else:
 <div class="container">
   <div class="vertical-center">
         <form action="./">
-            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>              
+            <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>              
         </form>
   </div>
 </div>

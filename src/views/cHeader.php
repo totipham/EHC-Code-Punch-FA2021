@@ -40,6 +40,10 @@
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
 	}
+	.btn-outline-success {
+		color: #0fae9e;
+		border-color: #0fae9e;
+	}
 	.btn-primary {
 		background-color: #0fae9e;
     	border-color: #0fae9e;
@@ -83,5 +87,5 @@
 				<a class="p-2 text-dark" href="../profile">My Profile</a>
 				<a class="p-2 text-dark" href="../message">Message</a>
 			</nav>
-		<a class="btn btn-outline-primary" href="logout">Logout</a>
+		<a class="btn btn-outline-success" href="logout">Logout</a>
 	</div>

@@ -22,7 +22,7 @@ $messages = Message::getMessage($fromID, $toID);
 foreach ($messages as $mess):
     if ($mess->getFromID() == $fromID):
         $res .= "<div style='text-align:right;'>
-        <p style='text-align: left;max-width:260px;height:auto;color:#ffff;background-color:#004C99; word-wrap:break-word; display:inline-block;
+        <p style='text-align: left;max-width:260px;height:auto;color:#ffff;background-color:#2cb8aa; word-wrap:break-word; display:inline-block;
         padding:5px; border-radius:10px; max width:70%;'>
         " . $mess->getContent() . "
         </p>

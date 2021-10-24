@@ -56,7 +56,7 @@ echo file_get_contents ('views/header.php');
                 foreach ($messages as $mess):
                     if ($mess->getFromID() == $_SESSION['id']): ?>
                             <div style='text-align:right;'>
-                                <p style='text-align: left;max-width:260px;height:auto;color:#ffff;background-color:#004C99; word-wrap:break-word; display:inline-block;
+                                <p style='text-align: left;max-width:260px;height:auto;color:#ffff;background-color:#2cb8aa; word-wrap:break-word; display:inline-block;
                                 padding:5px; border-radius:10px; max width:70%;'><?php echo $mess->getContent(); ?></p>
                             </div>
                             
@@ -70,10 +70,10 @@ echo file_get_contents ('views/header.php');
         </div>  
         <div class="modal-footer">
             <textarea id="message" class="form-control" style="height:70px;width:438px;"></textarea>
-            <button id="send" class="btn btn-primary" style="height:70px;">Send</button>
+            <button id="send" class="btn btn-success" style="height:70px;">Send</button>
         </div>
     </div>
-    <button onclick="location.href='message'" type="submit" class="btn btn-primary btn-block">Back to Message</button>
+    <button onclick="location.href='message'" type="submit" class="btn btn-success btn-block">Back to Message</button>
 </div>
 </body>
 

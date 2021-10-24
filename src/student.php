@@ -43,7 +43,7 @@ if (isset($_GET['addstatus'])) {
                     <th scope="col"></th>
                     <th class="text-center">
                         <a href="controller/add">
-                            <button class="btn btn-outline-primary">Add</button>
+                            <button class="btn btn-outline-success">Add</button>
                         </a>
                     </th>
                 <?php endif; ?> 
@@ -62,7 +62,7 @@ if (isset($_GET['addstatus'])) {
                     <td class="text-center"><?php echo htmlspecialchars($stu->getPhone(), ENT_QUOTES, 'UTF-8'); ?></td>
                     <td class="text-center"><?php echo htmlspecialchars($stu->getMail(), ENT_QUOTES, 'UTF-8'); ?></td>
                     <?php if ($checkPermission->isTeacher() == 1): ?>
-                        <td class="text-center"><a href="profile?studentID=<?php echo $stu->getID() ?>"><button class="btn btn-outline-primary">Edit</button></a></td>
+                        <td class="text-center"><a href="profile?studentID=<?php echo $stu->getID() ?>"><button class="btn btn-outline-success">Edit</button></a></td>
                         <td class="text-center"><a href="controller/remove?studentID=<?php echo $stu->getID();?>"><button class="btn btn-outline-danger">Remove</button></a></td>
                     <?php endif; ?>  
                     
@@ -76,7 +76,7 @@ if (isset($_GET['addstatus'])) {
     </table>
     <a href="./">
         <tr>
-            <button type="submit" class="btn btn-primary btn-block">Back to Dashboard</button>
+            <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>
         </tr>
     </a>
 </div>                
