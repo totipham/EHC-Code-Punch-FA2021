@@ -1,0 +1,21 @@
+Your identification has been saved in /home/vm/.ssh/id_rsa.
+Your public key has been saved in /home/vm/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:cInfpL/TEve9M/xNr0X7eRw7QD4aBaCDbhtRX5/sC0E vm@ubuntu
+The key's randomart image is:
++---[RSA 2048]----+
+|       . ..E     |
+|      o.o.o.o .  |
+|     oooo....+   |
+|    . .+.+  oo   |
+|     +  S ..+.  .|
+|    . o  ...o+.o.|
+|     .    .+oo++=|
+|          oo. .OO|
+|          .o  .+%|
++----[SHA256]-----+
+vm@ubuntu:~$ rm  ~/.ssh/id_rsa.pub
+vm@ubuntu:~$ nano  ~/.ssh/id_rsa
+vm@ubuntu:~$ ssh trung149@188.166.233.168 -p 18888
+The authenticity of host '[188.166.233.168]:18888 ([188.166.233.168]:18888)' can't be established.
+ECDSA key fingerprint is SHA256:GodIjWEAhckh9o7xh2kbLawexpEXRzx649jItQZYaG0.
