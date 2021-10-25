@@ -2,4 +2,4 @@ vendor/
 src/register.php
 src/views/style.css
 src/views/footer2.html
-src/controller/models/
+src/controller/models/database.db
