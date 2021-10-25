@@ -28,7 +28,7 @@ echo file_get_contents('../views/cHeader.php');
             <input type="email" class="form-control" name="email" placeholder="Email">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="phone" placeholder="Phone Number">
+            <input pattern="[0-9]{3,10}" type="text" class="form-control" name="phone" placeholder="Phone Number">
         </div>
         <div class="form-group">
             <input type="text" class="form-control" name="username" placeholder="Username" required="required">
