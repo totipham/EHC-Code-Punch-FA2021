@@ -129,7 +129,7 @@ class User {
 
     public static function checkInfo($username, $password) {
         $conn = dbConnect::ConnectToDB();
-        if ($stmt = $conn -> prepare ('SELECT id, password, role FROM account WHERE username=?')) {
+        if ($stmt = $conn -> prepare ('SELECT COUNT(*), id, password, role FROM account WHERE username=?')) {
             $res = $stmt->execute(array(
                 $username
             ));
