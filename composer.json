@@ -16,11 +16,6 @@
     },
     "require-dev": {
       "heroku/heroku-buildpack-php": "*"
-    },
-
-    "scripts": {
-        "compile": [
-          "chmod -R 777 src/uploads"
-        ]
-      }
+    }
 }
+
