@@ -21,23 +21,12 @@ echo file_get_contents('views/header.php');
         <div class="">
             <?php
             if (isset($_GET['toID'])) :
-                /* $userName = mysqli_query($con, "SELECT * FROM account WHERE id='" . $_GET['toID'] . "'")
-                    or die ("Failed to query database" . mysqli_error()); */
-
                 $userName = User::getInfoFromID($_GET['toID']);
-
                 $fullname = $userName->getName(); ?>
                 <input type="text" value=<?php echo $_GET['toID']; ?> id="toID" hidden />
                 <h2 class="text-center"><?php echo $fullname; ?></h2>
             <?php
             else :
-                /* $userName = mysqli_query($con, "SELECT * FROM account")
-                    or die ("Failed to query database" . mysqli_error());
-
-                    $uName = mysqli_fetch_assoc($userName);
-                    $_SESSION['toID'] = $uName['id']; ?>
-                    <input type="text" value=<?php echo $_SESSION['toID']; ?> id="toID" hidden/>
-                    <h2 class="text-center"><?php echo $uName['fullname']; ?></h2> */
                 header("Location: index");
             endif; ?>
         </div>
@@ -49,12 +38,8 @@ echo file_get_contents('views/header.php');
                     or die("Failed to query database" . mysqli_error()); */
                 $messages = Message::getMessage($_SESSION['id'], $_GET['toID']);
             } else {
-                /* $content = mysqli_query($con, "SELECT * FROM message WHERE (fromID='" . $_SESSION['id'] . "' 
-                    AND toID = '" . $_SESSION['toID'] . "') OR (fromID='" . $_SESSION['toID'] . "' AND toID = '" . $_SESSION['id'] . "')")
-                    or die("Failed to query database" . mysqli_error()); */
+                header("Location: message");
             }
-
-            /* while ($message = mysqli_fetch_assoc($content)): */
             foreach ($messages as $mess) :
                 if ($mess->getFromID() == $_SESSION['id']) : ?>
                     <div style='text-align:right;'>
@@ -80,10 +65,8 @@ echo file_get_contents('views/header.php');
 </body>
 
 <script type="text/javascript">
-    /* Scroll to the bottom of messageBody */
     var messageBody = document.querySelector('#msgBody');
     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
-
 
     $(document).ready(function() {
         $("#send").click(function() {

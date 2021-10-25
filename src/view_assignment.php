@@ -45,7 +45,7 @@ if (isset($_GET['successful'])) {
                 <tr>
                     <th scope='row' class="text-center"><?php echo $count += 1; ?></th>
                     <td class="text-center"><?php echo htmlspecialchars($ass->getAssName(), ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td class="text-center"><a href=<?php echo $ass->getAssFile(); ?> target="_blank" rel="noopener noreferrer"><button class="btn btn-outline-primary">View Assignment</button></a></td>
+                    <td class="text-center"><a href=<?php echo $ass->getAssFile(); ?> target="_blank" rel="noopener noreferrer"><button class="btn btn-outline-success">View Assignment</button></a></td>
                     <?php if ($_SESSION['role'] == 1) : ?>
                         <td class="text-center"><a href="controller/remove.php?assID=<?php echo $ass->getAssID(); ?>"><button class="btn btn-outline-danger">Remove</button></a></td>
                     <?php endif; ?>
