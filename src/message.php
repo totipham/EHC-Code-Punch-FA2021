@@ -14,7 +14,7 @@ echo file_get_contents('views/header.php')
     </header>
     <body>
         <div class="table-form">
-            <h2 class="text-center">List of student</h2>
+            <h2 class="text-center">Message</h2>
             <table class="table table-bordered">
                 <thead>
                     <tr>

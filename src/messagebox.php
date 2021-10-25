@@ -41,7 +41,7 @@ echo file_get_contents('views/header.php');
                 header("Location: index");
             endif; ?>
         </div>
-        <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;">
+        <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;overflow: hidden;">
             <?php
             if (isset($_GET['toID'])) {
                 /* $content = mysqli_query($con, "SELECT * FROM message WHERE (fromID='" . $_SESSION['id'] . "' 
