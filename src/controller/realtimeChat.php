@@ -24,7 +24,7 @@ foreach ($messages as $mess):
         $res .= "<div style='text-align:right;'>
         <p style='text-align: left;max-width:260px;height:auto;color:#ffff;background-color:#2cb8aa; word-wrap:break-word; display:inline-block;
         padding:5px; border-radius:10px; max width:70%;'>
-        " . $mess->getContent() . "
+        " . htmlspecialchars($mess->getContent(), ENT_QUOTES, 'UTF-8') . "
         </p>
         </div>";
             
@@ -32,10 +32,11 @@ foreach ($messages as $mess):
         $res .= "<div style='text-align:left;'>
             <p style='text-align: right;max-width:260px;height:auto;background-color:#E0E0E0; word-wrap:break-word; display:inline-block;
             padding:5px; border-radius:10px; max width:70%;'>
-            " . $mess->getContent() . "
+            " . htmlspecialchars($mess->getContent(), ENT_QUOTES, 'UTF-8') . "
             </p>
             </div>";
     endif;
 endforeach;
 
 echo $res;
+
