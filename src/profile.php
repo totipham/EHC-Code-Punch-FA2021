@@ -63,7 +63,7 @@ endif;
             <input type="email" class="form-control" name="email" value="<?= $email ?>" placeholder="Email">
         </div>
         <div class="form-group">
-            <input type="text" pattern="[0-9]{3,10}" class="form-control" name="phone" value="<?= $phone ?>" placeholder="Phone Number">
+            <input type="text" pattern="[0-9]{3,10}" title="A good phone number will be contained 9-11 digits" class="form-control" name="phone" value="<?= $phone ?>" placeholder="Phone Number">
         </div>
         <div class="form-group">
             <input type="password" pattern="^w+\@w+\.w+$" class="form-control" name="password" placeholder="Password">
