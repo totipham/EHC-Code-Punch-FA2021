@@ -1,12 +1,7 @@
 <?php class Popup
 {
-    public static function oneButton($title, $msg)
-    { ?>
-        <script>
-            $(document).ready(function() {
-                $("#uploadNotification").modal('show');
-            });
-        </script>
+    public static function oneButton($title, $msg) { ?>
+        
         <div id="uploadNotification" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -25,5 +20,10 @@
                 </div>
             </div>
         </div>
-<?php }
-}
+        <script>
+            $(document).ready(function() {
+                $("#uploadNotification").modal('show');
+            });
+        </script>
+    <?php }
+} ?>

@@ -5,7 +5,7 @@ require_once 'controller/cPopup.php';
 $checkPermission = new checkPermission();
 
 if ($checkPermission->isLogin() != 1) {
-    header('Location: login.php');
+    header('Location: login');
 }
 
 if ($checkPermission->isTeacher() == 1) {
@@ -18,25 +18,30 @@ if ($checkPermission->isTeacher() == 1) {
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_object($result); */
 $userInfo = User::getInfoFromID($id);
-$username = $userInfo->getUsername();
-$fullname = $userInfo->getName();
-$email = $userInfo->getMail();
-$phone = $userInfo->getPhone();
-$role = $userInfo->getRole();
-
+if (!is_null($userInfo)) {
+    $username = $userInfo->getUsername();
+    $fullname = $userInfo->getName();
+    $email = $userInfo->getMail();
+    $phone = $userInfo->getPhone();
+    $role = $userInfo->getRole();
+} else {
+    header('Location: index');
+    exit;
+}
 if ($username != $_SESSION['name'] && $role != 0) {
     echo "<script>alert('You are not allowed to do this!'); window.location = './';</script>";
     exit;
 }
 
 echo file_get_contents('views/header.php');
+
 if (isset($_GET['successful'])) :
     if ($_GET['successful'] == 1) {
-        $popUp = Popup::oneButton("Profile", "Update information successfully!");
+        Popup::oneButton("Profile", "Update information successfully!");
     } elseif ($_GET['successful'] == 2) {
-        $popUp = Popup::oneButton("Profile", "You are not allowed to do this!");
+        Popup::oneButton("Profile", "You are not allowed to do this!");
     } elseif ($_GET['successful'] == 0) {
-        $popUp = Popup::oneButton("Profile", "Update information not successfully!");
+        Popup::oneButton("Profile", "Update information not successfully!");
     } elseif ($_GET['successful'] == 3) {
         $popUp = Popup::oneButton("Profile", "Passwords are not matching!");
     }
@@ -52,10 +57,10 @@ endif;
         <p style="text-align: center;">Edit these fields to update information!</p>
         <?php if ($checkPermission->isTeacher() == 1) : ?>
             <div class="form-group">
-                <input type="text" class="form-control" name="username" value="<?= $username ?>">
+                <input type="text" pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$" class="form-control" name="username" value="<?= $username ?>" disabled>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="fullname" value="<?= $fullname ?>">
+                <input type="text" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" class="form-control" name="fullname" value="<?= $fullname ?>">
             </div>
             <input type="text" class="form-control" name="studentID" value="<?= $id ?>" hidden>
         <?php endif; ?>

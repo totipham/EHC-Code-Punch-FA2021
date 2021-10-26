@@ -73,7 +73,6 @@ echo file_get_contents("views/header.php");
     <button onclick="location.href='message'" type="submit" class="btn btn-success btn-block">Back to Message</button>
 </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     var messageBody = document.querySelector('#msgBody');
     messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
