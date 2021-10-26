@@ -34,7 +34,7 @@
 							<form class="form" action="controller/authentication.php" method="POST">
 								<div class="mb-3">
 									<label class="mb-2 text-muted">Username</label>
-									<input id="username" type="text"  pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$" class="form-control" name="username" value="" required autofocus>
+									<input id="username" type="text" class="form-control" name="username" value="" required autofocus>
 									<div class="invalid-feedback">Username is invalid</div>
 								</div>
 								<div class="mb-3">

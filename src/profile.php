@@ -57,7 +57,7 @@ endif;
         <p style="text-align: center;">Edit these fields to update information!</p>
         <?php if ($checkPermission->isTeacher() == 1) : ?>
             <div class="form-group">
-                <input type="text" pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$" class="form-control" name="username" value="<?= $username ?>" disabled>
+                <input type="text" class="form-control" name="username" value="<?= $username ?>" disabled>
             </div>
             <div class="form-group">
                 <input type="text" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" class="form-control" name="fullname" value="<?= $fullname ?>">
