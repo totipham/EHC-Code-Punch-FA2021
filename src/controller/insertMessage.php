@@ -13,7 +13,7 @@ if (!isset($_POST['fromID']) || !isset($_POST['toID'])) {
     exit;
 }
 
-$fromID = $_POST["fromID"];
+$fromID = $_SESSION['id'];
 $toID = $_POST["toID"];
 $message = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
 

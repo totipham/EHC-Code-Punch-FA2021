@@ -91,23 +91,29 @@ class User {
         /* $sql = "SELECT * FROM account WHERE username='$username'";
         $old = mysqli_query($conn,$sql); */
 
-        $sql = "SELECT * FROM account WHERE username=?";
-        $checkUsername = $conn->prepare($sql);
-        $checkUsername->execute(array(
-            $username
+        $sql = "SELECT COUNT(*), * FROM account WHERE username=? OR email=?";
+        $checkExist = $conn->prepare($sql);
+        $checkExist->execute(array(
+            $username,
+            $email
         ));
 
         /* if (mysqli_num_rows($old) > 0){
             echo "<script>alert('This username is existed!'); window.location = './register.php';</script>";
             exit;
         } */
-
-        if ($checkUsername->fetchColumn() > 0){
+        $row = $checkExist->fetch();
+        if ($row['username'] > 0){
             echo "<script>alert('This username is existed!'); window.location = '../register.php';</script>";
             return 0;
         }
 
-        if (($conn->query("SELECT email FROM account WHERE email='$email'")->fetchColumn()) > 0) {
+        /* if (($conn->query("SELECT email FROM account WHERE email='$email'")->fetchColumn()) > 0) {
+            echo "<script>alert('This email is existed'); window.location = '../register.php';</script>";
+            return 0;
+        } */
+
+        if ($row['email'] > 0){
             echo "<script>alert('This email is existed'); window.location = '../register.php';</script>";
             return 0;
         }
@@ -183,19 +189,20 @@ class User {
 
     public static function getInfoFromID($id) {
         $conn = dbConnect::ConnectToDB();
-        $sql = "SELECT * FROM account WHERE id=?";
+        $sql = "SELECT COUNT(*), * FROM account WHERE id=?";
         $stmt = $conn->prepare($sql);
-        $res = $stmt->execute(array(
+        $stmt->execute(array(
             $id
         ));
-        
-        if ($stmt->columnCount() > 0) {
-
+        $row = $stmt->fetch();
+        $user = null;
+        if ($row['COUNT(*)'] > 0) {
             /* $row = $stmt->fetch(); */
 
             /* $row = mysqli_fetch_object($result); */
-            $row = $stmt->fetchObject();
-            $user = new GlobalUser($row->fullname, $row->username, $row->id, $row->phone, $row->email, $row->password, $row->role);
+            /* $row = $stmt->fetchObject(); */
+            $user = new GlobalUser($row['fullname'], $row['username'], $row['id'], $row['phone'], $row['email'], $row['password'], $row['role']);
+            
         }
         $conn = null;
         return $user;

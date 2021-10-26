@@ -80,4 +80,4 @@ class Message {
         $conn = null;
         return $rows;
     }
-}
+} ?>

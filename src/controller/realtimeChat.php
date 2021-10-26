@@ -8,12 +8,12 @@ if($checkPermission->isLogin() != 1) {
     header('Location: ../login.php');
 }
 
-if (!isset($_POST['fromID']) || !isset($_POST['toID'])) {
+if (!isset($_POST['toID'])) {
     header('Location: ../index.php');
     exit;
 }
 
-$fromID = $_POST['fromID'];
+$fromID = $_SESSION['id'];
 $toID = $_POST['toID'];
 $res = "";
 

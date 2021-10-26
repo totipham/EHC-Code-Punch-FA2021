@@ -5,10 +5,26 @@ require_once 'controller/checkPermission.php';
 $checkPermission = new checkPermission();
 
 if ($checkPermission->isLogin() != 1) {
-    header('Location: login.php');
+    header('Location: login');
+    exit;
 }
 
-echo file_get_contents('views/header.php');
+if (isset($_GET['toID']) && !empty($_GET['toID'])) :
+    $userName = User::getInfoFromID($_GET['toID']);
+    if (!is_null($userName)):
+        $fullname = htmlspecialchars($userName->getName(), ENT_QUOTES, 'UTF-8'); ?>
+        
+    <?php else:
+        header('Location: index');
+        exit;
+    endif; ?>
+<?php
+else:
+    header('Location: index');
+    exit;
+endif; 
+
+echo file_get_contents("views/header.php");
 ?>
 
 <header>
@@ -16,19 +32,13 @@ echo file_get_contents('views/header.php');
 </header>
 <div style="width: 600px;margin: 40px auto;">
     <div class="container">
-        <input type="text" value='<?php echo $_SESSION['id']; ?>' id="fromID" hidden />
+        <!-- <input type="text" value='<?php  ?>' id="fromID" hidden /> -->
         <br>
         <div class="">
-            <?php
-            if (isset($_GET['toID'])) :
-                $userName = User::getInfoFromID($_GET['toID']);
-                $fullname = htmlspecialchars($userName->getName(), ENT_QUOTES, 'UTF-8'); ?>
-                <input type="text" value=<?=$_GET['toID']?> id="toID" hidden />
-                <h2 class="text-center"><?=$fullname?></h2>
-            <?php
-            else :
-                header("Location: index");
-            endif; ?>
+            <?php 
+                if (isset($fullname)): ?>
+                    <h2 class="text-center"><?=$fullname?></h2>
+                <?php endif; ?>
         </div>
         <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;overflow: hidden;">
             <?php
@@ -74,8 +84,7 @@ echo file_get_contents('views/header.php');
                 url: "controller/insertMessage.php",
                 method: "POST",
                 data: {
-                    fromID: $("#fromID").val(),
-                    toID: $("#toID").val(),
+                    toID: '<?=$_GET['toID']?>',
                     message: $("#message").val()
                 },
                 dataType: "text",
@@ -91,8 +100,7 @@ echo file_get_contents('views/header.php');
                 url: "controller/realtimeChat.php",
                 method: "POST",
                 data: {
-                    fromID: $("#fromID").val(),
-                    toID: $("#toID").val(),
+                    toID: '<?=$_GET['toID']?>'
                 },
                 dataType: "text",
                 success: function(data) {
