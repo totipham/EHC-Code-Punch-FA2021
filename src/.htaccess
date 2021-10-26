@@ -1,5 +1,5 @@
-ErrorDocument 403 http://damcode2.herokuapp.com/403
-ErrorDocument 404 http://damcode2.herokuapp.com/404
+ErrorDocument 403 https://damcode2.herokuapp.com/403
+ErrorDocument 404 https://damcode2.herokuapp.com/404
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d

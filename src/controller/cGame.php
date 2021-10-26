@@ -78,11 +78,10 @@ class Game {
     public static function getGame() {
         $conn = dbConnect::ConnectToDB();
 
-        $stmt = $conn->query("SELECT hint, gameFile FROM game WHERE challID=1");
-
-        if ($stmt->columnCount() > 0) {
-            $row = $stmt->fetchObject();
-            $gameGiven = new GlobalGame($row->gameFile, $row->hint, null, null);
+        $stmt = $conn->query("SELECT COUNT(*), hint, gameFile FROM game WHERE challID=1");
+        $row = $stmt->fetch();
+        if ($row > 0) {
+            $gameGiven = new GlobalGame($row['gameFile'], $row['hint'], null, null);
         }
         $conn = null;
         return $gameGiven;
