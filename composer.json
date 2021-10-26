@@ -12,10 +12,10 @@
         }
     ],
     "require": {
-        "ext-pdo_sqlite": "*"
+        "ext-pdo_sqlite": "*",
+        "ezyang/htmlpurifier": "^4.13"
     },
     "require-dev": {
       "heroku/heroku-buildpack-php": "*"
     }
 }
-

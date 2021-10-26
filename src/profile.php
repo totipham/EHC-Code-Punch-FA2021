@@ -48,7 +48,7 @@ endif;
 </header>
 <div style="width: 340px;margin: 30px auto;">
     <form class="form" action="controller/edit.php?studentID=<?php echo $id; ?>" method="POST">
-        <h2 class="text-center"><?php echo $username . " 's Profile"; ?></h2>
+        <h2 class="text-center"><?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'). " 's Profile"; ?></h2>
         <p style="text-align: center;">Edit these fields to update information!</p>
         <?php if ($checkPermission->isTeacher() == 1) : ?>
             <div class="form-group">

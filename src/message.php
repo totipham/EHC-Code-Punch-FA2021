@@ -33,7 +33,7 @@ echo file_get_contents('views/header.php')
                     ?>
                             <tr>
                                 <td class="text-center"><?= ++$count ?></td>
-                                <td class="text-center"><?= $user->getName() ?></td>
+                                <td class="text-center"><?= htmlspecialchars($user->getName(), ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="text-center"><?= ($user->getRole() == 1) ? "Teacher" : "Student" ?></td>
                                 <td class="text-center"><a href="messagebox?toID=<?php echo $user->getID() ?>"><button class="btn btn-outline-success">Message</button></a></td>
                             </tr>

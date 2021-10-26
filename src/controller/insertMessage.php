@@ -15,7 +15,7 @@ if (!isset($_POST['fromID']) || !isset($_POST['toID'])) {
 
 $fromID = $_POST["fromID"];
 $toID = $_POST["toID"];
-$message = $_POST["message"];
+$message = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
 
 $res = "";
 echo $res .= Message::insertToDB($fromID, $toID, $message);

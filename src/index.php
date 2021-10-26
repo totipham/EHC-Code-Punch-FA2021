@@ -11,9 +11,9 @@ echo file_get_contents('views/header.php');
 ?>
 <header>
     <title>Dashboard</title>
-</header>
+</header> 
 <div class="login-form">
-    <h2 class="text-center">Welcome Back, <?= $_SESSION['name'] ?></h2><br>
+    <h2 class="text-center">Welcome Back, <?= htmlspecialchars($_SESSION['name'], ENT_QUOTES, 'UTF-8') ?></h2><br>
     <a href='student'>
         <button type="submit" class="btn btn-success btn-block">Student List</button>
     </a><br>
