@@ -1,5 +1,4 @@
 <?php
-include('views/header.php');
 require_once 'controller/cGame.php';
 require_once 'controller/checkPermission.php';
 require_once 'controller/cPopup.php';
@@ -8,7 +7,9 @@ $checkPermission = new checkPermission();
 if ($checkPermission->isLogin() != 1) {
     header('Location: login');
 }
+
 echo file_get_contents("views/header.php");
+
 if (isset($_GET['successful'])) :
     if ($_GET['successful'] == 1) {
         $popUp = Popup::oneButton("Upload", "The file has been uploaded!");
