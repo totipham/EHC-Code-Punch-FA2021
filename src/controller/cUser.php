@@ -219,8 +219,13 @@ class User {
             $userID,
             $userID
         ));
+        $stmt5 = $conn->prepare('DELETE FROM messagebox WHERE toID=? OR fromID=?');
+        $res5 = $stmt5->execute(array(
+            $userID,
+            $userID
+        ));
         $conn = null;
-        return ($res1 && $res2 && $res3 && $res4);
+        return ($res1 && $res2 && $res3 && $res4 && $res5);
     }
 }
 ?>
