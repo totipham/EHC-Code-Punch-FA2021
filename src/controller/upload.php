@@ -2,6 +2,7 @@
 <?php
 require_once 'checkPermission.php';
 require_once 'cUpload.php';
+
 $checkPermission = new checkPermission();
 if ($checkPermission->isLogin() != 1) {
     header('Location: ../login');
@@ -19,12 +20,11 @@ if (isset($_GET['game']) && $_GET['game'] == 1) {
     $type = 'assignment';
 }
 
-$target_file = $target_dir . basename($_FILES["assUpload"]["name"]);
+$target_file = $target_dir . basename(preg_replace('/\s+/', '_', $_FILES["assUpload"]["name"]));
 $target_file = str_replace(' ', '_', $target_file);
 $uploadOk = 1;
 $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 $uploadError = '';
-$uploadResult = '';
 
 // Check file size
 if ($_FILES["assUpload"]["size"] > 1000000) { /* TODO: Allow file <= 1MB */
@@ -47,22 +47,27 @@ if ($uploadOk == 0) {
         if ($checkPermission->isTeacher() == 1) {
             if (isset($_POST["uploadAssignment"])) {
                 $assName = $_POST["assName"];
-                $uploadAss = Upload::uploadAssignment($assName, $target_file);
+                $res = Upload::uploadAssignment($assName, $target_file);
             } else if (isset($_POST["uploadGame"])) {
                 $hint = $_POST["hint"];
-                $uploadGame = Upload::uploadGame($target_file, $hint);
+                $res = Upload::uploadGame($target_file, $hint);
             }
-        } else if ($checkPermission->isTeacher() != 1) {
+        } else if ($checkPermission->isTeacher() != 1) { //TODO: Student Role
             $assID = $_POST["assName"];
-            $uploadAnsAss = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
+            $res = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
         }
-        $uploadResult = $uploadResult . "The file has been uploaded!";
-        //echo "<script>alert('".$uploadResult."'); window.location = '../assignment.php?successful=1';</script>";
-        header('Location: ../' . $type . '?successful=1');
-        exit;
+
+        if ($res == 1) {
+            header('Location: ../' . $type . '?successful=1');
+            exit;
+        } else if ($res == 2) {
+            header('Location: ../' . $type . '?successful=0');
+            exit;
+        } else if ($res == 0) {
+            header('Location: ../' . $type . '?successful=2');
+            exit;
+        }
     } else {
-        /* $uploadError = $uploadError . "Sorry, there was an error uploading your file."; */
-        //echo "<script>alert('".$uploadResult."'); window.location = '../assignment.php?successful=2';</script>";
         header('Location: ../' . $type . '?successful=2');
         exit;
     }

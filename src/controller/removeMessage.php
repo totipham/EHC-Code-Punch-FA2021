@@ -15,8 +15,7 @@ if (!isset($_POST['toID'])) {
 
 $fromID = $_SESSION['id'];
 $toID = $_POST["toID"];
-$message = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
 
-if ($res = Message::insertToDB($fromID, $toID, $message)) {
+if ($res = Message::removeMessage($fromID, $toID)) {
     echo "";
 }

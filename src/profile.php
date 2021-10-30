@@ -14,9 +14,6 @@ if ($checkPermission->isTeacher() == 1) {
     $id = $_SESSION["id"];
 }
 
-/* $query = "SELECT * FROM account WHERE id=$id";
-$result = mysqli_query($con, $query);
-$row = mysqli_fetch_object($result); */
 $userInfo = User::getInfoFromID($id);
 if (!is_null($userInfo)) {
     $username = $userInfo->getUsername();
@@ -43,7 +40,7 @@ if (isset($_GET['successful'])) :
     } elseif ($_GET['successful'] == 0) {
         Popup::oneButton("Profile", "Update information not successfully!");
     } elseif ($_GET['successful'] == 3) {
-        $popUp = Popup::oneButton("Profile", "Passwords are not matching!");
+        Popup::oneButton("Profile", "Passwords are not matching!");
     }
 endif;
 ?>
@@ -65,7 +62,7 @@ endif;
             <input type="text" class="form-control" name="studentID" value="<?= $id ?>" hidden>
         <?php endif; ?>
         <div class="form-group">
-            <input type="email" class="form-control" name="email" value="<?= $email ?>" placeholder="Email">
+            <input type="email" pattern="^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$" class="form-control" name="email" value="<?= $email ?>" placeholder="Email">
         </div>
         <div class="form-group">
             <input type="text" pattern="[0-9]{3,10}" title="A good phone number will be contained 9-11 digits" class="form-control" name="phone" value="<?= $phone ?>" placeholder="Phone Number">

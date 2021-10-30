@@ -10,16 +10,16 @@
 
 <body>
 	<?php
-	if (isset($_GET['status'])) :
-		if ($_GET['status'] == 0) {
-			echo '<div class="alert alert-danger" role="alert">
+	if (isset($_GET['status'])):
+		if ($_GET['status'] == 0): ?>
+			<div class="alert alert-danger" role="alert">
 		Incorrect username and/or password!
-	  		</div>';
-		} elseif ($_GET['status'] == 2) {
-			echo '<div class="alert alert-danger" role="alert">
+	  		</div>
+		<?php elseif ($_GET['status'] == 2): ?>
+			<div class="alert alert-danger" role="alert">
 		Please fill both the username and password fields!
-	  		</div>';
-		}
+	  		</div>
+	<?php endif;
 	endif; ?>
 	<section class="h-100">
 		<div class="container h-100">

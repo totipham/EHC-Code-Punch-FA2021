@@ -1,6 +1,6 @@
 <?php
 require_once 'controller/cUser.php';
-require_once 'controller/cMessage.php';
+require_once 'controller/cChat.php';
 require_once 'controller/checkPermission.php';
 $checkPermission = new checkPermission();
 
@@ -40,15 +40,12 @@ echo file_get_contents("views/header.php");
                     <h2 class="text-center"><?=$fullname?></h2>
                 <?php endif; ?>
         </div>
-        <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;overflow: hidden;">
+        <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;">
             <?php
             if (isset($_GET['toID'])) {
-                /* $content = mysqli_query($con, "SELECT * FROM message WHERE (fromID='" . $_SESSION['id'] . "' 
-                    AND toID = '" . $_GET['toID'] . "') OR (fromID='" . $_GET['toID'] . "' AND toID = '" . $_SESSION['id'] . "')")
-                    or die("Failed to query database" . mysqli_error()); */
-                $messages = Message::getMessage($_SESSION['id'], $_GET['toID']);
+                $messages = Chat::getMessage($_SESSION['id'], $_GET['toID']);
             } else {
-                header("Location: message");
+                header("Location: chat");
             }
             foreach ($messages as $mess) :
                 if ($mess->getFromID() == $_SESSION['id']) : ?>
@@ -70,7 +67,7 @@ echo file_get_contents("views/header.php");
             <button id="send" class="btn btn-success" style="height:70px;">Send</button>
         </div>
     </div>
-    <button onclick="location.href='message'" type="submit" class="btn btn-success btn-block">Back to Message</button>
+    <button onclick="location.href='chat'" type="submit" class="btn btn-success btn-block">Back to Chat</button>
 </div>
 </body>
 <script type="text/javascript">
@@ -80,7 +77,7 @@ echo file_get_contents("views/header.php");
     $(document).ready(function() {
         $("#send").click(function() {
             $.ajax({
-                url: "controller/insertMessage.php",
+                url: "controller/insertChat.php",
                 method: "POST",
                 data: {
                     toID: '<?=$_GET['toID']?>',

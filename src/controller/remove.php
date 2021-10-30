@@ -2,6 +2,7 @@
 require_once 'checkPermission.php';
 require_once 'cUser.php';
 require_once 'cAssignment.php';
+require_once 'cGame.php';
 
 $checkPermission = new checkPermission();
 
@@ -27,6 +28,12 @@ if (isset($_GET["studentID"])) {
         header('Location: ../view_assignment?successful=1');
     } else {
         header('Location: ../view_assignment?successful=2');
+    }
+} else if (isset($_GET["challenge"]) and ($_GET["challenge"] == 1)) {
+    if ($remove = Game::removeChall()) {
+        header('Location: ../challenge?removesuccessful=1');
+    } else {
+        header('Location: ../challenge?removesuccessful=2');
     }
 } else {
     header('Location: ../index');

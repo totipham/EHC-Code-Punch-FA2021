@@ -43,18 +43,6 @@ class Game {
         $conn = null;
     }
 
-    /* public static function fetchAssName($assID) {
-        $conn = dbConnect::ConnectToDB();
-        $assName_fetch = $conn -> prepare("SELECT assName FROM assignment WHERE assID=?");
-        $assName_fetch -> bind_param ('i', $assID);
-        $assName_fetch -> execute();
-        $assName_fetch -> store_result();
-        $assName_fetch->bind_result($assName);
-        $assName_fetch->fetch();
-        return $assName;
-        dbConnect::Disconnect($conn);
-    } */
-
     public static function getGameResult() {
         $conn = dbConnect::ConnectToDB();
 
@@ -98,5 +86,34 @@ class Game {
         return $res;
 
         $conn = null;
+    }
+
+    public static function isAnswered($id) {
+        $conn = dbConnect::ConnectToDB();
+
+        $stmt = $conn->prepare('SELECT COUNT(*) FROM gameans WHERE id=?');
+        $stmt->execute(array(
+            $id
+        ));
+        $row = $stmt->fetch();
+        if ($row['COUNT(*)'] > 0) {
+            return true;
+        } 
+
+        $conn = null;
+        return false;
+    }
+
+    public static function removeChall() {
+        $conn = dbConnect::ConnectToDB();
+
+        $stmt = $conn->prepare('DELETE FROM game WHERE challID=1');
+        $res1 = $stmt->execute();
+
+        $stmt = $conn->prepare('DELETE FROM gameans');
+        $res2 = $stmt->execute();
+
+        $conn = null;
+        return ($res1 && $res2);
     }
 }

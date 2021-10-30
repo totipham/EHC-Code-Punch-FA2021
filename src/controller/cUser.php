@@ -88,9 +88,6 @@ class User {
         $password = $this->getPassword();
         $role = $this->getRole();
 
-        /* $sql = "SELECT * FROM account WHERE username='$username'";
-        $old = mysqli_query($conn,$sql); */
-
         $sql = "SELECT COUNT(*), * FROM account WHERE username=? OR email=?";
         $checkExist = $conn->prepare($sql);
         $checkExist->execute(array(
@@ -98,20 +95,11 @@ class User {
             $email
         ));
 
-        /* if (mysqli_num_rows($old) > 0){
-            echo "<script>alert('This username is existed!'); window.location = './register.php';</script>";
-            exit;
-        } */
         $row = $checkExist->fetch();
         if ($row['username'] > 0){
             echo "<script>alert('This username is existed!'); window.location = '../register.php';</script>";
             return 0;
         }
-
-        /* if (($conn->query("SELECT email FROM account WHERE email='$email'")->fetchColumn()) > 0) {
-            echo "<script>alert('This email is existed'); window.location = '../register.php';</script>";
-            return 0;
-        } */
 
         if ($row['email'] > 0){
             echo "<script>alert('This email is existed'); window.location = '../register.php';</script>";
@@ -119,7 +107,6 @@ class User {
         }
 
         $stmt = $conn->prepare("INSERT INTO account (username, password, fullname, email, phone, role) VALUES (?,?,?,?,?,?)");
-        /* $stmt->bind_param("ssssii", $username, $password, $fullname, $email, $phone, $role); */
         $res = $stmt->execute(array(
             $username,
             md5($password),
@@ -131,7 +118,6 @@ class User {
         $conn = null;
         return $res;
     }
-    /* ($aName, $aUsername, $aPhone, $aMail, $aPassword, $aRole) */
 
     public static function checkInfo($username, $password) {
         $conn = dbConnect::ConnectToDB();
@@ -140,10 +126,7 @@ class User {
                 $username
             ));
             $row = $stmt->fetch();
-            /* $stmt -> store_result(); */
-            if ($row > 0) {
-                /* $stmt->bind_result($id, $password, $role); */
-                /* $row = $stmt->fetch(); */
+            if ($row['COUNT(*)'] > 0) {
                 if (md5($password) === $row['password']) {
                     /* session_start(); */
                     session_regenerate_id();
@@ -153,10 +136,7 @@ class User {
                     $_SESSION['role'] = $row['role'];
                     $conn = null;
                     return 1;
-                    /* header("Location: index.php"); */
-                } /* else {
-                    echo "<script>alert('Incorrect username and/or password!'); window.location = './login.php';</script>";
-                } */
+                }
             } else {
                 $conn = null;
                 return 0;
@@ -170,14 +150,9 @@ class User {
         $rows = array();
 
         $sql = "SELECT * FROM account";
-        /* $result = mysqli_query($conn, $sql); */
         $result = $conn->query($sql);
 
         if ($result->columnCount() > 0) {
-            /* while ($row = mysqli_fetch_object($result)) {
-                $user = new GlobalUser($row->fullname, $row->username, $row->id, $row->phone, $row->email, $row->password, $row->role);
-                $rows[] = $user;
-            } */
             while ($row = $result->fetchObject()) {
                 $user = new GlobalUser($row->fullname, $row->username, $row->id, $row->phone, $row->email, $row->password, $row->role);
                 $rows[] = $user;
@@ -197,10 +172,6 @@ class User {
         $row = $stmt->fetch();
         $user = null;
         if ($row['COUNT(*)'] > 0) {
-            /* $row = $stmt->fetch(); */
-
-            /* $row = mysqli_fetch_object($result); */
-            /* $row = $stmt->fetchObject(); */
             $user = new GlobalUser($row['fullname'], $row['username'], $row['id'], $row['phone'], $row['email'], $row['password'], $row['role']);
             
         }
@@ -245,10 +216,11 @@ class User {
         ));
         $stmt4 = $conn->prepare('DELETE FROM message WHERE toID=? OR fromID=?');
         $res4 = $stmt4->execute(array(
+            $userID,
             $userID
         ));
         $conn = null;
-        return ($res1 ||$res2 ||$res3 ||$res4);
+        return ($res1 && $res2 && $res3 && $res4);
     }
 }
 ?>

@@ -1,15 +1,15 @@
 <?php
-require_once "cMessage.php";
+require_once "cChat.php";
 require_once "checkPermission.php";
+require_once 'cPopup.php';
 
 $checkPermission = new checkPermission();
 
 if($checkPermission->isLogin() != 1) {
-    header('Location: ../login.php');
+    exit;
 }
 
 if (!isset($_POST['toID'])) {
-    header('Location: ../index.php');
     exit;
 }
 
@@ -18,7 +18,7 @@ $toID = $_POST['toID'];
 $res = "";
 
 
-$messages = Message::getMessage($fromID, $toID);
+$messages = Chat::getMessage($fromID, $toID);
 foreach ($messages as $mess):
     if ($mess->getFromID() == $fromID):
         $res .= "<div style='text-align:right;'>

@@ -12,7 +12,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p><?= $msg ?></p>
+                        <p style="align:center; word-wrap: break-word;"><?= $msg ?></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

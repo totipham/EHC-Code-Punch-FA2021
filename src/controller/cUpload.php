@@ -24,12 +24,18 @@ class Upload {
     public static function uploadGame($target_file, $hint) {
         $conn = dbConnect::ConnectToDB();
         $target_file = substr($target_file, 3);
+        $check = $conn->query("SELECT COUNT(*) FROM game");
+        $row = $check->fetch();
+        if ($row['COUNT(*)'] > 0) {
+            return 2;
+        }
+
         if ($stmt = $conn -> prepare ("REPLACE INTO game (challID, gameFile, hint) VALUES (1, ?, ?)")) {
             $res = $stmt->execute(array(
                 $target_file,
                 $hint
             ));
-            return $res;
+            return $res ? 1:0;
         } else {
             return 0;
         }
@@ -38,6 +44,14 @@ class Upload {
 
     public static function assAnswer($assID, $target_file, $id) {
         $conn = dbConnect::ConnectToDB();
+        $checkAss = $conn->prepare("SELECT COUNT(*) FROM assignment WHERE assID=?");
+        $checkAss->execute(array(
+            $assID
+        ));
+        $row = $checkAss->fetch();
+        if ($row['COUNT(*)'] == 0) {
+            return 0;
+        }
         $target_file = substr($target_file, 3);
         if ($sql = $conn -> prepare ("INSERT INTO answerass (assID, assAnswer, id) VALUES (?, ?, ?)")) {
             $res = $sql->execute(array(

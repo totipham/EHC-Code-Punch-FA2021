@@ -2,6 +2,7 @@
 require_once 'checkPermission.php';
 require_once 'cUser.php';
 
+
 $checkPermission = new checkPermission();
 if($checkPermission->isLogin() == 1) {
     header('Location: ../');
@@ -21,6 +22,11 @@ $fullname = $_POST["fullname"];
 $phone = $_POST["phone"];
 $id = 0;
 
+if (!is_email($email) && !is_name($fullname) && !is_phone($phone) && !is_username($username)) {
+    header('Location: ../student?addstatus=4');
+    exit;
+}
+
 if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) {
     if ($role === "teacher") {
         $role = 1;
@@ -29,7 +35,7 @@ if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) 
     }
 
     if ($password != $repassword){
-        header('Location: ../student?addstatus=2');
+        header('Location: ../student?addstatus=3');
         exit;
     }
 
@@ -41,24 +47,23 @@ if (isset($role, $username, $password, $repassword, $email, $fullname, $phone)) 
         header('Location: ../student?addstatus=0');
         exit;
     }
-
-    /* echo $user->addToDB(); */
-
-    /* $sql = "SELECT * FROM account WHERE username='$username'";
-    $old = mysqli_query($con,$sql);
-    $password = md5($password);
-    if( mysqli_num_rows($old) > 0){
-        echo "<script>alert('This username is existed!'); window.location = './register.php';</script>";
-        exit;
-    }
-    if (mysqli_num_rows(mysqli_query($con, "SELECT email FROM account WHERE email='$email'")) > 0) {
-        echo "<script>alert('This email is existed'); window.location = './register.php';</script>";
-        exit;
-    }
-    $sql = "INSERT INTO account (username, password, fullname, email, phone, role) VALUES ('{$username}', '{$password}', '{$fullname}', '{$email}', '{$phone}', '{$role}')";
-    mysqli_query($con,$sql);
-} else {
-    header("location:register.php"); */
 } else {
    
+}
+
+
+function is_email($str) {
+    return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/", $str)) ? FALSE : TRUE;
+}
+
+function is_username($str) {
+    return (!preg_match("/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/", $str)) ? FALSE : TRUE;
+}
+
+function is_phone($str) {
+    return (!preg_match("/^[0-9]{9,11}/", $str)) ? FALSE : TRUE;
+}
+
+function is_name($str) {
+    return (!preg_match("/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/", $str)) ? FALSE : TRUE;
 }

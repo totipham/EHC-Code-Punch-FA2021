@@ -115,6 +115,7 @@
 		<nav class="my-2 my-md-0 mr-md-3">
 			<a class="p-2 text-dark" href="../profile">My Profile</a>
 			<a class="p-2 text-dark" href="../message">Message</a>
+			<a class="p-2 text-dark" href="../chat">Chat</a>
 		</nav>
 		<a class="btn btn-outline-success" href="logout">Logout</a>
 	</div>
