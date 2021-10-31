@@ -61,6 +61,28 @@ class Assignment {
         dbConnect::Disconnect($conn);
     }
 
+    public static function fetchAssFile($assID) {
+        $conn = dbConnect::ConnectToDB();
+        $assFile_fetch = $conn -> prepare("SELECT assFile FROM assignment WHERE assID=?");
+        $assFile_fetch->execute(array(
+            $assID
+        ));
+        $assFile = ($assFile_fetch->fetchObject())->assFile;
+        $conn = null;
+        return $assFile;
+    }
+
+    public static function fetchAssAnsFile($assID) {
+        $conn = dbConnect::ConnectToDB();
+        $assAnsFile_fetch = $conn -> prepare("SELECT assAnswer FROM answerass WHERE assID=?");
+        $assAnsFile_fetch->execute(array(
+            $assID
+        ));
+        $assAnsFile = ($assAnsFile_fetch->fetchObject())->assAnswer;
+        $conn = null;
+        return $assAnsFile;
+    }
+
     public static function getAssAns() {
         $conn = dbConnect::ConnectToDB();
 
@@ -101,18 +123,17 @@ class Assignment {
 
     public static function removeAss($assID) {
         $conn = dbConnect::ConnectToDB();
-
-        $stmt = $conn->prepare('DELETE FROM assignment WHERE assID=?');
-        $res1 = $stmt->execute(array(
+        $stmt1 = $conn->prepare('DELETE FROM assignment WHERE assID=?');
+        $res1 = $stmt1->execute(array(
             $assID
         ));
 
-        $stmt = $conn->prepare('DELETE FROM answerass WHERE assID=?');
-        $res2 = $stmt->execute(array(
+        $stmt2 = $conn->prepare('DELETE FROM answerass WHERE assID=?');
+        $res2 = $stmt2->execute(array(
             $assID
         ));
 
         $conn = null;
-        return ($res1 || $res2);
+        return ($res1 && $res2);
     }
 }

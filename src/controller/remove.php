@@ -23,14 +23,15 @@ if (isset($_GET["studentID"])) {
         header('Location: ../student?successful=2');
     }
 } else if (isset($_GET["assID"])) {
-    if ($remove = Assignment::removeAss($_GET["assID"])) {
-        /* echo "<script>alert('Remove assignment successfully'); window.location = '../view_assignment.php';</script>"; */
+    if (unlink('../' . Assignment::fetchAssFile($_GET["assID"])) && $remove = Assignment::removeAss($_GET["assID"])) {
+        $ans = Assignment::fetchAssAnsFile($_GET["assID"]);
+        unlink ('../' . $ans);
         header('Location: ../view_assignment?successful=1');
     } else {
         header('Location: ../view_assignment?successful=2');
     }
 } else if (isset($_GET["challenge"]) and ($_GET["challenge"] == 1)) {
-    if ($remove = Game::removeChall()) {
+    if (unlink('../' . Game::fetchGameFile()) && $remove = Game::removeChall()) {
         header('Location: ../challenge?removesuccessful=1');
     } else {
         header('Location: ../challenge?removesuccessful=2');

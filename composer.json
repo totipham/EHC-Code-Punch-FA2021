@@ -5,17 +5,14 @@
             "Team2\\CodePunch\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "Phạm Trương Minh Đức",
-            "email": "phamtruongminhduc@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "Phạm Trương Minh Đức",
+        "email": "phamtruongminhduc@gmail.com"
+    }],
     "require": {
-        "ext-pdo_sqlite": "*",
-        "ezyang/htmlpurifier": "^4.13"
+        "ext-pdo_sqlite": "*"
     },
     "require-dev": {
-      "heroku/heroku-buildpack-php": "*"
+        "heroku/heroku-buildpack-php": "*"
     }
 }

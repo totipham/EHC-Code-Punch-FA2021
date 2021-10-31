@@ -10,15 +10,15 @@
 
 <body>
 	<?php
-	if (isset($_GET['status'])):
-		if ($_GET['status'] == 0): ?>
+	if (isset($_GET['status'])) :
+		if ($_GET['status'] == 0) : ?>
 			<div class="alert alert-danger" role="alert">
-		Incorrect username and/or password!
-	  		</div>
-		<?php elseif ($_GET['status'] == 2): ?>
+				Incorrect username and/or password!
+			</div>
+		<?php elseif ($_GET['status'] == 2) : ?>
 			<div class="alert alert-danger" role="alert">
-		Please fill both the username and password fields!
-	  		</div>
+				Please fill both the username and password fields!
+			</div>
 	<?php endif;
 	endif; ?>
 	<section class="h-100">

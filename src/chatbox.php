@@ -11,18 +11,18 @@ if ($checkPermission->isLogin() != 1) {
 
 if (isset($_GET['toID']) && !empty($_GET['toID'])) :
     $userName = User::getInfoFromID($_GET['toID']);
-    if (!is_null($userName)):
+    if (!is_null($userName)) :
         $fullname = htmlspecialchars($userName->getName(), ENT_QUOTES, 'UTF-8'); ?>
-        
-    <?php else:
+
+    <?php else :
         header('Location: index');
         exit;
     endif; ?>
 <?php
-else:
+else :
     header('Location: index');
     exit;
-endif; 
+endif;
 
 echo file_get_contents("views/header.php");
 ?>
@@ -32,13 +32,12 @@ echo file_get_contents("views/header.php");
 </header>
 <div style="width: 600px;margin: 40px auto;">
     <div class="container">
-        <!-- <input type="text" value='<?php  ?>' id="fromID" hidden /> -->
         <br>
         <div class="">
-            <?php 
-                if (isset($fullname)): ?>
-                    <h2 class="text-center"><?=$fullname?></h2>
-                <?php endif; ?>
+            <?php
+            if (isset($fullname)) : ?>
+                <h2 class="text-center"><?= $fullname ?></h2>
+            <?php endif; ?>
         </div>
         <div class="modal-body" id="msgBody" style="height:300px; background-color:#fff; overflow-y: scroll; overflow-x: hidden;">
             <?php
@@ -53,7 +52,6 @@ echo file_get_contents("views/header.php");
                         <p style='text-align: left;max-width:260px;height:auto;color:#ffff;background-color:#2cb8aa; word-wrap:break-word; display:inline-block;
                                 padding:5px; border-radius:10px; max width:70%;'><?php echo htmlspecialchars(html_entity_decode($mess->getContent()), ENT_QUOTES, 'UTF-8'); ?></p>
                     </div>
-
                 <?php else : ?>
                     <div style='text-align:left;'>
                         <p style='text-align: right;max-width:260px;height:auto;background-color:#E0E0E0; word-wrap:break-word; display:inline-block;
@@ -63,9 +61,15 @@ echo file_get_contents("views/header.php");
             <?php endforeach; ?>
         </div>
         <div class="modal-footer">
-            <textarea id="message" class="form-control" style="height:70px;width:438px;"></textarea>
-            <button id="send" class="btn btn-success" style="height:70px;">Send</button>
-        </div>
+                <div class="row" style="width:570px;">
+                    <div class="col-10">
+                        <textarea id="message" class="form-control" style="height:70px;width:440px"></textarea>
+                    </div>
+                    <div class="col">
+                        <button id="send" class="btn btn-success" style="height:70px;width:80px;">Update</button>
+                    </div>
+                </div>
+            </div>
     </div>
     <button onclick="location.href='chat'" type="submit" class="btn btn-success btn-block">Back to Chat</button>
 </div>
@@ -80,7 +84,7 @@ echo file_get_contents("views/header.php");
                 url: "controller/insertChat.php",
                 method: "POST",
                 data: {
-                    toID: '<?=$_GET['toID']?>',
+                    toID: "<?=$_GET['toID']?>",
                     message: $("#message").val()
                 },
                 dataType: "text",
@@ -96,7 +100,7 @@ echo file_get_contents("views/header.php");
                 url: "controller/realtimeChat.php",
                 method: "POST",
                 data: {
-                    toID: '<?=$_GET['toID']?>'
+                    toID: "<?=$_GET['toID']?>"
                 },
                 dataType: "text",
                 success: function(data) {

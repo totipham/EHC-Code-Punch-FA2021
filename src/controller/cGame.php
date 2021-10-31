@@ -63,6 +63,15 @@ class Game {
         return $rows;
     }
 
+    public static function fetchGameFile() {
+        $conn = dbConnect::ConnectToDB();
+        $gameFile = $conn -> prepare("SELECT gameFile FROM game WHERE challID=1");
+        $gameFile->execute();
+        $gameFile = ($gameFile->fetchObject())->gameFile;
+        $conn = null;
+        return $gameFile;
+    }
+
     public static function getGame() {
         $conn = dbConnect::ConnectToDB();
 

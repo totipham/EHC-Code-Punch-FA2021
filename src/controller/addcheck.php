@@ -2,16 +2,14 @@
 require_once 'checkPermission.php';
 require_once 'cUser.php';
 
-
 $checkPermission = new checkPermission();
-if($checkPermission->isLogin() == 1) {
-    header('Location: ../');
-}
 
-if (($checkPermission->isTeacher() == 1) && ($_GET['student'] == 1)) {
+if (($checkPermission->isTeacher() == 1) && (isset($_GET['student']) && ($_GET['student'] == 1))) {
     $role = "student";
+} else {
+    echo "<script>alert('You are not allowed to access this page!'); window.location = '../index.php';</script>";
+    exit;
 }
-
 
 $role = $role ?? $_POST['role'];
 $username = $_POST["username"];

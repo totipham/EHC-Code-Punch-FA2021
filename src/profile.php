@@ -22,7 +22,7 @@ if (!is_null($userInfo)) {
     $phone = $userInfo->getPhone();
     $role = $userInfo->getRole();
 } else {
-    header('Location: index');
+    header('Location: ./');
     exit;
 }
 if ($username != $_SESSION['name'] && $role != 0) {
@@ -49,23 +49,23 @@ endif;
     <title>Profile</title>
 </header>
 <div style="width: 340px;margin: 30px auto;">
-    <form class="form" action="controller/edit.php?studentID=<?php echo $id; ?>" method="POST">
-        <h2 class="text-center"><?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'). " 's Profile"; ?></h2>
+    <form class="form" action="controller/edit.php?studentID=<?=$id?>" method="POST">
+        <h2 class="text-center"><?=htmlspecialchars($username, ENT_QUOTES, 'UTF-8') . " 's Profile"?></h2>
         <p style="text-align: center;">Edit these fields to update information!</p>
         <?php if ($checkPermission->isTeacher() == 1) : ?>
             <div class="form-group">
-                <input type="text" class="form-control" name="username" value="<?= $username ?>" disabled>
+                <input type="text" class="form-control" name="username" value="<?=htmlspecialchars($username)?>" disabled>
             </div>
             <div class="form-group">
-                <input type="text" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" class="form-control" name="fullname" value="<?= $fullname ?>">
+                <input type="text" pattern="^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$" class="form-control" name="fullname" value="<?=htmlspecialchars($fullname)?>">
             </div>
-            <input type="text" class="form-control" name="studentID" value="<?= $id ?>" hidden>
+            <input type="text" class="form-control" name="studentID" value="<?=$id?>" hidden>
         <?php endif; ?>
         <div class="form-group">
-            <input type="email" pattern="^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$" class="form-control" name="email" value="<?= $email ?>" placeholder="Email">
+            <input type="email" pattern="^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$" class="form-control" name="email" value="<?=htmlspecialchars($email)?>" placeholder="Email">
         </div>
         <div class="form-group">
-            <input type="text" pattern="[0-9]{3,10}" title="A good phone number will be contained 9-11 digits" class="form-control" name="phone" value="<?= $phone ?>" placeholder="Phone Number">
+            <input type="text" pattern="[0-9]{3,10}" title="A good phone number will be contained 9-11 digits" class="form-control" name="phone" value="<?=htmlspecialchars($phone)?>" placeholder="Phone Number">
         </div>
         <div class="form-group">
             <input type="password" pattern="^w+\@w+\.w+$" class="form-control" name="password" placeholder="Password">
@@ -75,7 +75,7 @@ endif;
         </div>
         <button type="submit" class="btn btn-success btn-block" id="updateButton">Update Information</button>
     </form>
-    <a href=<?= (isset($_GET['studentID'])) ? "./student" : "./" ?>>
+    <a href="<?=(isset($_GET['studentID'])) ? './student' : './'?>">
         <button type="submit" class="btn btn-success btn-block"><?= (isset($_GET['studentID'])) ? "Back to Student" : "Back to Dashboard" ?></button>
     </a>
 </div>

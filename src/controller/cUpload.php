@@ -9,6 +9,7 @@ class Upload {
     public static function uploadAssignment($assName, $target_file) {
         $conn = dbConnect::ConnectToDB();
         $target_file = substr($target_file, 3);
+        $assName = htmlentities($assName, ENT_QUOTES, 'UTF-8');
         if ($stmt = $conn -> prepare ("INSERT INTO assignment (assName, assFile) VALUES (?, ?)")) {
             $res = $stmt->execute(array(
                 $assName,

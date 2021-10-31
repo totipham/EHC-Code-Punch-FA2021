@@ -14,7 +14,7 @@ echo file_get_contents('views/header.php')
     </header>
     <body>
         <div class="table-form">
-            <h2 class="text-center">Chat</h2>
+            <h2 class="text-center">Chat</h2><br>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -35,7 +35,7 @@ echo file_get_contents('views/header.php')
                                 <td class="text-center"><?= ++$count ?></td>
                                 <td class="text-center"><?= htmlspecialchars($user->getName(), ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="text-center"><?= ($user->getRole() == 1) ? "Teacher" : "Student" ?></td>
-                                <td class="text-center"><a href="chatbox?toID=<?php echo $user->getID() ?>"><button class="btn btn-outline-success">Message</button></a></td>
+                                <td class="text-center"><a href="chatbox?toID=<?php echo $user->getID() ?>"><button class="btn btn-outline-success">Chat</button></a></td>
                             </tr>
                     <?php
                         endif;
@@ -43,10 +43,5 @@ echo file_get_contents('views/header.php')
                     ?>
                 </tbody>
             </table>
-            <a href="./">
-                <tr>
-                    <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>
-                </tr>
-            </a>
         </div>
         <?php echo file_get_contents('views/footer.php'); ?>

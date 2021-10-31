@@ -14,61 +14,74 @@ if ($checkPermission->isTeacher() == 1) {
     $target_dir = "../uploads/assignment/";
 }
 
+$fileType = strtolower(pathinfo($_FILES["assUpload"]["name"], PATHINFO_EXTENSION));
+$target_file = $target_dir . bin2hex(random_bytes(16)) . '.' . $fileType;
+
 if (isset($_GET['game']) && $_GET['game'] == 1) {
     $type = 'challenge';
+    $target_file = $target_dir . basename(preg_replace('/\s+/', '_', $_FILES["assUpload"]["name"]));
 } else {
     $type = 'assignment';
 }
 
-$target_file = $target_dir . basename(preg_replace('/\s+/', '_', $_FILES["assUpload"]["name"]));
 $target_file = str_replace(' ', '_', $target_file);
 $uploadOk = 1;
-$fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
 $uploadError = '';
 
 // Check file size
-if ($_FILES["assUpload"]["size"] > 1000000) { /* TODO: Allow file <= 1MB */
-    $uploadError = $uploadError . "Your file is too large.";
-    $uploadOk = 0;
+if ($_FILES["assUpload"]["size"] > 10000) { /* TODO: Allow file <= 10KB */
+    header('Location: ../' . $type . '?s=3');
+    exit;
 }
 
 // Check if file extension
 if ($fileType != "pdf" && $fileType != "txt") { /* TODO: Only accept pdf, txt extension */
-    $uploadError = $uploadError . "Only PDF and TXT file are allowed.";
     $uploadOk = 0;
 }
 
 if ($uploadOk == 0) {
-    header('Location: ../' . $type . '?successful=2');
+    header('Location: ../' . $type . '?s=2');
     exit;
 } else {
     if (move_uploaded_file($_FILES["assUpload"]["tmp_name"], $target_file)) {
-
         if ($checkPermission->isTeacher() == 1) {
-            if (isset($_POST["uploadAssignment"])) {
-                $assName = $_POST["assName"];
-                $res = Upload::uploadAssignment($assName, $target_file);
-            } else if (isset($_POST["uploadGame"])) {
-                $hint = $_POST["hint"];
-                $res = Upload::uploadGame($target_file, $hint);
+            if (isset($_POST["uploadAssignment"])) { //TODO: Teacher Given Assignment
+                if (isset($_POST["assName"]) && !empty($_POST["assName"])) {
+                    $assName = $_POST["assName"];
+                    $res = Upload::uploadAssignment($assName, $target_file);
+                } else {
+                    $res = 0;
+                }
+            } else if (isset($_POST["uploadGame"])) { //TODO: Teacher Given Game
+                if (isset($_POST["hint"]) && !empty($_POST["hint"])) {
+                    $hint = $_POST["hint"];
+                    $res = Upload::uploadGame($target_file, $hint);
+                } else {
+                    $res = 0;
+                }
             }
-        } else if ($checkPermission->isTeacher() != 1) { //TODO: Student Role
-            $assID = $_POST["assName"];
-            $res = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
+        } else if ($checkPermission->isTeacher() != 1) { //TODO: Student Upload Assignment
+            if (isset($_POST["assName"]) && !empty($_POST["assName"])) {
+                $assID = $_POST["assName"];
+                $res = Upload::assAnswer($assID, $target_file, $_SESSION['id']);
+            } else {
+                $res == 0;
+            }
         }
 
         if ($res == 1) {
-            header('Location: ../' . $type . '?successful=1');
+            header('Location: ../' . $type . '?s=1');
             exit;
         } else if ($res == 2) {
-            header('Location: ../' . $type . '?successful=0');
+            header('Location: ../' . $type . '?s=0');
             exit;
         } else if ($res == 0) {
-            header('Location: ../' . $type . '?successful=2');
+            header('Location: ../' . $type . '?s=2');
             exit;
         }
     } else {
-        header('Location: ../' . $type . '?successful=2');
+        header('Location: ../' . $type . '?s=2');
         exit;
     }
 }

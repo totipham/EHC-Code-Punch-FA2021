@@ -10,13 +10,15 @@ if ($checkPermission->isLogin() != 1) {
 
 echo file_get_contents("views/header.php");
 
-if (isset($_GET['successful'])) :
-    if ($_GET['successful'] == 1) {
+if (isset($_GET['s'])) :
+    if ($_GET['s'] == 1) {
         $popUp = Popup::oneButton("Upload", "The file has been uploaded!");
-    } elseif ($_GET['successful'] == 2) {
+    } elseif ($_GET['s'] == 2) {
         $popUp = Popup::oneButton("Upload", "There was an error uploading this file!");
-    } elseif ($_GET['successful'] == 0) {
+    } elseif ($_GET['s'] == 0) {
         $popUp = Popup::oneButton("Upload", "Remove the existed challenge before uploading the new one!");
+    } elseif ($_GET['s'] == 3) {
+        $popUp = Popup::oneButton("Upload", "Your file size must less than 10KB");
     }
 endif;
 
@@ -61,12 +63,6 @@ endif;
                             <div class="form-group">
                                 <input name="challenge" value="1" hidden>
                                 <button type="submit" class="btn btn-danger btn-block">Remove</button>
-                            </div>
-                        </form>
-                        <form action="./">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-outline-success btn-block">Back to dashboard</button>
-
                             </div>
                         </form>
                     </div>
@@ -116,13 +112,13 @@ endif;
             <div class="upload-form">
                 <form action="challenge" method="POST">
                     <div class="form-group">
-                        <h2 class="text-center">Answer Challenge</h2>
+                        <h2 class="text-center">Answer Challenge</h2><br>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Hint</span>
                                 </div>
-                                <textarea class="form-control" name="hint" placeholder="<?= $hint ?? "Empty"; ?>" disabled></textarea>
+                                <textarea class="form-control" name="hint" placeholder="<?= $hint ?? " "; ?>" disabled></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -131,9 +127,6 @@ endif;
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
                     </div>
                 </form>
-                <a href="./">
-                    <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>
-                </a>
             </div>
         </div>
     <?php
@@ -156,7 +149,7 @@ endif;
             }
             
         } elseif (isset($_POST["gameAns"])&& !isset($hint)) {
-            $popUp = Popup::oneButton("Error", htmlspecialchars("There is no challenge here!", ENT_QUOTES, 'UTF-8'));
+            $popUp = Popup::oneButton("Error", "There is no challenge here!");
         }
     endif;
     echo file_get_contents("views/footer.php");

@@ -17,7 +17,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) :
         header('Location: student');
         exit;
     endif;
-elseif (isset($_GET['fromID']) && !is_null($_GET['fromID'])) :
+elseif (isset($_GET['fromID']) && !empty($_GET['fromID'])) :
     $userName = User::getInfoFromID($_GET['fromID']);
     if (!is_null($userName)) :
         $fullname = htmlspecialchars($userName->getName(), ENT_QUOTES, 'UTF-8');
@@ -29,20 +29,22 @@ else :
     header('Location: student');
     exit;
 endif;
+
 echo file_get_contents("views/header.php");
 ?>
 <header>
     <title>Message</title>
 </header>
 <div style="width: 600px;margin: 40px auto;">
-    <div class="container">
-        <br>
-        <div class="">
+    <div class="container"><br>
+        <div>
             <?php
             if (isset($fullname)) : ?>
                 <h2 class="text-center"><?= $fullname ?></h2><br>
             <?php endif; ?>
         </div>
+
+        <!-- TODO: Message Box -->
         <div class="modal-body" id="msgBody" style="height:auto; background-color:#fff; overflow-y: scroll; overflow-x: hidden; overflow: hidden;">
             <?php
             if (isset($_GET['id'])) {
@@ -51,7 +53,7 @@ echo file_get_contents("views/header.php");
                     if ($messages->getFromID() == $_SESSION['id']) : ?>
                         <div style='text-align:center;'>
                             <p style='text-align: left;max-width:500px;height:auto;color:#12160b;background-color:#efef91; word-wrap:break-word; display:inline-block;
-                                        padding:5px; max width:70%;'><?php echo htmlspecialchars(html_entity_decode($messages->getContent()), ENT_QUOTES, 'UTF-8'); ?></p>
+                                        padding:5px; max width:70%;'><?= htmlspecialchars(html_entity_decode($messages->getContent()), ENT_QUOTES, 'UTF-8') ?></p>
                         </div>
                     <?php endif;
                 endif;
@@ -61,7 +63,7 @@ echo file_get_contents("views/header.php");
                     if ($messages->getToID() == $_SESSION['id']) : ?>
                         <div style='text-align:center;'>
                             <p style='text-align: left;max-width:500px;height:auto;color:#12160b;background-color:#e0e0e0; word-wrap:break-word; display:inline-block;
-                                        padding:5px; max width:70%;'><?php echo htmlspecialchars(html_entity_decode($messages->getContent()), ENT_QUOTES, 'UTF-8'); ?></p>
+                                        padding:5px; max width:70%;'><?= htmlspecialchars(html_entity_decode($messages->getContent()), ENT_QUOTES, 'UTF-8') ?></p>
                         </div>
             <?php endif;
                 endif;
@@ -70,21 +72,31 @@ echo file_get_contents("views/header.php");
                 exit;
             } ?>
         </div>
+
         <?php if (isset($_GET['id']) && !is_null($_GET['id'])) : ?>
             <div class="modal-footer">
-                <button id="remove" class="btn btn-danger" style="height:70px;">Remove</button>
-                <textarea id="message" class="form-control" style="height:70px;width:300px;"></textarea>
-                <button id="update" class="btn btn-success" style="height:70px;">Update</button>
+                <div class="row" style="width:570px;">
+                    <div class="col">
+                        <button id="remove" class="btn btn-danger" style="height:70px;width:80px;">Remove</button>
+                    </div>
+                    <div class="col-8">
+                        <textarea id="message" class="form-control" style="height:70px;width:350px"></textarea>
+                    </div>
+                    <div class="col">
+                        <button id="update" class="btn btn-success" style="height:70px;width:80px;">Update</button>
+                    </div>
+                </div>
             </div>
         <?php endif; ?>
     </div>
-    <?php if (isset($_GET['id'])): ?>
+
+    <?php if (isset($_GET['id'])) : ?>
         <button onclick="location.href='student'" type="submit" class="btn btn-success btn-block">Back to List</button>
-    <?php elseif (isset($_GET['fromID'])): ?>
-        <button onclick="location.href='mymessage   '" type="submit" class="btn btn-success btn-block">Back to My Message</button>
+    <?php elseif (isset($_GET['fromID'])) : ?>
+        <button onclick="location.href='mymessage'" type="submit" class="btn btn-success btn-block">Back to My Message</button>
     <?php endif; ?>
 </div>
-</body>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#update").click(function() {
@@ -116,4 +128,5 @@ echo file_get_contents("views/header.php");
         });
     });
 </script>
+
 <?php echo file_get_contents('views/footer.php'); ?>

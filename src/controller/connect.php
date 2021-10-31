@@ -2,7 +2,8 @@
 
 class dbConnect {
     public static function ConnectToDB() {
-        return new PDO('sqlite:'.__DIR__.'/models/database.db');
+        $dir = __DIR__;
+        return new PDO('sqlite:' . substr($dir, 0, -11) .'/models/database.db');
     }
 
     public static function Disconnect($con) {

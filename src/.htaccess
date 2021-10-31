@@ -1,10 +1,20 @@
-ErrorDocument 403 https://damcode2.herokuapp.com/403
-ErrorDocument 404 https://damcode2.herokuapp.com/404
+ErrorDocument 400 https://damcode2.herokuapp.com/
+ErrorDocument 401 https://damcode2.herokuapp.com/
+ErrorDocument 402 https://damcode2.herokuapp.com/
+ErrorDocument 403 https://damcode2.herokuapp.com/
+ErrorDocument 404 https://damcode2.herokuapp.com/
+ErrorDocument 500 https://damcode2.herokuapp.com/
+
+Options +FollowSymLinks
+
+php_value upload_max_filesize 10K
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
+
+DirectoryIndex index.php
 
 Options All -Indexes
 
@@ -13,7 +23,6 @@ Options All -Indexes
 	Deny from all
 </Files>
 
-DirectoryIndex index.php
 
 # Security Headers
 <IfModule mod_headers.c>

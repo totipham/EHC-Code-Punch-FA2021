@@ -30,16 +30,16 @@ if (isset($_GET['addstatus'])) {
 ?>
 <html lang="en">
 <header>
-    <title>Student List</title>
+    <title>User List</title>
 </header>
 
 <body>
     <div class="table-form" style="width: 700px;">
-        <h2 class="text-center">List of student</h2><br>
+        <h2 class="text-center">List of User</h2><br>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col" class="text-center">ID</th>
+                    <th scope="col" class="text-center">#</th>
                     <th scope="col" class="text-center">Name</th>
                     <th scope="col" class="text-center">Phone</th>
                     <th scope="col" class="text-center">Email</th>
@@ -60,7 +60,7 @@ if (isset($_GET['addstatus'])) {
                 $students = User::getInfo();
                 $count = 0;
                 foreach ($students as $stu) :
-                    if ($stu->getID() != $_SESSION['id']):?>
+                    if ($stu->getID() != $_SESSION['id']) : ?>
                         <tr>
                             <td class="text-center"><?php echo ++$count ?></td>
                             <td class="text-center"><?php echo htmlspecialchars($stu->getName(), ENT_QUOTES, 'UTF-8'); ?></td>

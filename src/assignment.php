@@ -1,5 +1,4 @@
 <?php
-/* require_once 'controller/connection.php'; */
 require_once 'controller/checkPermission.php';
 require_once 'controller/cAssignment.php';
 require_once 'controller/cPopup.php';
@@ -15,11 +14,13 @@ echo file_get_contents('views/header.php');
 <header>
     <title>Assignment</title>
 </header>
-<?php if (isset($_GET['successful'])) :
-    if ($_GET['successful'] == 1) {
+<?php if (isset($_GET['s'])) :
+    if ($_GET['s'] == 1) {
         $popUp = Popup::oneButton("Upload", "The file has been uploaded!");
-    } elseif ($_GET['successful'] == 2) {
+    } elseif ($_GET['s'] == 2) {
         $popUp = Popup::oneButton("Upload", "There was an error uploading this file!");
+    } elseif ($_GET['s'] == 3) {
+        $popUp = Popup::oneButton("Upload", "Your file size must less than 10KB");
     }
 endif;
 if ($checkPermission->isTeacher() == 1) : ?>
@@ -32,7 +33,7 @@ if ($checkPermission->isTeacher() == 1) : ?>
                         <div class="card-body p-5">
                             <form action="controller/upload.php" method="POST" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <h2 class="text-center">Upload Assignment</h2>
+                                    <h2 class="text-center">Upload Assignment</h2><br>
                                     <input type="text" name="uploadAssignment" value="1" hidden>
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="assName" placeholder="Assignment Name" required="required">
@@ -51,7 +52,7 @@ if ($checkPermission->isTeacher() == 1) : ?>
                 <div style="margin: 50px auto;">
                     <div class="card shadow-lg">
                         <div class="card-body p-5">
-                            <div class="form-group"><br>
+                            <div class="form-group">
                                 <h2 class="text-center">Assignment Management</h2><br>
                                 <a href="submitted">
                                     <button type="submit" class="btn btn-success btn-block">Student's Assignment</button>
@@ -76,7 +77,7 @@ else :
             <div class="card-body p-5">
                 <form action="controller/upload.php" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <h2 class="text-center">Answer</h2>
+                        <h2 class="text-center">Answer</h2><br>
                         <div class="form-group">
                             <select class="form-control" name="assName" required>
                                 <?php foreach ($assGiven as $ass) : ?>
@@ -97,13 +98,5 @@ else :
         </div>
     </div>
 <?php endif; ?>
-
-<div class="container">
-    <div class="vertical-center">
-        <a href="./">
-            <button type="submit" class="btn btn-success btn-block">Back to Dashboard</button>
-        </a>
-    </div>
-</div>
 
 <?php echo file_get_contents("views/footer.php"); ?>
