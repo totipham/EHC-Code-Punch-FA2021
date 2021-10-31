@@ -1,13 +1,12 @@
-<?php use Message as GlobalMessage;
+<?php use Chat as GlobalChat;
 
 require_once 'connect.php';
 
-class Message {
-    private $messID;/*  */
+class Chat {
     private $fromID;
     private $toID;
     private $content;
-
+    
     public function __construct($messID, $fromID, $toID, $content) {
         $this->messID = $messID;
         $this->fromID = $fromID;
@@ -48,10 +47,8 @@ class Message {
     }
 
     public static function insertToDB ($fromID, $toID, $content) {
-        $messID = (int) ($fromID . $toID);
         $conn = dbConnect::ConnectToDB();
 
-        //TODO: Check if account is available
         $check = $conn->prepare("SELECT COUNT(*) FROM account WHERE id=? OR id=?");
         $check->execute(array(
             $fromID,
@@ -63,11 +60,11 @@ class Message {
             return false;
         }
 
-        if ($stmt = $conn->prepare("REPLACE INTO messagebox (messID, fromID, toID, content) VALUES (?, ?, ?, ?)")) {
+        $res = "";
+        if ($stmt = $conn->prepare("INSERT INTO message (toID, fromID, content) VALUES (?, ?, ?)")) {
             $res = $stmt->execute(array(
-                $messID,
-                $fromID,
                 $toID,
+                $fromID,
                 $content
             ));
         } else {
@@ -78,40 +75,19 @@ class Message {
     }
 
     public static function getMessage($fromID, $toID) {
-        $messID =  (int) ($fromID . $toID);
+        $rows = array();
+
         $conn = dbConnect::ConnectToDB();
-        $stmt = $conn->prepare("SELECT COUNT(*), * FROM messagebox WHERE messID=?");
-        $stmt->execute(array(
-            $messID
-        ));
-        $row = $stmt->fetch();
-        if ($row['COUNT(*)'] > 0) {
-            return new GlobalMessage($row['messID'], $row['fromID'], $row['toID'], $row['content']);
+        $result = $conn->query("SELECT * FROM message WHERE (fromID='" . $fromID . "' 
+        AND toID = '" . $toID . "') OR (fromID='" . $toID . "' AND toID = '" . $fromID . "')");
+
+        if ($result->columnCount() > 0) {
+            while ($row = $result->fetchObject()) {
+                $message = new GlobalChat($row->messID, $row->fromID, $row->toID, $row->content);
+                $rows[] = $message;
+            }
         }
         $conn = null;
-        return null;
-    }
-
-    public static function removeMessage ($fromID, $toID) {
-        $messID = (int) ($fromID . $toID);
-        $conn = dbConnect::ConnectToDB();
-        $stmt = $conn->prepare("DELETE FROM messagebox WHERE messID = ?");
-        $res = $stmt->execute(array(
-            $messID
-        ));
-        return $res;
-    }
-
-    public static function fetchUser ($toID) {
-        $res = array();
-        $conn = dbConnect::ConnectToDB();
-        $stmt = $conn->prepare("SELECT fromID FROM messagebox WHERE toID = ?");
-        $stmt->execute(array(
-            $toID
-        ));
-        while ($row = $stmt->fetchObject()) {
-            array_push($res, $row->fromID);
-        }
-        return $res;
+        return $rows;
     }
 } ?>

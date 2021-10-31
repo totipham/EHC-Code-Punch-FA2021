@@ -1,6 +1,7 @@
 <?php
-session_start();
+require_once 'checkPermission.php';
+$checkPermission = new checkPermission();
+
 session_destroy();
 // Redirect to the login page:
-header('Location: ../login.php');
-?>
+header('Location: ../login');

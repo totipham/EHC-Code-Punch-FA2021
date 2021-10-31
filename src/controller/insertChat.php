@@ -1,6 +1,6 @@
 <?php
 require_once 'checkPermission.php';
-require_once 'cMessage.php';
+require_once 'cChat.php';
 
 $checkPermission = new checkPermission();
 
@@ -17,6 +17,6 @@ $fromID = $_SESSION['id'];
 $toID = $_POST["toID"];
 $message = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
 
-if ($res = Message::insertToDB($fromID, $toID, $message)) {
+if ($res = Chat::insertToDB($fromID, $toID, $message)) {
     echo "";
 }

@@ -19,7 +19,7 @@ class User {
         $this->username = $aUsername;
         $this->phone = $aPhone;
         $this->mail = $aMail;
-        $this->password = md5($aPassword);
+        $this->password = $aPassword;
         $this->role = $aRole;
     }
 
@@ -35,7 +35,7 @@ class User {
         $this->name = $aName;
     }
     
-    function setUsername() {
+    function setUsername($aUsername) {
         $this->username = $aUsername;
     }
 
@@ -88,108 +88,144 @@ class User {
         $password = $this->getPassword();
         $role = $this->getRole();
 
-        $sql = "SELECT * FROM account WHERE username='$username'";
-        $old = mysqli_query($conn,$sql);
-        if (mysqli_num_rows($old) > 0){
-            echo "<script>alert('This username is existed!'); window.location = './register.php';</script>";
-            exit;
+        $sql = "SELECT COUNT(*), * FROM account WHERE username=? OR email=?";
+        $checkExist = $conn->prepare($sql);
+        $checkExist->execute(array(
+            $username,
+            $email
+        ));
+
+        $row = $checkExist->fetch();
+        if ($row['username'] > 0){
+            echo "<script>alert('This username is existed!'); window.location = '../register.php';</script>";
+            return 0;
         }
-        if (mysqli_num_rows(mysqli_query($conn, "SELECT email FROM account WHERE email='$email'")) > 0) {
-            echo "<script>alert('This email is existed'); window.location = './register.php';</script>";
-            exit;
+
+        if ($row['email'] > 0){
+            echo "<script>alert('This email is existed'); window.location = '../register.php';</script>";
+            return 0;
         }
 
         $stmt = $conn->prepare("INSERT INTO account (username, password, fullname, email, phone, role) VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("ssssii", $username, $password, $fullname, $email, $phone, $role);
-
-        $res = $stmt->execute();
-        dbConnect::Disconnect($conn);
+        $res = $stmt->execute(array(
+            $username,
+            md5($password),
+            $fullname,
+            $email,
+            $phone,
+            $role
+        ));
+        $conn = null;
         return $res;
     }
-    /* ($aName, $aUsername, $aPhone, $aMail, $aPassword, $aRole) */
 
     public static function checkInfo($username, $password) {
         $conn = dbConnect::ConnectToDB();
-        if ($stmt = $conn -> prepare ('SELECT id, password, role FROM account WHERE username=?')) {
-            $stmt -> bind_param ('s', $_POST['username']);
-            $stmt -> execute();
-            $stmt -> store_result();
-            if ($stmt->num_rows > 0) {
-                $stmt->bind_result($id, $password, $role);
-                $stmt->fetch();
-                if (md5($_POST['password']) === $password) {
+        if ($stmt = $conn -> prepare ('SELECT COUNT(*), id, password, role FROM account WHERE username=?')) {
+            $res = $stmt->execute(array(
+                $username
+            ));
+            $row = $stmt->fetch();
+            if ($row['COUNT(*)'] > 0) {
+                if (md5($password) === $row['password']) {
                     /* session_start(); */
                     session_regenerate_id();
                     $_SESSION['loggedin'] = TRUE;
-                    $_SESSION['name'] = $_POST['username'];
-                    $_SESSION['id'] = $id;
-                    $_SESSION['role'] = $role;
+                    $_SESSION['name'] = $username;
+                    $_SESSION['id'] = $row['id'];
+                    $_SESSION['role'] = $row['role'];
+                    $conn = null;
                     return 1;
-                    /* header("Location: index.php"); */
-                } /* else {
-                    echo "<script>alert('Incorrect username and/or password!'); window.location = './login.php';</script>";
-                } */
+                }
             } else {
+                $conn = null;
                 return 0;
             }
-            dbConnect::Disconnect($conn);
+            
         }
     }
 
     public static function getInfo() {
+        $conn = dbConnect::ConnectToDB();
         $rows = array();
 
-        $conn = dbConnect::ConnectToDB();
         $sql = "SELECT * FROM account";
-        $result = mysqli_query($conn, $sql);
+        $result = $conn->query($sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_object($result)) {
+        if ($result->columnCount() > 0) {
+            while ($row = $result->fetchObject()) {
                 $user = new GlobalUser($row->fullname, $row->username, $row->id, $row->phone, $row->email, $row->password, $row->role);
                 $rows[] = $user;
             }
         }
-        dbConnect::Disconnect($conn);
+        $conn = null;
         return $rows;
     }
 
     public static function getInfoFromID($id) {
         $conn = dbConnect::ConnectToDB();
-        $sql = "SELECT * FROM account WHERE id=$id";
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_object($result);
-            $user = new GlobalUser($row->fullname, $row->username, $row->id, $row->phone, $row->email, $row->password, $row->role);
+        $sql = "SELECT COUNT(*), * FROM account WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(array(
+            $id
+        ));
+        $row = $stmt->fetch();
+        $user = null;
+        if ($row['COUNT(*)'] > 0) {
+            $user = new GlobalUser($row['fullname'], $row['username'], $row['id'], $row['phone'], $row['email'], $row['password'], $row['role']);
+            
         }
-        dbConnect::Disconnect($conn);
+        $conn = null;
         return $user;
     }
 
     public static function editInfo($userID, $fullname, $phone, $email, $password) {
         $conn = dbConnect::ConnectToDB();
 
-        if ($stmt = $conn->prepare("UPDATE account SET fullname=?, phone=?, email=?, password=? WHERE id=$userID")) {
-            $stmt -> bind_param('siss', $fullname, $phone, $email, $password);
-            $res = $stmt -> execute();
+        if ($stmt = $conn->prepare("UPDATE account SET fullname=?, phone=?, email=?, password=? WHERE id=?")) {
+            $res = $stmt->execute(array(
+                $fullname,
+                $phone,
+                $email,
+                $password,
+                $userID
+            ));
             return $res;
         } else {
             return 0;
         }
         
-        dbConnect::Disconnect($conn);
+        $conn = null;
         
     }
 
     public static function removeUser($userID) {
         $conn = dbConnect::ConnectToDB();
 
-        $stmt = $conn->prepare('DELETE FROM account WHERE id=? ');
-        $stmt->bind_param('i', $userID);
-        $res = $stmt->execute();
-
-        dbConnect::Disconnect($conn);
-        return $res;
+        $stmt1 = $conn->prepare('DELETE FROM account WHERE id=?');
+        $res1 = $stmt1->execute(array(
+            $userID
+        ));
+        $stmt2 = $conn->prepare('DELETE FROM gameans WHERE id=?');
+        $res2 = $stmt2->execute(array(
+            $userID
+        ));
+        $stmt3 = $conn->prepare('DELETE FROM answerass WHERE id=?');
+        $res3 = $stmt3->execute(array(
+            $userID
+        ));
+        $stmt4 = $conn->prepare('DELETE FROM message WHERE toID=? OR fromID=?');
+        $res4 = $stmt4->execute(array(
+            $userID,
+            $userID
+        ));
+        $stmt5 = $conn->prepare('DELETE FROM messagebox WHERE toID=? OR fromID=?');
+        $res5 = $stmt5->execute(array(
+            $userID,
+            $userID
+        ));
+        $conn = null;
+        return ($res1 && $res2 && $res3 && $res4 && $res5);
     }
 }
 ?>

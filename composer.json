@@ -11,7 +11,10 @@
             "email": "phamtruongminhduc@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-pdo_sqlite": "*",
+        "ezyang/htmlpurifier": "^4.13"
+    },
     "require-dev": {
       "heroku/heroku-buildpack-php": "*"
     }
