@@ -134,6 +134,7 @@ class User {
                     $_SESSION['name'] = $username;
                     $_SESSION['id'] = $row['id'];
                     $_SESSION['role'] = $row['role'];
+                    $_SESSION['token'] = md5(uniqid(mt_rand(), true));
                     $conn = null;
                     return 1;
                 }

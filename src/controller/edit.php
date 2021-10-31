@@ -7,6 +7,13 @@ if ($checkPermission->isLogin() != 1) {
     header('Location: ../login');
 }
 
+$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+
+if (!$token || $token !== $_SESSION['token']) {
+    header('Location: ../');
+    exit;
+}
+
 /* Check role, only role = 1 could edit and just update student information */
 if ($checkPermission->isTeacher() == 1) {
     $id = $_GET["studentID"] ?? $_SESSION["id"];

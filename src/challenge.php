@@ -56,6 +56,7 @@ endif;
                                         <textarea class="form-control" name="hint"></textarea>
                                     </div>
                                 </div>
+                                <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>">
                                 <button type="submit" class="btn btn-success btn-block">Upload</button>
                             </div>
                         </form>
@@ -124,6 +125,7 @@ endif;
                         <div class="form-group">
                             <input type="text" class="form-control" name="gameAns" placeholder="Answer" required="required">
                         </div>
+                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>">
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
                     </div>
                 </form>
@@ -134,6 +136,13 @@ endif;
         $answer = $_POST["gameAns"] ?? '';
         $isAnswered = Game::isAnswered($_SESSION['id']);
         if (isset($_POST["gameAns"])&& isset($hint)) {
+            $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+
+            if (!$token || $token !== $_SESSION['token']) {
+                header('Location: ../');
+                exit;
+            }
+            
             if (!$isAnswered) {
                 $answer = $_POST["gameAns"];
                 if ("uploads/" . $answer === substr($flag, 0, -4)) {

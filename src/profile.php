@@ -73,10 +73,8 @@ endif;
         <div class="form-group">
             <input type="password" class="form-control" name="repassword" placeholder="Enter Password Again">
         </div>
+        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>">
         <button type="submit" class="btn btn-success btn-block" id="updateButton">Update Information</button>
     </form>
-    <a href="<?=(isset($_GET['studentID'])) ? './student' : './'?>">
-        <button type="submit" class="btn btn-success btn-block"><?= (isset($_GET['studentID'])) ? "Back to Student" : "Back to Dashboard" ?></button>
-    </a>
 </div>
 <?php echo file_get_contents('views/footer.php'); ?>

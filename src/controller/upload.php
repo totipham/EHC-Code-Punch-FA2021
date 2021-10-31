@@ -8,6 +8,13 @@ if ($checkPermission->isLogin() != 1) {
     header('Location: ../login');
 }
 
+$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+
+if (!$token || $token !== $_SESSION['token']) {
+    header('Location: ../');
+    exit;
+}
+
 if ($checkPermission->isTeacher() == 1) {
     $target_dir = "../uploads/";
 } else {

@@ -41,6 +41,7 @@ if ($checkPermission->isTeacher() == 1) : ?>
                                     <div class="form-group">
                                         <input type="file" class="form-control-file" name="assUpload" required>
                                     </div>
+                                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>">
                                     <button type="submit" class="btn btn-success btn-block">Upload</button>
                                 </div>
                             </form>
@@ -88,6 +89,7 @@ else :
                         <div class="form-group">
                             <input type="file" class="form-control-file" name="assUpload" required>
                         </div>
+                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?? '' ?>">
                         <button type="submit" class="btn btn-success btn-block">Upload</button>
                     </div>
                 </form>
